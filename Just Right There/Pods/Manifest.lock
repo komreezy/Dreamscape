@@ -1,0 +1,16 @@
+PODS:
+  - CSStickyHeaderFlowLayout (0.2.10)
+  - DZNEmptyDataSet (1.7.2)
+  - Firebase (2.4.2)
+
+DEPENDENCIES:
+  - CSStickyHeaderFlowLayout
+  - DZNEmptyDataSet
+  - Firebase (>= 2.4.2)
+
+SPEC CHECKSUMS:
+  CSStickyHeaderFlowLayout: 5366582779d8b7c9ba9b9cc729c218cc23888776
+  DZNEmptyDataSet: 0ec00bfc230d7450997b60c127afdd0b9f24f3b6
+  Firebase: 5e898ed5012c81d28ca5fae1113c6b61a172bc6d
+
+COCOAPODS: 0.39.0
