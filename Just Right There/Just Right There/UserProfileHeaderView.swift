@@ -10,6 +10,7 @@ import UIKit
 
 class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
     
+    var collapseNameLabel: UILabel
     var profileImageView: UIButton
     var nameLabel: UILabel
     var journalsLabel: UILabel
@@ -36,11 +37,17 @@ class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
     override init(frame: CGRect) {
         userDefaults = NSUserDefaults.standardUserDefaults()
         
+        collapseNameLabel = UILabel()
+        collapseNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        collapseNameLabel.font = UIFont(name: "Roboto", size: 14.0)
+        collapseNameLabel.textAlignment = .Center
+        collapseNameLabel.alpha = 0
+        
         profileImageView = UIButton()
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
         profileImageView.contentMode = .ScaleAspectFit
         profileImageView.clipsToBounds = true
-        profileImageView.layer.cornerRadius = 30
+        profileImageView.layer.cornerRadius = 40
         profileImageView.backgroundColor = NavyColor
         profileImageView.contentEdgeInsets = UIEdgeInsetsMake(10.0, 10.0, 10.0, 10.0)
         
@@ -52,7 +59,7 @@ class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
         
         nameLabel = UILabel()
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.font = UIFont(name: "Montserrat", size: 18.0)
+        nameLabel.font = UIFont(name: "Montserrat", size: 24.0)
         nameLabel.textAlignment = .Center
         
         settingsButton = UIButton()
@@ -115,12 +122,13 @@ class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
         
         backgroundColor = UIColor.whiteColor()
         clipsToBounds = true
-
-        profileImageView.addTarget(self, action: "profileImageTapped", forControlEvents: .TouchUpInside)
-        favoritesTabButton.addTarget(self, action: "journalTabTapped", forControlEvents: .TouchUpInside)
-        recentsTabButton.addTarget(self, action: "starredTabTapped", forControlEvents: .TouchUpInside)
-        settingsButton.addTarget(self, action: "settingsTapped", forControlEvents: .TouchUpInside)
         
+        profileImageView.addTarget(self, action: #selector(UserProfileHeaderView.profileImageTapped), forControlEvents: .TouchUpInside)
+        favoritesTabButton.addTarget(self, action: #selector(UserProfileHeaderView.journalTabTapped), forControlEvents: .TouchUpInside)
+        recentsTabButton.addTarget(self, action: #selector(UserProfileHeaderView.starredTabTapped), forControlEvents: .TouchUpInside)
+        settingsButton.addTarget(self, action: #selector(UserProfileHeaderView.settingsTapped), forControlEvents: .TouchUpInside)
+        
+        addSubview(collapseNameLabel)
         addSubview(profileImageView)
         addSubview(nameLabel)
         addSubview(journalsLabel)
@@ -155,36 +163,47 @@ class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
     override func applyLayoutAttributes(layoutAttributes: UICollectionViewLayoutAttributes) {
         if let attributes = layoutAttributes as? CSStickyHeaderFlowLayoutAttributes {
             let progressiveness = attributes.progressiveness
+            collapseNameLabel.alpha = 1 - progressiveness
             nameLabelHeightConstraint?.constant = (-20 * progressiveness)
+            profileImageView.alpha = progressiveness
+            nameLabel.alpha = progressiveness
+            journalsLabel.alpha = progressiveness
+            journalsNumberLabel.alpha = progressiveness
+            starredLabel.alpha = progressiveness
+            starredNumberLabel.alpha = progressiveness
         }
     }
     
     func setupLayout() {
         leftHighlightBarPositionConstraint = highlightBarView.al_left == tabContainerView.al_left
         nameLabelHeightConstraint = nameLabel.al_bottom == journalsLabel.al_top
+        let screenWidth = UIScreen.mainScreen().bounds.width
         
         addConstraints([
-            profileImageView.al_bottom == nameLabel.al_top - 10,
-            profileImageView.al_centerX == al_centerX,
-            profileImageView.al_height == 60,
-            profileImageView.al_width == 60,
+            collapseNameLabel.al_centerX == al_centerX,
+            collapseNameLabel.al_centerY == settingsButton.al_centerY - 5,
             
-            nameLabel.al_bottom == journalsLabel.al_top - 6,
+            profileImageView.al_right == nameLabel.al_left - 15,
+            profileImageView.al_centerY == al_centerY - 10,
+            profileImageView.al_height == 80,
+            profileImageView.al_width == 80,
+            
             nameLabel.al_centerX == al_centerX,
+            nameLabel.al_bottom == profileImageView.al_centerY,
             
             settingsButton.al_right == al_right - 15,
-            settingsButton.al_top == al_top + 15,
+            settingsButton.al_top == al_top + 25,
             settingsButton.al_height == 30,
             settingsButton.al_width == 30,
             
-            journalsLabel.al_bottom == tabContainerView.al_top - 25,
-            journalsLabel.al_right == journalsNumberLabel.al_left - 5,
+            journalsLabel.al_top == profileImageView.al_centerY,
+            journalsLabel.al_left == nameLabel.al_left,
             
-            journalsNumberLabel.al_right == al_centerX - 5,
+            journalsNumberLabel.al_left == journalsLabel.al_right + 5,
             journalsNumberLabel.al_bottom == journalsLabel.al_bottom,
             
             starredLabel.al_bottom == journalsLabel.al_bottom,
-            starredLabel.al_left == al_centerX + 5,
+            starredLabel.al_left == journalsNumberLabel.al_right + 10,
             
             starredNumberLabel.al_left == starredLabel.al_right + 5,
             starredNumberLabel.al_bottom == journalsLabel.al_bottom,
@@ -213,7 +232,7 @@ class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
             bottomBorderLine.al_right == al_right,
             bottomBorderLine.al_bottom == al_bottom,
             bottomBorderLine.al_height == 0.5
-        ])
+            ])
     }
     
     // User Profile Header Delegate

@@ -12,11 +12,11 @@ import Social
 private let userProfileReuseIdentifier = "userProfileCell"
 
 class UserProfileCollectionViewController: UICollectionViewController,
-UIActionSheetDelegate,
-UserProfileCellDelegate,
-UserProfileHeaderDelegate,
-UserProfileViewModelDelegate,
-DZNEmptyDataSetSource,
+    UIActionSheetDelegate,
+    UserProfileCellDelegate,
+    UserProfileHeaderDelegate,
+    UserProfileViewModelDelegate,
+    DZNEmptyDataSetSource,
 DZNEmptyDataSetDelegate {
     
     enum UserState {
@@ -50,8 +50,8 @@ DZNEmptyDataSetDelegate {
     class func provideCollectionViewLayout() -> UICollectionViewLayout {
         let screenWidth = UIScreen.mainScreen().bounds.size.width
         let flowLayout = CSStickyHeaderFlowLayout()
-        flowLayout.parallaxHeaderMinimumReferenceSize = CGSizeMake(screenWidth, 50)
-        flowLayout.parallaxHeaderReferenceSize = CGSizeMake(screenWidth, 250)
+        flowLayout.parallaxHeaderMinimumReferenceSize = CGSizeMake(screenWidth, 100)
+        flowLayout.parallaxHeaderReferenceSize = CGSizeMake(screenWidth, 200)
         flowLayout.parallaxHeaderAlwaysOnTop = true
         flowLayout.disableStickyHeaders = false
         flowLayout.minimumLineSpacing = 0.0
@@ -173,7 +173,7 @@ DZNEmptyDataSetDelegate {
     }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-       let cell = collectionView.dequeueReusableCellWithReuseIdentifier(userProfileReuseIdentifier, forIndexPath: indexPath) as?UserProfileCollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(userProfileReuseIdentifier, forIndexPath: indexPath) as?UserProfileCollectionViewCell
         
         cell?.delegate = self
         
@@ -202,9 +202,11 @@ DZNEmptyDataSetDelegate {
         if state == .Journal {
             let vc = DreamViewController(title: viewModel.journals[indexPath.row].title, author: viewModel.journals[indexPath.row].author, text: viewModel.journals[indexPath.row].text, id: viewModel.journals[indexPath.row].id)
             presentViewController(vc, animated: true, completion: nil)
+            //navigationController?.pushViewController(vc, animated: true)
         } else {
             let vc = DreamViewController(title: viewModel.starred[indexPath.row].title, author: viewModel.starred[indexPath.row].author, text: viewModel.starred[indexPath.row].text, id: viewModel.starred[indexPath.row].id)
             presentViewController(vc, animated: true, completion: nil)
+            //navigationController?.pushViewController(vc, animated: true)
         }
         collectionView.deselectItemAtIndexPath(indexPath, animated: true)
     }
@@ -218,6 +220,7 @@ DZNEmptyDataSetDelegate {
                 headerView?.delegate = self
                 if let username = viewModel.username {
                     headerView?.nameLabel.text = username
+                    headerView?.collapseNameLabel.text = username
                 }
             }
             

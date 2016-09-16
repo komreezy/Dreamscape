@@ -9,25 +9,28 @@
 import UIKit
 
 class ContainerNavigationController: UINavigationController {
-
-    override init(rootViewController: UIViewController) {
-        super.init(rootViewController: rootViewController)
-    }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        let backNavImage = UIImage.imageOfBackarrow(frame: CGRectMake(0, 0, 22, 22),
+                                                    color: WhiteColor,
+                                                    rotate: 0,
+                                                    scale: 0.5,
+                                                    selected: false)
         navigationBar.translucent = false
         
         let navBarAppearance = UINavigationBar.appearance()
-        navBarAppearance.barTintColor = UIColor.primaryDarkBlue()
+        navBarAppearance.barTintColor = UIColor.navyColor()
         navBarAppearance.tintColor = UIColor.whiteColor()
+        navBarAppearance.backIndicatorImage = backNavImage
+        navBarAppearance.backIndicatorTransitionMaskImage = backNavImage
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
