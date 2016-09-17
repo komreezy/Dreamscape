@@ -176,8 +176,8 @@ UserProfileViewModelDelegate {
         let currentId = viewModel.dreamDictionary[indexPath.row].id
         
         let dreamViewController = DreamViewController(title: currentTitle, author: currentAuthor, text: currentText, id: currentId)
-        presentViewController(dreamViewController, animated: true, completion: nil)
-        
+        //presentViewController(dreamViewController, animated: true, completion: nil)
+        navigationController?.pushViewController(dreamViewController, animated: true)
     }
     
     func addButtonTapped() {

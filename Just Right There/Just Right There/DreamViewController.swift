@@ -11,18 +11,31 @@ import MessageUI
 
 class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeViewControllerDelegate {
 
+    var scrollView: UIScrollView
     var headerView: UIView
-    var dismissButton: UIButton
     var dreamTitle: UILabel
     var authorLabel: UILabel
     var dreamTextView: UITextView
-    var reportFlag: UIButton
     var saveButton: UIButton
+    var dividerView: UIView
+    var starButton: SpringButton
+    var starLabel: SpringLabel
     
     var currentTitle: String
     var currentAuthor: String
     var currentText: String
     var currentId: String
+    
+    var id: String?
+    var stars: Int? {
+        didSet {
+            if self.stars != nil {
+                starLabel.text = "\(self.stars!)"
+            } else {
+                starLabel.text = "0"
+            }
+        }
+    }
     
     var currentState: DreamState
     
@@ -37,27 +50,30 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
         currentText = text
         currentId = id
         
+        scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        
+        dividerView = UIView()
+        dividerView.translatesAutoresizingMaskIntoConstraints = false
+        dividerView.backgroundColor = UIColor.lightBlueGrey()
+        
         headerView = UIView()
         headerView.translatesAutoresizingMaskIntoConstraints = false
-        headerView.backgroundColor = UIColor.navyColor()
-        
-        dismissButton = UIButton()
-        dismissButton.translatesAutoresizingMaskIntoConstraints = false
-        dismissButton.setImage(UIImage(named: "close"), forState: .Normal)
-        dismissButton.contentEdgeInsets = UIEdgeInsetsMake(11.0, 11.0, 11.0, 11.0)
+        headerView.backgroundColor = UIColor.whiteColor()
         
         dreamTitle = UILabel()
         dreamTitle.translatesAutoresizingMaskIntoConstraints = false
-        dreamTitle.font = UIFont(name: "Roboto", size: 20.0)
-        dreamTitle.textColor = UIColor.whiteColor()
-        dreamTitle.textAlignment = .Center
+        dreamTitle.font = UIFont(name: "Avenir", size: 22.0)
+        dreamTitle.textColor = UIColor.blackColor()
+        dreamTitle.textAlignment = .Left
+        dreamTitle.numberOfLines = 3
         dreamTitle.text = currentTitle
         
         authorLabel = UILabel()
         authorLabel.translatesAutoresizingMaskIntoConstraints = false
         authorLabel.font = UIFont(name: "OpenSans", size: 14.0)
-        authorLabel.textColor = UIColor.whiteColor()
-        dreamTitle.textAlignment = .Center
+        authorLabel.textColor = UIColor.flatGrey()
+        authorLabel.textAlignment = .Left
         authorLabel.text = "by \(currentAuthor)"
         
         dreamTextView = UITextView()
@@ -65,12 +81,8 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
         dreamTextView.backgroundColor = UIColor.whiteColor()
         dreamTextView.font = UIFont(name: "OpenSans", size: 17.0)
         dreamTextView.showsVerticalScrollIndicator = false
+        dreamTextView.scrollEnabled = false
         dreamTextView.text = currentText
-        
-        reportFlag = UIButton()
-        reportFlag.translatesAutoresizingMaskIntoConstraints = false
-        reportFlag.setImage(UIImage(named: "flag"), forState: .Normal)
-        reportFlag.contentEdgeInsets = UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0)
         
         saveButton = UIButton()
         saveButton.translatesAutoresizingMaskIntoConstraints = false
@@ -78,25 +90,39 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
         saveButton.setTitleColor(WhiteColor, forState: .Normal)
         saveButton.titleLabel?.font = UIFont(name: "OpenSans", size: 16.0)
         
+        starButton = SpringButton()
+        starButton.translatesAutoresizingMaskIntoConstraints = false
+        starButton.setImage(UIImage(named: "greystar"), forState: .Normal)
+        starButton.contentEdgeInsets = UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0)
+        starButton.animation = "pop"
+        
+        starLabel = SpringLabel()
+        starLabel.translatesAutoresizingMaskIntoConstraints = false
+        starLabel.text = "\(12)"
+        starLabel.textColor = UIColor.flatGrey()
+        starLabel.textAlignment = .Center
+        starLabel.animation = "squeeze"
+        starLabel.duration = 0.5
+        
         currentState = .Delete
         
         super.init(nibName: nil, bundle: nil)
         
         view.backgroundColor = UIColor.whiteColor()
         
-        dismissButton.addTarget(self, action: #selector(DreamViewController.dismissViewController), forControlEvents: .TouchUpInside)
-        reportFlag.addTarget(self, action: #selector(DreamViewController.flagTapped), forControlEvents: .TouchUpInside)
         saveButton.addTarget(self, action: #selector(DreamViewController.saveTapped), forControlEvents: .TouchUpInside)
+        //starButton.addTarget(self, action: #selector(DreamViewController.starTapped), forControlEvents: .TouchUpInside)
         dreamTextView.delegate = self
         
         headerView.addSubview(dreamTitle)
         headerView.addSubview(authorLabel)
-        headerView.addSubview(dismissButton)
-        headerView.addSubview(reportFlag)
         headerView.addSubview(saveButton)
-        view.addSubview(headerView)
-        view.addSubview(dreamTextView)
-        
+        headerView.addSubview(starLabel)
+        headerView.addSubview(starButton)
+        scrollView.addSubview(headerView)
+        scrollView.addSubview(dividerView)
+        scrollView.addSubview(dreamTextView)
+        view.addSubview(scrollView)
         setupLayout()
     }
 
@@ -110,24 +136,33 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
         if let username = NSUserDefaults.standardUserDefaults().stringForKey("username") {
             if currentAuthor == username {
                 dreamTextView.editable = true
-                
-                reportFlag.userInteractionEnabled = false
-                reportFlag.alpha = 0
             } else {
                 dreamTextView.editable = false
-                
-                reportFlag.userInteractionEnabled = true
-                reportFlag.alpha = 1
                 
                 saveButton.userInteractionEnabled = false
                 saveButton.alpha = 0
             }
         }
+        
+        let reportFlag = UIButton()
+        reportFlag.translatesAutoresizingMaskIntoConstraints = false
+        reportFlag.setImage(UIImage(named: "flag"), forState: .Normal)
+        reportFlag.contentEdgeInsets = UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0)
+        reportFlag.addTarget(self, action: #selector(DreamViewController.flagTapped), forControlEvents: .TouchUpInside)
+        
+        let rightBarButton = UIBarButtonItem(customView: reportFlag)
+        navigationItem.rightBarButtonItem = rightBarButton
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let height = headerView.bounds.height + dreamTextView.bounds.height + 10
+        scrollView.contentSize = CGSizeMake(UIScreen.mainScreen().bounds.width, height)
     }
     
     func dismissViewController() {
@@ -138,19 +173,6 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
         return .LightContent
     }
     
-    func flagTapped() {
-        let reportRef = rootRef.childByAppendingPath("/reported/\(currentAuthor)")
-        reportRef.setValue(true)
-        
-        if MFMailComposeViewController.canSendMail() {
-            launchEmail(self)
-        } else {
-            let alert = UIAlertController(title: "Unable To Report", message: "Please set up mail client before reporting.", preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
-        }
-    }
-    
     func textViewDidBeginEditing(textView: UITextView) {
         currentState = .Save
         saveButton.setTitle("Save", forState: .Normal)
@@ -159,6 +181,39 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
     func textViewDidEndEditing(textView: UITextView) {
         currentState = .Delete
         saveButton.setTitle("Delete", forState: .Normal)
+    }
+    
+    func starTapped() {
+        if let username = NSUserDefaults.standardUserDefaults().stringForKey("username"), let id = id, let stars = stars {
+            let feedRef = rootRef.childByAppendingPath("feed/\(id)/stars")
+            let userRef = rootRef.childByAppendingPath("/users/\(username)/starred/\(id)")
+            
+            if !starredIds.contains(id) {
+                starButton.animate()
+                starButton.setImage(UIImage(named: "goldstar"), forState: .Normal)
+                starLabel.text = "\(stars + 1)"
+                starLabel.textColor = UIColor.flatGold()
+                starLabel.animate()
+                
+                if let title = dreamTitle.text,
+                    let author = authorLabel.text,
+                    let text = dreamTextView.text {
+                    let dreamDictionary = ["title":title, "author":author, "text":text, "stars":stars + 1]
+                    feedRef.setValue(stars + 1)
+                    userRef.setValue(dreamDictionary)
+                    
+                }
+            } else {
+                starButton.animate()
+                starButton.setImage(UIImage(named: "greystar"), forState: .Normal)
+                starLabel.text = "\(stars - 1)"
+                starLabel.textColor = UIColor.grayColor()
+                starLabel.animate()
+                
+                feedRef.setValue(stars - 1)
+                userRef.removeValue()
+            }
+        }
     }
     
     func saveTapped() {
@@ -179,6 +234,19 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
         }
         
         dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func flagTapped() {
+        let reportRef = rootRef.childByAppendingPath("/reported/\(currentAuthor)")
+        reportRef.setValue(true)
+        
+        if MFMailComposeViewController.canSendMail() {
+            launchEmail(self)
+        } else {
+            let alert = UIAlertController(title: "Unable To Report", message: "Please set up mail client before reporting.", preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
     }
     
     // MARK: MFMailComposeViewControllerDelegate - (Does not work in Simulator)
@@ -216,38 +284,46 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
     
     func setupLayout() {
         view.addConstraints([
-            headerView.al_top == view.al_top,
-            headerView.al_left == view.al_left,
-            headerView.al_right == view.al_right,
-            headerView.al_height == 105,
-            
-            dismissButton.al_left == headerView.al_left + 5,
-            dismissButton.al_centerY == dreamTitle.al_centerY,
-            dismissButton.al_height == 35,
-            dismissButton.al_width == 35,
+            headerView.al_top == scrollView.al_top,
+            headerView.al_left == scrollView.al_left,
+            headerView.al_right == scrollView.al_right,
+            headerView.al_height == 180,
             
             dreamTitle.al_centerX == headerView.al_centerX,
             dreamTitle.al_centerY == headerView.al_centerY - 7,
-            dreamTitle.al_left == dismissButton.al_right,
-            dreamTitle.al_right == reportFlag.al_left,
+            dreamTitle.al_left == view.al_left + 20,
+            dreamTitle.al_right == view.al_right - 35,
             
-            authorLabel.al_centerX == dreamTitle.al_centerX,
+            authorLabel.al_left == dreamTitle.al_left,
             authorLabel.al_top == dreamTitle.al_bottom + 4,
             
-            dreamTextView.al_left == view.al_left + 20,
-            dreamTextView.al_bottom == view.al_bottom,
-            dreamTextView.al_right == view.al_right - 20,
-            dreamTextView.al_top == headerView.al_bottom,
-            
-            reportFlag.al_right == view.al_right - 12,
-            reportFlag.al_centerY == headerView.al_centerY - 3,
-            reportFlag.al_width == 27,
-            reportFlag.al_height == 31.5,
+            dreamTextView.al_left == scrollView.al_left + 20,
+            dreamTextView.al_bottom == scrollView.al_bottom,
+            dreamTextView.al_right == scrollView.al_right - 20,
+            dreamTextView.al_top == dividerView.al_bottom,
             
             saveButton.al_right == view.al_right - 15,
             saveButton.al_centerY == headerView.al_centerY - 5,
             saveButton.al_width == 55,
-            saveButton.al_height == 35
+            saveButton.al_height == 35,
+            
+            scrollView.al_bottom == view.al_bottom,
+            scrollView.al_top == view.al_top,
+            scrollView.al_left == view.al_left,
+            scrollView.al_right == view.al_right,
+            
+            dividerView.al_left == view.al_left,
+            dividerView.al_right == view.al_right,
+            dividerView.al_top == headerView.al_bottom,
+            dividerView.al_height == 7,
+            
+            starButton.al_centerX == headerView.al_right - 30,
+            starButton.al_height == 30,
+            starButton.al_width == 30,
+            starButton.al_centerY == dreamTitle.al_centerY,
+            
+            starLabel.al_centerX == starButton.al_centerX,
+            starLabel.al_top == starButton.al_bottom
         ])
     }
 }

@@ -14,7 +14,7 @@ class UserProfileSettingsSectionHeaderView: UIView {
     override init(frame: CGRect) {
         titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.font = UIFont(name: "OpenSans-Semibold", size: 11)
+        titleLabel.font = UIFont(name: "OpenSans-Semibold", size: 14.0)
         
         super.init(frame: frame)
         
