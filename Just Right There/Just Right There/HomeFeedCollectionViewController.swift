@@ -16,8 +16,6 @@ HomeFeedCellDelegate,
 UserProfileViewModelDelegate {
 
     var viewModel: HomeFeedViewModel
-    var navigationBar: UIView
-    var logoImageView: UIImageView
     var userDefaults: NSUserDefaults
     var refreshControl: UIRefreshControl
     var loadingLabel: UILabel
@@ -31,15 +29,6 @@ UserProfileViewModelDelegate {
         viewModel = homeFeedViewModel
         
         userDefaults = NSUserDefaults.standardUserDefaults()
-        
-        navigationBar = UIView()
-        navigationBar.translatesAutoresizingMaskIntoConstraints = false
-        navigationBar.backgroundColor = UIColor.navyColor()
-        
-        logoImageView = UIImageView()
-        logoImageView.translatesAutoresizingMaskIntoConstraints = false
-        logoImageView.contentMode = .ScaleAspectFit
-        logoImageView.image = UIImage(named: "logo")
         
         refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
@@ -58,8 +47,6 @@ UserProfileViewModelDelegate {
         
         refreshControl.addTarget(self, action: #selector(HomeFeedCollectionViewController.refresh), forControlEvents: .ValueChanged)
         
-        navigationBar.addSubview(logoImageView)
-        view.addSubview(navigationBar)
         collectionView!.addSubview(refreshControl)
         view.addSubview(loadingLabel)
         
@@ -81,6 +68,11 @@ UserProfileViewModelDelegate {
             collectionView.alwaysBounceVertical = true
             collectionView.registerClass(HomeFeedImageCollectionViewCell.self, forCellWithReuseIdentifier: "imageCell")
         }
+        
+        let logoImageView = UIImageView(image: UIImage(named: "logo"))
+        logoImageView.contentMode = .ScaleAspectFit
+        logoImageView.frame = CGRectMake(0, 0, 100, 30)
+        navigationItem.titleView = logoImageView
         
         let loadingTimer = NSTimer.scheduledTimerWithTimeInterval(4.0, target: self, selector: "loadingTimeout", userInfo: nil, repeats: false)
     }
@@ -111,7 +103,7 @@ UserProfileViewModelDelegate {
         flowLayout.itemSize = CGSizeMake(screenWidth, 160)
         flowLayout.minimumLineSpacing = 1.0
         flowLayout.minimumInteritemSpacing = 1.0
-        flowLayout.sectionInset = UIEdgeInsetsMake(70.0, 0.0, 50.0, 0.0)
+        flowLayout.sectionInset = UIEdgeInsetsMake(0.0, 0.0, 50.0, 0.0)
         return flowLayout
     }
 
@@ -224,16 +216,6 @@ UserProfileViewModelDelegate {
     
     func setupLayout() {
         view.addConstraints([
-            navigationBar.al_top == view.al_top,
-            navigationBar.al_left == view.al_left,
-            navigationBar.al_right == view.al_right,
-            navigationBar.al_height == 65,
-            
-            logoImageView.al_centerX == navigationBar.al_centerX,
-            logoImageView.al_bottom == navigationBar.al_bottom - 2,
-            logoImageView.al_height == 45,
-            logoImageView.al_width == 135,
-            
             loadingLabel.al_centerY == view.al_centerY - 10,
             loadingLabel.al_centerX == view.al_centerX
         ])

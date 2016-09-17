@@ -51,7 +51,11 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, NewDream
         view.backgroundColor = UIColor.whiteColor()
         tabBar.tintColor = UIColor.navyColor()
         
-        let tabControllers = [homeViewController, addDreamViewController, userProfileViewController]
+        let homeFeedNavigationController = ContainerNavigationController(rootViewController: homeViewController)
+        homeFeedNavigationController.navigationBar.barTintColor = UIColor.navyColor()
+        homeFeedNavigationController.navigationBar.translucent = false
+        
+        let tabControllers = [homeFeedNavigationController, addDreamViewController, userProfileViewController]
         viewControllers = tabControllers
     }
 

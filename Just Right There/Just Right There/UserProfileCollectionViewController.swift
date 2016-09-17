@@ -121,7 +121,7 @@ DZNEmptyDataSetDelegate {
                 string: title,
                 attributes: [NSFontAttributeName:UIFont(
                     name: "HelveticaNeue",
-                    size: 18.0)!, NSForegroundColorAttributeName: UIColor.navyColor()])
+                    size: 22.0)!, NSForegroundColorAttributeName: UIColor.navyColor()])
             return myMutableString
         } else {
             let title = "No Stars yet"
@@ -129,7 +129,7 @@ DZNEmptyDataSetDelegate {
                 string: title,
                 attributes: [NSFontAttributeName:UIFont(
                     name: "HelveticaNeue",
-                    size: 18.0)!, NSForegroundColorAttributeName: UIColor.navyColor()])
+                    size: 22.0)!, NSForegroundColorAttributeName: UIColor.navyColor()])
             return myMutableString
         }
     }
@@ -141,7 +141,7 @@ DZNEmptyDataSetDelegate {
                 string: description,
                 attributes: [NSFontAttributeName:UIFont(
                     name: "HelveticaNeue",
-                    size: 12.0)!])
+                    size: 14.0)!])
             return myMutableString
         } else {
             let description = "You can star dreams that you like while reading on the home screen, and they'll be saved here."
@@ -149,7 +149,7 @@ DZNEmptyDataSetDelegate {
                 string: description,
                 attributes: [NSFontAttributeName:UIFont(
                     name: "HelveticaNeue",
-                    size: 12.0)!])
+                    size: 14.0)!])
             return myMutableString
         }
     }
@@ -223,10 +223,8 @@ DZNEmptyDataSetDelegate {
                     headerView?.collapseNameLabel.text = username
                 }
             }
-            
             return headerView!
         }
-        
         return UICollectionReusableView()
     }
     
@@ -242,13 +240,11 @@ DZNEmptyDataSetDelegate {
     
     func journalTabSelected() {
         state = .Journal
-        
         collectionView?.reloadData()
     }
     
     func starredTabSelected() {
         state = .Starred
-        
         collectionView?.reloadData()
     }
     
