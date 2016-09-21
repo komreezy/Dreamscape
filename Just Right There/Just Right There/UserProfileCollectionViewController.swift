@@ -8,6 +8,7 @@
 
 import UIKit
 import Social
+import FirebaseDatabase
 
 private let userProfileReuseIdentifier = "userProfileCell"
 
@@ -282,10 +283,8 @@ DZNEmptyDataSetDelegate {
                 print(")")
             case 1:
                 let dreamDictionary = ["title":viewModel.shareTitle, "author":viewModel.shareAuthor, "text":viewModel.shareText, "date":viewModel.shareDate, "stars":0]
-                let feedRef = rootRef.childByAppendingPath("/feed")
-                let newPostRef: Firebase = feedRef.childByAutoId()
                 
-                newPostRef.setValue(dreamDictionary)
+                FIRDatabase.database().reference().child("/feed").child("\(viewModel.shareId)").setValue(dreamDictionary)
             case 2:
                 if SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter){
                     let twitterSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)

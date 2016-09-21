@@ -7,8 +7,7 @@
 //
 
 import UIKit
-
-var rootRef: Firebase = Firebase(url: "https://dreaming.firebaseio.com/")
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,6 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         let screen = UIScreen.mainScreen()
         let frame = screen.bounds
+        
+        FIRApp.configure()
         
         window = UIWindow(frame: frame)
         

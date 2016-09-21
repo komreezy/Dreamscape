@@ -5,7 +5,12 @@
 
 target 'Dreamscape' do
     pod "CSStickyHeaderFlowLayout"
-    pod 'Firebase', '>= 2.4.2'
     pod 'DZNEmptyDataSet'
+    pod 'Firebase/Core'
+    pod 'Firebase/Auth'
+    pod 'Firebase/Storage'
+    pod 'Firebase/Database'
+    pod 'Fabric'
+    pod 'TwitterKit'
 end
 

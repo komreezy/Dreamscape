@@ -8,29 +8,16 @@
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>1</integer>
 		</dict>
 		<key>DZNEmptyDataSet.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>2</integer>
-		</dict>
-		<key>Firebase.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-			<key>orderHint</key>
-			<integer>3</integer>
 		</dict>
 		<key>Pods-Dreamscape.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>4</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
@@ -40,17 +27,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>569735B422E0E4CEEFC5C6955AFDE3A5</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>736E57AD5AEFAAF68D47AE4E8FCB8F68</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B84FFCB9EEACCECC219F7C641BD5394E</key>
+		<key>ECF168B1EEB583572E7E5C3892A082A4</key>
 		<dict>
 			<key>primary</key>
 			<true/>

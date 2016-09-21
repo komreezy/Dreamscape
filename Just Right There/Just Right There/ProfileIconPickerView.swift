@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
 class ProfileIconPickerView: UIViewController, UIScrollViewDelegate {
     var pointerImageView: UIImageView
@@ -176,7 +177,7 @@ class ProfileIconPickerView: UIViewController, UIScrollViewDelegate {
     
     func selectTapped() {
         if let username = NSUserDefaults.standardUserDefaults().stringForKey("username") {
-            let userRef = rootRef.childByAppendingPath("/users/\(username)/picture")
+            //let userRef = rootRef.childByAppendingPath("/users/\(username)/picture")
             var pictureString = ""
             
             if currentPage == 0 {
@@ -211,7 +212,9 @@ class ProfileIconPickerView: UIViewController, UIScrollViewDelegate {
                 pictureString = "brain"
             }
             
-            userRef.setValue(pictureString)
+            
+            FIRDatabase.database().reference().child("/users/\(username)/picture").setValue(pictureString)
+            //userRef.setValue(pictureString)
             userDefaults.setValue("\(pictureString)", forKey: "picture")
             userDefaults.synchronize()
         }

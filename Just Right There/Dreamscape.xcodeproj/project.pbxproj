@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1F90974BB8A8641AB2D46430 /* libPods-Dreamscape.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BB8230F15C17B809E33B2317 /* libPods-Dreamscape.a */; };
 		690CB8461BDCD4E600857130 /* FavoriteAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690CB8451BDCD4E600857130 /* FavoriteAlertView.swift */; };
 		6912563A1C7F766F0089C30B /* AppSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691256391C7F766F0089C30B /* AppSettingsView.swift */; };
 		691256491C7F76B20089C30B /* UserProfileSettingsSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691256481C7F76B20089C30B /* UserProfileSettingsSectionHeaderView.swift */; };
@@ -44,6 +43,7 @@
 		69838CE91C57FD1B00EE0E8F /* ErrorDropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69838CE81C57FD1B00EE0E8F /* ErrorDropView.swift */; };
 		69866DA71D5AEA2000FF5983 /* ContainerNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69866DA61D5AEA2000FF5983 /* ContainerNavigationController.swift */; };
 		698BB2DA1C90C71B00819FDF /* AgreeRulesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698BB2D91C90C71B00819FDF /* AgreeRulesViewController.swift */; };
+		699D6D2F1D90951E00F8987B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 699D6D2E1D90951E00F8987B /* GoogleService-Info.plist */; };
 		69A8CEBA1C10B49B00AC4EC4 /* Morningtype Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69A8CEB81C10B49B00AC4EC4 /* Morningtype Light.ttf */; };
 		69A8CEBB1C10B49B00AC4EC4 /* Morningtype.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69A8CEB91C10B49B00AC4EC4 /* Morningtype.ttf */; };
 		69A8CECA1C10B57A00AC4EC4 /* coolvetica rg.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69A8CEC91C10B57A00AC4EC4 /* coolvetica rg.ttf */; };
@@ -85,6 +85,7 @@
 		69D031781BDB0B9500B31CF5 /* UserProfileCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D031771BDB0B9500B31CF5 /* UserProfileCollectionViewController.swift */; };
 		69F0281B1C7E3DE500970439 /* ProfileIconPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F0281A1C7E3DE500970439 /* ProfileIconPickerView.swift */; };
 		69F0282B1C7E44B100970439 /* ProfileIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F0282A1C7E44B100970439 /* ProfileIconView.swift */; };
+		9030E8B2D72A64A6D5F7DFC9 /* libPods-Dreamscape.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C5D4BA7DCC366358C60D424D /* libPods-Dreamscape.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -175,8 +176,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2F87D22F5E3D51F8058B2AB6 /* Pods-Dreamscape.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dreamscape.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dreamscape/Pods-Dreamscape.debug.xcconfig"; sourceTree = "<group>"; };
-		62F78ADDCD1F471898C5FA0A /* Pods-Dreamscape.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dreamscape.release.xcconfig"; path = "Pods/Target Support Files/Pods-Dreamscape/Pods-Dreamscape.release.xcconfig"; sourceTree = "<group>"; };
+		2667FAEE898BE576D45D92C2 /* Pods-Dreamscape.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dreamscape.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dreamscape/Pods-Dreamscape.debug.xcconfig"; sourceTree = "<group>"; };
 		690CB8451BDCD4E600857130 /* FavoriteAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteAlertView.swift; sourceTree = "<group>"; };
 		691256391C7F766F0089C30B /* AppSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppSettingsView.swift; sourceTree = "<group>"; };
 		691256481C7F76B20089C30B /* UserProfileSettingsSectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileSettingsSectionHeaderView.swift; sourceTree = "<group>"; };
@@ -402,7 +402,7 @@
 		691F87F21BDCAF4B00CD1B3B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		691F87F31BDCAF4B00CD1B3B /* OAuthTestsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OAuthTestsTests-Info.plist"; sourceTree = "<group>"; };
 		691F87F41BDCAF4B00CD1B3B /* OAuthTestsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OAuthTestsTests.m; sourceTree = "<group>"; };
-		691F87F51BDCAF4B00CD1B3B /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		691F87F51BDCAF4B00CD1B3B /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		691F87F61BDCAF4B00CD1B3B /* Podfile.lock */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile.lock; sourceTree = "<group>"; };
 		691F87F71BDCAF4B00CD1B3B /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
 		691F87F81BDCAF4B00CD1B3B /* README-bin.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "README-bin.txt"; sourceTree = "<group>"; };
@@ -444,6 +444,7 @@
 		69838CE81C57FD1B00EE0E8F /* ErrorDropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorDropView.swift; sourceTree = "<group>"; };
 		69866DA61D5AEA2000FF5983 /* ContainerNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerNavigationController.swift; sourceTree = "<group>"; };
 		698BB2D91C90C71B00819FDF /* AgreeRulesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgreeRulesViewController.swift; sourceTree = "<group>"; };
+		699D6D2E1D90951E00F8987B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		69A1DA821B9827F2001B68FF /* Just Right There-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Just Right There-Bridging-Header.h"; sourceTree = "<group>"; };
 		69A8CEB81C10B49B00AC4EC4 /* Morningtype Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Morningtype Light.ttf"; sourceTree = "<group>"; };
 		69A8CEB91C10B49B00AC4EC4 /* Morningtype.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Morningtype.ttf; sourceTree = "<group>"; };
@@ -491,7 +492,8 @@
 		69D031771BDB0B9500B31CF5 /* UserProfileCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileCollectionViewController.swift; sourceTree = "<group>"; };
 		69F0281A1C7E3DE500970439 /* ProfileIconPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileIconPickerView.swift; sourceTree = "<group>"; };
 		69F0282A1C7E44B100970439 /* ProfileIconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileIconView.swift; sourceTree = "<group>"; };
-		BB8230F15C17B809E33B2317 /* libPods-Dreamscape.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Dreamscape.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C1E66AD84528804F123B3744 /* Pods-Dreamscape.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dreamscape.release.xcconfig"; path = "Pods/Target Support Files/Pods-Dreamscape/Pods-Dreamscape.release.xcconfig"; sourceTree = "<group>"; };
+		C5D4BA7DCC366358C60D424D /* libPods-Dreamscape.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Dreamscape.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -499,7 +501,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F90974BB8A8641AB2D46430 /* libPods-Dreamscape.a in Frameworks */,
+				9030E8B2D72A64A6D5F7DFC9 /* libPods-Dreamscape.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -519,7 +521,7 @@
 				69A8CECF1C10CD4200AC4EC4 /* Spring */,
 				691F88191BDCAF6300CD1B3B /* SpeechKit.framework */,
 				691F86F81BDCAF4A00CD1B3B /* ATTPlatformSDKiOS */,
-				BB8230F15C17B809E33B2317 /* libPods-Dreamscape.a */,
+				C5D4BA7DCC366358C60D424D /* libPods-Dreamscape.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1075,8 +1077,8 @@
 				69B33F181B8D5BE000DEF7FB /* Just Right ThereTests */,
 				69B33F011B8D5BE000DEF7FB /* Products */,
 				697D6ABC1B98C2FF00056780 /* SwiftAutoLayout */,
-				76DBFFACC48562BAC7BA4572 /* Pods */,
 				10A43655F69492EB0B9EF214 /* Frameworks */,
+				A2835B548963414084C04F92 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1107,6 +1109,7 @@
 		69B33F031B8D5BE000DEF7FB /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				699D6D2E1D90951E00F8987B /* GoogleService-Info.plist */,
 				69B33F041B8D5BE000DEF7FB /* Info.plist */,
 				6949BEEB1C0F843100A89137 /* Montserrat-Regular.ttf */,
 				6949BEEF1C0F862100A89137 /* Roboto-Regular.ttf */,
@@ -1141,11 +1144,11 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		76DBFFACC48562BAC7BA4572 /* Pods */ = {
+		A2835B548963414084C04F92 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				2F87D22F5E3D51F8058B2AB6 /* Pods-Dreamscape.debug.xcconfig */,
-				62F78ADDCD1F471898C5FA0A /* Pods-Dreamscape.release.xcconfig */,
+				2667FAEE898BE576D45D92C2 /* Pods-Dreamscape.debug.xcconfig */,
+				C1E66AD84528804F123B3744 /* Pods-Dreamscape.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -1157,12 +1160,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 69B33F1F1B8D5BE000DEF7FB /* Build configuration list for PBXNativeTarget "Dreamscape" */;
 			buildPhases = (
-				E36D935C790D3CCC3D65741B /* Check Pods Manifest.lock */,
+				7F9029CAE3DCD1C3480756BE /* [CP] Check Pods Manifest.lock */,
 				69B33EFC1B8D5BE000DEF7FB /* Sources */,
 				69B33EFD1B8D5BE000DEF7FB /* Frameworks */,
 				69B33EFE1B8D5BE000DEF7FB /* Resources */,
-				20F53E2A9289BE0D69FAD021 /* Copy Pods Resources */,
-				145FF5F41D105B4BDF0202F7 /* Embed Pods Frameworks */,
+				8E04EBA68C5A726783634D8C /* [CP] Embed Pods Frameworks */,
+				0C3BED5C6977DAAB6C71E28B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1335,6 +1338,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6949BEEC1C0F843100A89137 /* Montserrat-Regular.ttf in Resources */,
+				699D6D2F1D90951E00F8987B /* GoogleService-Info.plist in Resources */,
 				69B33F101B8D5BE000DEF7FB /* LaunchScreen.xib in Resources */,
 				6949BEF41C0FD01F00A89137 /* Roboto-Bold.ttf in Resources */,
 				69A8CECA1C10B57A00AC4EC4 /* coolvetica rg.ttf in Resources */,
@@ -1367,29 +1371,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		145FF5F41D105B4BDF0202F7 /* Embed Pods Frameworks */ = {
+		0C3BED5C6977DAAB6C71E28B /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Dreamscape/Pods-Dreamscape-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		20F53E2A9289BE0D69FAD021 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1397,19 +1386,34 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Dreamscape/Pods-Dreamscape-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E36D935C790D3CCC3D65741B /* Check Pods Manifest.lock */ = {
+		7F9029CAE3DCD1C3480756BE /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		8E04EBA68C5A726783634D8C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Dreamscape/Pods-Dreamscape-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1673,7 +1677,7 @@
 		};
 		69B33F201B8D5BE000DEF7FB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2F87D22F5E3D51F8058B2AB6 /* Pods-Dreamscape.debug.xcconfig */;
+			baseConfigurationReference = 2667FAEE898BE576D45D92C2 /* Pods-Dreamscape.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1682,7 +1686,7 @@
 				INFOPLIST_FILE = "Just Right There/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.komran;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dreamscape.komran;
 				PRODUCT_NAME = Dreamscape;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Just Right There/Just Right There-Bridging-Header.h";
@@ -1693,7 +1697,7 @@
 		};
 		69B33F211B8D5BE000DEF7FB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 62F78ADDCD1F471898C5FA0A /* Pods-Dreamscape.release.xcconfig */;
+			baseConfigurationReference = C1E66AD84528804F123B3744 /* Pods-Dreamscape.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1702,7 +1706,7 @@
 				INFOPLIST_FILE = "Just Right There/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.komran;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dreamscape.komran;
 				PRODUCT_NAME = Dreamscape;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Just Right There/Just Right There-Bridging-Header.h";

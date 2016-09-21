@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
 class HomeFeedImageCollectionViewCell: UICollectionViewCell {
     var dream: Dream? {
@@ -114,7 +115,7 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
         
         backgroundColor = WhiteColor
         
-        starButton.addTarget(self, action: "starTapped", forControlEvents: .TouchUpInside)
+        starButton.addTarget(self, action: #selector(HomeFeedImageCollectionViewCell.starTapped), forControlEvents: .TouchUpInside)
         
         addSubview(dreamTitleLabel)
         addSubview(authorLabel)
@@ -134,8 +135,8 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
     
     func starTapped() {
         if let username = NSUserDefaults.standardUserDefaults().stringForKey("username"), let id = id, let stars = stars {
-            let feedRef = rootRef.childByAppendingPath("feed/\(id)/stars")
-            let userRef = rootRef.childByAppendingPath("/users/\(username)/starred/\(id)")
+            //let feedRef = rootRef.childByAppendingPath("feed/\(id)/stars")
+            //let userRef = rootRef.childByAppendingPath("/users/\(username)/starred/\(id)")
             
             if !starredIds.contains(id) {
                 starButton.animate()
@@ -149,9 +150,8 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
                     let text = previewLabel.text,
                     let date = dateLabel.text {
                         let dreamDictionary = ["title":title, "author":author, "text":text, "date":"\(date)", "stars":stars + 1]
-                        feedRef.setValue(stars + 1)
-                        userRef.setValue(dreamDictionary)
-                        
+                        FIRDatabase.database().reference().child("feed/\(id)/stars").setValue(stars + 1)
+                        FIRDatabase.database().reference().child("/users/\(username)/starred/\(id)").setValue(dreamDictionary)
                     }
             } else {
                 starButton.animate()
@@ -160,8 +160,8 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
                 starLabel.textColor = UIColor.grayColor()
                 starLabel.animate()
                 
-                feedRef.setValue(stars - 1)
-                userRef.removeValue()
+                FIRDatabase.database().reference().child("feed/\(id)/stars").setValue(stars - 1)
+                FIRDatabase.database().reference().child("/users/\(username)/starred/\(id)").removeValue()
             }
         }
     }

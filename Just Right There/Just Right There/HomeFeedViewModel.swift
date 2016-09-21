@@ -7,12 +7,13 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
 class HomeFeedViewModel: NSObject {
     var username: String?
     var id: String?
     var dreamDictionary: [Dream] = []
-    var feedRef = rootRef.childByAppendingPath("/feed")
+    //var feedRef = rootRef.childByAppendingPath("/feed")
     weak var delegate: HomeFeedViewModelDelegate?
     
     override init() {
@@ -22,7 +23,7 @@ class HomeFeedViewModel: NSObject {
     }
     
     func requestData() {
-        feedRef.queryOrderedByChild("stars").observeEventType(.Value, withBlock: { snapshot in
+        FIRDatabase.database().reference().child("/feed").queryOrderedByChild("stars").observeEventType(.Value, withBlock: { snapshot in
             if let feedsData = snapshot.value as? [String:[String:AnyObject]] {
                 self.dreamDictionary.removeAll()
                 for (id, data) in feedsData {

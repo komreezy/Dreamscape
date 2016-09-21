@@ -8,6 +8,8 @@
 
 import UIKit
 import SystemConfiguration
+import FirebaseDatabase
+import Firebase
 
 var starredIds: [String] = []
 
@@ -15,8 +17,8 @@ class UserProfileViewModel: NSObject {
     
     var journals: [Dream] = []
     var starred: [Dream] = []
-    var journalRef = rootRef.childByAppendingPath("/users/journals")
-    var starredRef = rootRef.childByAppendingPath("/users/starred")
+    //var journalRef = rootRef.childByAppendingPath("/users/journals")
+    //var starredRef = rootRef.childByAppendingPath("/users/starred")
     weak var delegate: UserProfileViewModelDelegate?
     var userDefaults: NSUserDefaults
     var username: String?
@@ -46,8 +48,8 @@ class UserProfileViewModel: NSObject {
     func getUsername() -> String {
         if let username = userDefaults.stringForKey("username") {
             self.username = username
-            self.journalRef = rootRef.childByAppendingPath("/users/\(username)/journals")
-            self.starredRef = rootRef.childByAppendingPath("/users/\(username)/starred")
+            //self.journalRef = rootRef.childByAppendingPath("/users/\(username)/journals")
+            //self.starredRef = rootRef.childByAppendingPath("/users/\(username)/starred")
             return username
         }
         
@@ -62,18 +64,22 @@ class UserProfileViewModel: NSObject {
     
     func requestJournalData() {
         if reachable.isConnectedToNetwork() {
-            journalRef.observeEventType(.Value, withBlock: { snapshot in
-                if let journalsData = snapshot.value as? [String:[String:AnyObject]] {
+            FIRDatabase.database().reference().child("/users/\(username!)/journals").observeEventType(.Value, withBlock: { snapshot in
+                print(self.username)
+                print(snapshot.value)
+                if let journalsData = snapshot.value as? [String:AnyObject] {
                     self.journals.removeAll()
                     for (id, data) in journalsData {
-                        if let title = data["title"]! as? String,
-                            let author = data["author"]! as? String,
-                            let text = data["text"]! as? String,
-                            let date = data["date"]! as? String,
-                            let stars = data["stars"]! as? Int {
+                        if let journalData = data as? [String:AnyObject] {
+                            if let title = journalData["title"]! as? String,
+                                let author = journalData["author"]! as? String,
+                                let text = journalData["text"]! as? String,
+                                let date = journalData["date"]! as? String,
+                                let stars = journalData["stars"]! as? Int {
                                 let dream = Dream(title: title, author: author, text: text, date: date, stars: stars, id: id)
                                 self.journals.append(dream)
                                 
+                            }
                         }
                     }
                     
@@ -108,7 +114,7 @@ class UserProfileViewModel: NSObject {
     
     func requestStarredData() {
         var starredTemp: [Dream] = []
-        starredRef.observeEventType(.Value, withBlock: { snapshot in
+        FIRDatabase.database().reference().child("/users/\(username!)/starred").observeEventType(.Value, withBlock: { snapshot in
             if let starredData = snapshot.value as? [String:[String:AnyObject]] {
                 starredIds.removeAll()
                 self.starred.removeAll()
@@ -140,7 +146,6 @@ class UserProfileViewModel: NSObject {
             }
         })
     }
-    
 }
 
 protocol UserProfileViewModelDelegate: class {

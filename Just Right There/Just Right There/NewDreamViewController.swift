@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
 var saveText: String = ""
 
@@ -283,10 +284,8 @@ class NewDreamViewController: UIViewController, UITextFieldDelegate, UITextViewD
         if dreamTitleLabel.text?.isEmpty == false && textView.text != "Type your Dream here.." {
             if state == .Keep {
                 if let username = NSUserDefaults.standardUserDefaults().stringForKey("username") {
-                        let dreamDictionary = ["title":dreamTitleLabel.text!, "author":"\(username)", "text":textView.text, "date":"\(nowString!)", "stars":0]
-                        let userRef = rootRef.childByAppendingPath("/users/\(username)/journals")
-                        let userPostRef = userRef.childByAutoId()
-                        userPostRef.setValue(dreamDictionary)
+                    let dreamDictionary = ["title":dreamTitleLabel.text!, "author":"\(username)", "text":textView.text, "date":"\(nowString!)", "stars":0]
+                    FIRDatabase.database().reference().child("/users/\(username)/journals").childByAutoId().setValue(dreamDictionary)
                     
                     if let journals = NSUserDefaults.standardUserDefaults().objectForKey("journals") as? [[String:AnyObject]] {
                         var journalsCopy = NSMutableArray(array: journals)
@@ -300,35 +299,79 @@ class NewDreamViewController: UIViewController, UITextFieldDelegate, UITextViewD
             } else if state == .Share {
                 if let username = NSUserDefaults.standardUserDefaults().stringForKey("username") {
                     let dreamDictionary = ["title":dreamTitleLabel.text!, "author":"\(username)", "text":textView.text, "date":"\(nowString!)", "stars":0]
-                    let feedRef = rootRef.childByAppendingPath("/feed")
-                    let newPostRef: Firebase = feedRef.childByAutoId()
-                    let userRef = rootRef.childByAppendingPath("/users/\(username)/journals")
-                    let userPostRef = userRef.childByAutoId()
-                    
-                    userPostRef.setValue(dreamDictionary)
-                    newPostRef.setValue(dreamDictionary)
+                    FIRDatabase.database().reference().child("/feed").childByAutoId().setValue(dreamDictionary)
+                    FIRDatabase.database().reference().child("/users/\(username)/journals").childByAutoId().setValue(dreamDictionary)
                 }
             }
+            
             saveText = ""
             textView.text = ""
             dreamTitleLabel.text = ""
             delegate?.shouldLeaveNewDreamViewController(2)
         } else if dreamTitleLabel.text?.isEmpty == true {
             if state == .Keep {
-                let alert = UIAlertController(title: "Don't Forget A Title!", message: "Before you save that dream of yours, make sure you give it name.", preferredStyle: .Alert)
-                alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
-                self.presentViewController(alert, animated: true, completion: nil)
-            } else {
-                let alert = UIAlertController(title: "Don't Forget A Title!", message: "Before you share that masterpiece, give your work a title.", preferredStyle: .Alert)
+                    let alert = UIAlertController(title: "Don't Forget A Title!", message: "Before you save that dream of yours, make sure you give it name.", preferredStyle: .Alert)
+                    alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                } else {
+                    let alert = UIAlertController(title: "Don't Forget A Title!", message: "Before you share that masterpiece, give your work a title.", preferredStyle: .Alert)
+                    alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+            } else if textView.text == "Type your Dream here.." {
+                let alert = UIAlertController(title: "Whoops!", message: "No dream to upload. Type your dream in the text view below.", preferredStyle: .Alert)
                 alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
                 self.presentViewController(alert, animated: true, completion: nil)
             }
-        } else if textView.text == "Type your Dream here.." {
-            let alert = UIAlertController(title: "Whoops!", message: "No dream to upload. Type your dream in the text view below.", preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
         }
-    }
+//        if dreamTitleLabel.text?.isEmpty == false && textView.text != "Type your Dream here.." {
+//            if state == .Keep {
+//                if let username = NSUserDefaults.standardUserDefaults().stringForKey("username") {
+//                        let dreamDictionary = ["title":dreamTitleLabel.text!, "author":"\(username)", "text":textView.text, "date":"\(nowString!)", "stars":0]
+//                        let userRef = rootRef.childByAppendingPath("/users/\(username)/journals")
+//                        let userPostRef = userRef.childByAutoId()
+//                        userPostRef.setValue(dreamDictionary)
+//                    
+//                    if let journals = NSUserDefaults.standardUserDefaults().objectForKey("journals") as? [[String:AnyObject]] {
+//                        var journalsCopy = NSMutableArray(array: journals)
+//                        journalsCopy.addObject(dreamDictionary)
+//                        NSUserDefaults.standardUserDefaults().setObject(journalsCopy, forKey: "journals")
+//                    } else {
+//                        let newJournalsArray = [dreamDictionary]
+//                        NSUserDefaults.standardUserDefaults().setObject(newJournalsArray, forKey: "journals")
+//                    }
+//                }
+//            } else if state == .Share {
+//                if let username = NSUserDefaults.standardUserDefaults().stringForKey("username") {
+//                    let dreamDictionary = ["title":dreamTitleLabel.text!, "author":"\(username)", "text":textView.text, "date":"\(nowString!)", "stars":0]
+//                    let feedRef = rootRef.childByAppendingPath("/feed")
+//                    let newPostRef: Firebase = feedRef.childByAutoId()
+//                    let userRef = rootRef.childByAppendingPath("/users/\(username)/journals")
+//                    let userPostRef = userRef.childByAutoId()
+//                    
+//                    userPostRef.setValue(dreamDictionary)
+//                    newPostRef.setValue(dreamDictionary)
+//                }
+//            }
+//            saveText = ""
+//            textView.text = ""
+//            dreamTitleLabel.text = ""
+//            delegate?.shouldLeaveNewDreamViewController(2)
+//        } else if dreamTitleLabel.text?.isEmpty == true {
+//            if state == .Keep {
+//                let alert = UIAlertController(title: "Don't Forget A Title!", message: "Before you save that dream of yours, make sure you give it name.", preferredStyle: .Alert)
+//                alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
+//                self.presentViewController(alert, animated: true, completion: nil)
+//            } else {
+//                let alert = UIAlertController(title: "Don't Forget A Title!", message: "Before you share that masterpiece, give your work a title.", preferredStyle: .Alert)
+//                alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
+//                self.presentViewController(alert, animated: true, completion: nil)
+//            }
+//        } else if textView.text == "Type your Dream here.." {
+//            let alert = UIAlertController(title: "Whoops!", message: "No dream to upload. Type your dream in the text view below.", preferredStyle: .Alert)
+//            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
+//            self.presentViewController(alert, animated: true, completion: nil)
+//        }
     
     func setupLayout() {
         

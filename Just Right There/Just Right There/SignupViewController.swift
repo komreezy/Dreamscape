@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseAuth
 
 class SignupViewController: UIViewController, UITextFieldDelegate {
     var logoImageView: UIImageView
@@ -289,60 +291,122 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
                 })
             }
             
-            if let username = usernameTextField.text {
-                let userRef = rootRef.childByAppendingPath("users/\(username)")
-                userRef.observeEventType(.Value, withBlock: { snapshot in
-                    if !snapshot.exists() {
-                        let dreamDictionary = ["password":self.passwordTextField.text!]
-                        let userRef = rootRef.childByAppendingPath("users/\(username)")
-                        userRef.setValue(dreamDictionary)
-                        self.userDefaults.setBool(true, forKey: "user")
-                        self.userDefaults.setValue("\(username)", forKey: "username")
-                        self.userDefaults.setValue("\(self.passwordTextField.text)", forKey: "password")
-                        
-                        self.dismissViewControllerAnimated(true, completion: nil)
-                    } else {
-                        self.errorView.setErrorText(.Invalid)
-                        self.showError()
-                        self.delay(3.0, closure: {
-                            self.hideError()
-                        })
+            if let username = usernameTextField.text,
+                let password = passwordTextField.text {
+                
+                // TODO: Add email text fields
+                // create Firebase user with email
+                FIRAuth.auth()?.createUserWithEmail("titty@gmail.com", password: password) { (user, error) in
+                    if error != nil {
+                        print(error?.localizedDescription)
                     }
                     
-                    self.userDefaults.synchronize()
-                })
+                    print("createdUser")
+                }
+                
+                userDefaults.setBool(true, forKey: "user")
+                userDefaults.setValue("\(username)", forKey: "username")
+                userDefaults.setValue("\(self.passwordTextField.text)", forKey: "password")
+            
+                dismissViewControllerAnimated(true, completion: nil)
             }
         } else {
-            if let username = usernameTextField.text, let password = passwordTextField.text {
-                let userRef = rootRef.childByAppendingPath("users/\(username)")
-                userRef.observeEventType(.Value, withBlock: { snapshot in
-                    if snapshot.value != nil {
-                        if self.usernameTextField.text?.characters.count >= 3 && self.passwordTextField.text?.characters.count >= 5 {
-                            if let userData = snapshot.value as? [String:AnyObject] {
-                                if let snapPass = userData["password"]! as? String {
-                                    if snapPass == password {
-                                        self.userDefaults.setBool(true, forKey: "user")
-                                        self.userDefaults.setValue("\(username)", forKey: "username")
-                                        self.userDefaults.setValue("\(self.passwordTextField.text)", forKey: "password")
-                                        
-                                        self.dismissViewControllerAnimated(true, completion: nil)
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        self.errorView.setErrorText(.Username)
-                        self.showError()
-                        self.delay(3.0, closure: {
-                            self.hideError()
-                        })
+            if let username = usernameTextField.text,
+                let password = passwordTextField.text {
+                // Sign in with email firebase
+                FIRAuth.auth()?.signInWithEmail("tity2@gmail.com", password: password, completion: { (user, error) in
+                    if error != nil {
+                        print(error?.localizedDescription)
                     }
+                    
+                    self.userDefaults.setBool(true, forKey: "user")
+                    self.userDefaults.setValue("\(username)", forKey: "username")
+                    self.userDefaults.setValue("\(self.passwordTextField.text)", forKey: "password")
+                    
+                    print("sign in")
                 })
+                dismissViewControllerAnimated(true, completion: nil)
             }
         }
-        
         userDefaults.synchronize()
     }
+    
+//    func enterButtonTapped() {
+//        if state == .Signup {
+//            if passwordTextField.text?.characters.count < 5 && usernameTextField.text?.characters.count < 3 {
+//                errorView.setErrorText(.Username)
+//                showError()
+//                delay(3.0, closure: {
+//                    self.hideError()
+//                })
+//            } else if usernameTextField.text?.characters.count < 3 {
+//                errorView.setErrorText(.Username)
+//                showError()
+//                delay(3.0, closure: {
+//                    self.hideError()
+//                })
+//            } else if passwordTextField.text?.characters.count < 5 {
+//                errorView.setErrorText(.Password)
+//                showError()
+//                delay(3.0, closure: {
+//                    self.hideError()
+//                })
+//            }
+//            
+//            if let username = usernameTextField.text {
+//                let userRef = rootRef.childByAppendingPath("users/\(username)")
+//                userRef.observeEventType(.Value, withBlock: { snapshot in
+//                    if !snapshot.exists() {
+//                        let dreamDictionary = ["password":self.passwordTextField.text!]
+//                        let userRef = rootRef.childByAppendingPath("users/\(username)")
+//                        userRef.setValue(dreamDictionary)
+//                        self.userDefaults.setBool(true, forKey: "user")
+//                        self.userDefaults.setValue("\(username)", forKey: "username")
+//                        self.userDefaults.setValue("\(self.passwordTextField.text)", forKey: "password")
+//                        
+//                        self.dismissViewControllerAnimated(true, completion: nil)
+//                    } else {
+//                        self.errorView.setErrorText(.Invalid)
+//                        self.showError()
+//                        self.delay(3.0, closure: {
+//                            self.hideError()
+//                        })
+//                    }
+//                    
+//                    self.userDefaults.synchronize()
+//                })
+//            }
+//        } else {
+//            if let username = usernameTextField.text, let password = passwordTextField.text {
+//                let userRef = rootRef.childByAppendingPath("users/\(username)")
+//                userRef.observeEventType(.Value, withBlock: { snapshot in
+//                    if snapshot.value != nil {
+//                        if self.usernameTextField.text?.characters.count >= 3 && self.passwordTextField.text?.characters.count >= 5 {
+//                            if let userData = snapshot.value as? [String:AnyObject] {
+//                                if let snapPass = userData["password"]! as? String {
+//                                    if snapPass == password {
+//                                        self.userDefaults.setBool(true, forKey: "user")
+//                                        self.userDefaults.setValue("\(username)", forKey: "username")
+//                                        self.userDefaults.setValue("\(self.passwordTextField.text)", forKey: "password")
+//                                        
+//                                        self.dismissViewControllerAnimated(true, completion: nil)
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    } else {
+//                        self.errorView.setErrorText(.Username)
+//                        self.showError()
+//                        self.delay(3.0, closure: {
+//                            self.hideError()
+//                        })
+//                    }
+//                })
+//            }
+//        }
+//        
+//        userDefaults.synchronize()
+//    }
     
     func hideError() {
         errorViewConstraint?.constant = 0

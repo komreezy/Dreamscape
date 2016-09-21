@@ -8,6 +8,7 @@
 
 import UIKit
 import MessageUI
+import FirebaseDatabase
 
 class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeViewControllerDelegate {
 
@@ -119,9 +120,11 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
         headerView.addSubview(saveButton)
         headerView.addSubview(starLabel)
         headerView.addSubview(starButton)
+        
         scrollView.addSubview(headerView)
         scrollView.addSubview(dividerView)
         scrollView.addSubview(dreamTextView)
+        
         view.addSubview(scrollView)
         setupLayout()
     }
@@ -185,8 +188,8 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
     
     func starTapped() {
         if let username = NSUserDefaults.standardUserDefaults().stringForKey("username"), let id = id, let stars = stars {
-            let feedRef = rootRef.childByAppendingPath("feed/\(id)/stars")
-            let userRef = rootRef.childByAppendingPath("/users/\(username)/starred/\(id)")
+            //let feedRef = rootRef.childByAppendingPath("feed/\(id)/stars")
+            //let userRef = rootRef.childByAppendingPath("/users/\(username)/starred/\(id)")
             
             if !starredIds.contains(id) {
                 starButton.animate()
@@ -199,8 +202,8 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
                     let author = authorLabel.text,
                     let text = dreamTextView.text {
                     let dreamDictionary = ["title":title, "author":author, "text":text, "stars":stars + 1]
-                    feedRef.setValue(stars + 1)
-                    userRef.setValue(dreamDictionary)
+                    FIRDatabase.database().reference().child("feed/\(id)/stars").setValue(stars + 1)
+                    FIRDatabase.database().reference().child("/users/\(username)/starred/\(id)").setValue(dreamDictionary)
                     
                 }
             } else {
@@ -210,8 +213,8 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
                 starLabel.textColor = UIColor.grayColor()
                 starLabel.animate()
                 
-                feedRef.setValue(stars - 1)
-                userRef.removeValue()
+                FIRDatabase.database().reference().child("feed/\(id)/stars").setValue(stars - 1)
+                FIRDatabase.database().reference().child("/users/\(username)/starred/\(id)").removeValue()
             }
         }
     }
@@ -220,14 +223,13 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
         if currentState == .Save {
             if dreamTextView.text?.isEmpty == false {
                 if let username = NSUserDefaults.standardUserDefaults().stringForKey("username") {
-                    let userRef = rootRef.childByAppendingPath("/users/\(username)/journals/\(currentId)/text")
-                    userRef.setValue(dreamTextView.text)
+                    FIRDatabase.database().reference().child("/users/\(username)/journals/\(currentId)/text").setValue(dreamTextView.text)
                 }
             }
         } else {
             if let username = NSUserDefaults.standardUserDefaults().stringForKey("username") {
-                let userRef = rootRef.childByAppendingPath("/users/\(username)/journals/\(currentId)")
-                userRef.removeValue()
+                FIRDatabase.database().reference().child("/users/\(username)/journals/\(currentId)").removeValue()
+                FIRDatabase.database().reference().child("/feed/\(currentId)").removeValue()
             }
             
             NSUserDefaults.standardUserDefaults().setObject(nil, forKey: "journals")
@@ -237,8 +239,7 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
     }
     
     func flagTapped() {
-        let reportRef = rootRef.childByAppendingPath("/reported/\(currentAuthor)")
-        reportRef.setValue(true)
+        FIRDatabase.database().reference().child("/reported/\(currentAuthor)").setValue(true)
         
         if MFMailComposeViewController.canSendMail() {
             launchEmail(self)

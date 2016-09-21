@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>124393910505-guho81qnuevqgivalcpld33sf403dgq8.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.124393910505-guho81qnuevqgivalcpld33sf403dgq8</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCe06s4pSNsHy6gNIyzZs2Peokbx4a8TGk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>124393910505</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.dreamscape.komran</string>
+	<key>PROJECT_ID</key>
+	<string>project-8108278811351247858</string>
+	<key>STORAGE_BUCKET</key>
+	<string>project-8108278811351247858.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:124393910505:ios:6e46f22a175c1801</string>
+	<key>DATABASE_URL</key>
+	<string>https://dreaming.firebaseio.com</string>
+</dict>
+</plist>
