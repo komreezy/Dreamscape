@@ -201,11 +201,11 @@ DZNEmptyDataSetDelegate {
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if state == .Journal {
-            let vc = DreamViewController(title: viewModel.journals[indexPath.row].title, author: viewModel.journals[indexPath.row].author, text: viewModel.journals[indexPath.row].text, id: viewModel.journals[indexPath.row].id)
+            let vc = UserDreamViewController(title: viewModel.journals[indexPath.row].title, author: viewModel.journals[indexPath.row].author, text: viewModel.journals[indexPath.row].text, id: viewModel.journals[indexPath.row].id)
             presentViewController(vc, animated: true, completion: nil)
             //navigationController?.pushViewController(vc, animated: true)
         } else {
-            let vc = DreamViewController(title: viewModel.starred[indexPath.row].title, author: viewModel.starred[indexPath.row].author, text: viewModel.starred[indexPath.row].text, id: viewModel.starred[indexPath.row].id)
+            let vc = UserDreamViewController(title: viewModel.starred[indexPath.row].title, author: viewModel.starred[indexPath.row].author, text: viewModel.starred[indexPath.row].text, id: viewModel.starred[indexPath.row].id)
             presentViewController(vc, animated: true, completion: nil)
             //navigationController?.pushViewController(vc, animated: true)
         }

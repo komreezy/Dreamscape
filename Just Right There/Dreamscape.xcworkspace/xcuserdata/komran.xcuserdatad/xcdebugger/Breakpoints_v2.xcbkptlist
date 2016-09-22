@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Just Right There/UserProfileViewModel.swift"
-            timestampString = "496124534.52326"
+            timestampString = "496207569.963592"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
             landmarkName = "requestJournalData()"
             landmarkType = "5">
          </BreakpointContent>

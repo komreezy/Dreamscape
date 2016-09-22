@@ -64,9 +64,10 @@ class UserProfileViewModel: NSObject {
     
     func requestJournalData() {
         if reachable.isConnectedToNetwork() {
-            FIRDatabase.database().reference().child("/users/\(username!)/journals").observeEventType(.Value, withBlock: { snapshot in
-                print(self.username)
-                print(snapshot.value)
+            guard let username = username else {
+                return
+            }
+            FIRDatabase.database().reference().child("/users/\(username)/journals").observeEventType(.Value, withBlock: { snapshot in
                 if let journalsData = snapshot.value as? [String:AnyObject] {
                     self.journals.removeAll()
                     for (id, data) in journalsData {
@@ -113,8 +114,12 @@ class UserProfileViewModel: NSObject {
     }
     
     func requestStarredData() {
+        guard let username = username else {
+            return
+        }
+        
         var starredTemp: [Dream] = []
-        FIRDatabase.database().reference().child("/users/\(username!)/starred").observeEventType(.Value, withBlock: { snapshot in
+        FIRDatabase.database().reference().child("/users/\(username)/starred").observeEventType(.Value, withBlock: { snapshot in
             if let starredData = snapshot.value as? [String:[String:AnyObject]] {
                 starredIds.removeAll()
                 self.starred.removeAll()

@@ -23,6 +23,7 @@
 		6949BEF41C0FD01F00A89137 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6949BEF31C0FD01F00A89137 /* Roboto-Bold.ttf */; };
 		6949BEF61C0FD07F00A89137 /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6949BEF51C0FD07F00A89137 /* Roboto-Black.ttf */; };
 		6949BEF81C0FD0C700A89137 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6949BEF71C0FD0C700A89137 /* Roboto-Medium.ttf */; };
+		694D6F7F1D938587006EC600 /* UserDreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694D6F7E1D938587006EC600 /* UserDreamViewController.swift */; };
 		695131F11BDBA8DD00852941 /* UserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695131F01BDBA8DD00852941 /* UserProfileViewModel.swift */; };
 		695131F31BDBA91700852941 /* HomeFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695131F21BDBA91700852941 /* HomeFeedViewModel.swift */; };
 		695131F51BDBACA600852941 /* Dream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695131F41BDBACA600852941 /* Dream.swift */; };
@@ -421,6 +422,7 @@
 		6949BEF31C0FD01F00A89137 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		6949BEF51C0FD07F00A89137 /* Roboto-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Black.ttf"; sourceTree = "<group>"; };
 		6949BEF71C0FD0C700A89137 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
+		694D6F7E1D938587006EC600 /* UserDreamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDreamViewController.swift; sourceTree = "<group>"; };
 		695131F01BDBA8DD00852941 /* UserProfileViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewModel.swift; sourceTree = "<group>"; };
 		695131F21BDBA91700852941 /* HomeFeedViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeFeedViewModel.swift; sourceTree = "<group>"; };
 		695131F41BDBACA600852941 /* Dream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dream.swift; sourceTree = "<group>"; };
@@ -938,6 +940,7 @@
 			isa = PBXGroup;
 			children = (
 				69D031771BDB0B9500B31CF5 /* UserProfileCollectionViewController.swift */,
+				694D6F7E1D938587006EC600 /* UserDreamViewController.swift */,
 				69866DA61D5AEA2000FF5983 /* ContainerNavigationController.swift */,
 				69711D8C1BDB1326009F70DB /* HomeFeedCollectionViewController.swift */,
 				698BB2D91C90C71B00819FDF /* AgreeRulesViewController.swift */,
@@ -1462,6 +1465,7 @@
 				6951320A1BDBEB7B00852941 /* NewDreamViewController.swift in Sources */,
 				69711D8D1BDB1326009F70DB /* HomeFeedCollectionViewController.swift in Sources */,
 				691256521C7F79F50089C30B /* SettingsWebViewController.swift in Sources */,
+				694D6F7F1D938587006EC600 /* UserDreamViewController.swift in Sources */,
 				69A8CF181C10CD4200AC4EC4 /* Spring.swift in Sources */,
 				69A8CF1A1C10CD4200AC4EC4 /* SpringButton.swift in Sources */,
 				69711D961BDB1C58009F70DB /* UserProfileHeaderView.swift in Sources */,
