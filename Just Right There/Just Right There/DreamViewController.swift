@@ -148,9 +148,9 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
         }
         
         let reportFlag = UIButton()
-        reportFlag.translatesAutoresizingMaskIntoConstraints = false
-        reportFlag.setImage(UIImage(named: "flag"), forState: .Normal)
-        reportFlag.contentEdgeInsets = UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0)
+        reportFlag.frame = CGRectMake(0, 0, 30, 30)
+        reportFlag.setImage(UIImage(named: "settingsDiamond"), forState: .Normal)
+        reportFlag.contentEdgeInsets = UIEdgeInsetsMake(6.0, 8.0, 6.0, 4.0)
         reportFlag.addTarget(self, action: #selector(DreamViewController.flagTapped), forControlEvents: .TouchUpInside)
         
         let rightBarButton = UIBarButtonItem(customView: reportFlag)

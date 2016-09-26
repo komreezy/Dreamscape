@@ -96,6 +96,31 @@ extension UIImage {
         
         CGContextRestoreGState(context!)
     }
+    
+    func drawSettingsDiamond(frame frame: CGRect = CGRect(x: 0, y: 0, width: 50, height: 50), color: UIColor = UIColor(red: 0.095, green: 0.095, blue: 0.095, alpha: 1.000)) {
+        //// General Declarations
+        let context = UIGraphicsGetCurrentContext()
+        
+        //// settingsDiamond
+        //// path-1 Drawing
+        CGContextSaveGState(context)
+        CGContextTranslateCTM(context, frame.minX + 25, frame.minY + 24)
+        CGContextRotateCTM(context, 45 * CGFloat(M_PI) / 180)
+        
+        let path1Path = UIBezierPath(roundedRect: CGRect(x: -13.45, y: -13.45, width: 26.9, height: 26.9), cornerRadius: 6.4)
+        color.setStroke()
+        path1Path.lineWidth = 4.4
+        path1Path.stroke()
+        
+        CGContextRestoreGState(context)
+        
+        
+        //// Oval-17 Drawing
+        let oval17Path = UIBezierPath(ovalInRect: CGRect(x: frame.minX + 19.66, y: frame.minY + 18.66, width: 10.6, height: 10.6))
+        color.setStroke()
+        oval17Path.lineWidth = 3.2
+        oval17Path.stroke()
+    }
 }
 
 // Monochromatic Icon Colors

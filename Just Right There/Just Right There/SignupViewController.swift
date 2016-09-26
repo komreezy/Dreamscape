@@ -19,6 +19,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
     var goBackButton: UIButton
     var userDefaults: NSUserDefaults
     
+    var emailTextField: UITextField
     var usernameTextField: UITextField
     var passwordTextField: UITextField
     var enterButton: UIButton
@@ -86,6 +87,18 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
         let usernamePaddingView = UIView(frame: CGRectMake(0, 0, 5, 20))
         let passwordPaddingView = UIView(frame: CGRectMake(0, 0, 5, 20))
         
+        emailTextField = UITextField()
+        emailTextField.translatesAutoresizingMaskIntoConstraints = false
+        emailTextField.placeholder = "Email"
+        emailTextField.font = UIFont(name: "Avenir", size: 13.0)
+        emailTextField.textColor = UIColor.primaryDarkBlue()
+        emailTextField.backgroundColor = UIColor.whiteColor()
+        emailTextField.layer.cornerRadius = 5.0
+        emailTextField.alpha = 0.0
+        emailTextField.leftView = usernamePaddingView
+        emailTextField.leftViewMode = .Always
+        emailTextField.returnKeyType = .Done
+        
         usernameTextField = UITextField()
         usernameTextField.translatesAutoresizingMaskIntoConstraints = false
         usernameTextField.placeholder = "Username"
@@ -141,11 +154,12 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
         usernameTextField.delegate = self
         passwordTextField.delegate = self
         
-        signupButton.addTarget(self, action: "showTextFields:", forControlEvents: .TouchUpInside)
-        loginButton.addTarget(self, action: "showTextFields:", forControlEvents: .TouchUpInside)
-        enterButton.addTarget(self, action: "enterButtonTapped", forControlEvents: .TouchUpInside)
-        goBackButton.addTarget(self, action: "goBackButtonTapped", forControlEvents: .TouchUpInside)
+        signupButton.addTarget(self, action: #selector(SignupViewController.showTextFields(_:)), forControlEvents: .TouchUpInside)
+        loginButton.addTarget(self, action: #selector(SignupViewController.showTextFields(_:)), forControlEvents: .TouchUpInside)
+        enterButton.addTarget(self, action: #selector(SignupViewController.enterButtonTapped), forControlEvents: .TouchUpInside)
+        goBackButton.addTarget(self, action: #selector(SignupViewController.goBackButtonTapped), forControlEvents: .TouchUpInside)
         
+        //view.addSubview(emailTextField)
         view.addSubview(usernameTextField)
         view.addSubview(passwordTextField)
         view.addSubview(enterButton)
