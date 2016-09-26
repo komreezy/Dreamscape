@@ -135,9 +135,6 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
     
     func starTapped() {
         if let username = NSUserDefaults.standardUserDefaults().stringForKey("username"), let id = id, let stars = stars {
-            //let feedRef = rootRef.childByAppendingPath("feed/\(id)/stars")
-            //let userRef = rootRef.childByAppendingPath("/users/\(username)/starred/\(id)")
-            
             if !starredIds.contains(id) {
                 starButton.animate()
                 starButton.setImage(UIImage(named: "goldstar"), forState: .Normal)

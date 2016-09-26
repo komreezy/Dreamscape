@@ -21,6 +21,7 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
     var dividerView: UIView
     var starButton: SpringButton
     var starLabel: SpringLabel
+    var dream: Dream
     
     var currentTitle: String
     var currentAuthor: String
@@ -28,13 +29,9 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
     var currentId: String
     
     var id: String?
-    var stars: Int? {
+    var stars: Int {
         didSet {
-            if self.stars != nil {
-                starLabel.text = "\(self.stars!)"
-            } else {
-                starLabel.text = "0"
-            }
+            starLabel.text = "\(dream.stars)"
         }
     }
     
@@ -45,11 +42,13 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
         case Save
     }
     
-    init(title: String, author: String, text: String, id: String) {
-        currentTitle = title
-        currentAuthor = author
-        currentText = text
-        currentId = id
+    init(dream: Dream) {
+        self.dream = dream
+        currentTitle = dream.title
+        currentAuthor = dream.author
+        currentText = dream.text
+        currentId = dream.id
+        stars = dream.stars
         
         scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -99,11 +98,11 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
         
         starLabel = SpringLabel()
         starLabel.translatesAutoresizingMaskIntoConstraints = false
-        starLabel.text = "\(12)"
         starLabel.textColor = UIColor.flatGrey()
         starLabel.textAlignment = .Center
         starLabel.animation = "squeeze"
         starLabel.duration = 0.5
+        starLabel.text = "\(stars)"
         
         currentState = .Delete
         
@@ -112,7 +111,7 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
         view.backgroundColor = UIColor.whiteColor()
         
         saveButton.addTarget(self, action: #selector(DreamViewController.saveTapped), forControlEvents: .TouchUpInside)
-        //starButton.addTarget(self, action: #selector(DreamViewController.starTapped), forControlEvents: .TouchUpInside)
+        starButton.addTarget(self, action: #selector(DreamViewController.starTapped), forControlEvents: .TouchUpInside)
         dreamTextView.delegate = self
         
         headerView.addSubview(dreamTitle)
@@ -187,23 +186,20 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
     }
     
     func starTapped() {
-        if let username = NSUserDefaults.standardUserDefaults().stringForKey("username"), let id = id, let stars = stars {
-            //let feedRef = rootRef.childByAppendingPath("feed/\(id)/stars")
-            //let userRef = rootRef.childByAppendingPath("/users/\(username)/starred/\(id)")
-            
-            if !starredIds.contains(id) {
+        if let username = NSUserDefaults.standardUserDefaults().stringForKey("username") {
+            if !starredIds.contains(currentId) {
                 starButton.animate()
                 starButton.setImage(UIImage(named: "goldstar"), forState: .Normal)
-                starLabel.text = "\(stars + 1)"
+                starLabel.text = "\(dream.stars + 1)"
                 starLabel.textColor = UIColor.flatGold()
                 starLabel.animate()
                 
                 if let title = dreamTitle.text,
                     let author = authorLabel.text,
                     let text = dreamTextView.text {
-                    let dreamDictionary = ["title":title, "author":author, "text":text, "stars":stars + 1]
-                    FIRDatabase.database().reference().child("feed/\(id)/stars").setValue(stars + 1)
-                    FIRDatabase.database().reference().child("/users/\(username)/starred/\(id)").setValue(dreamDictionary)
+                    let dreamDictionary = ["title":title, "author":author, "text":text, "stars":stars + 1, "date":dream.date]
+                    FIRDatabase.database().reference().child("feed/\(currentId)/stars").setValue(stars + 1)
+                    FIRDatabase.database().reference().child("/users/\(username)/starred/\(currentId)").setValue(dreamDictionary)
                     
                 }
             } else {
@@ -213,8 +209,8 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
                 starLabel.textColor = UIColor.grayColor()
                 starLabel.animate()
                 
-                FIRDatabase.database().reference().child("feed/\(id)/stars").setValue(stars - 1)
-                FIRDatabase.database().reference().child("/users/\(username)/starred/\(id)").removeValue()
+                FIRDatabase.database().reference().child("feed/\(currentId)/stars").setValue(stars - 1)
+                FIRDatabase.database().reference().child("/users/\(username)/starred/\(currentId)").removeValue()
             }
         }
     }

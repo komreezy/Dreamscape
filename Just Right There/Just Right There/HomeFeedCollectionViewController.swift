@@ -42,9 +42,7 @@ UserProfileViewModelDelegate {
         super.init(collectionViewLayout: HomeFeedCollectionViewController.provideCollectionViewLayout())
         
         view.backgroundColor = UIColor.whiteColor()
-        
         viewModel.delegate = self
-        
         refreshControl.addTarget(self, action: #selector(HomeFeedCollectionViewController.refresh), forControlEvents: .ValueChanged)
         
         collectionView!.addSubview(refreshControl)
@@ -93,6 +91,7 @@ UserProfileViewModelDelegate {
         }
         
         if let collectionView = collectionView {
+            viewModel.requestStarredData()
             collectionView.reloadData()
         }
     }
@@ -170,13 +169,7 @@ UserProfileViewModelDelegate {
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         collectionView.deselectItemAtIndexPath(indexPath, animated: false)
         
-        let currentTitle = viewModel.dreamDictionary[indexPath.row].title
-        let currentAuthor = viewModel.dreamDictionary[indexPath.row].author
-        let currentText = viewModel.dreamDictionary[indexPath.row].text
-        let currentId = viewModel.dreamDictionary[indexPath.row].id
-        
-        let dreamViewController = DreamViewController(title: currentTitle, author: currentAuthor, text: currentText, id: currentId)
-        //presentViewController(dreamViewController, animated: true, completion: nil)
+        let dreamViewController = DreamViewController(dream: viewModel.dreamDictionary[indexPath.row])
         navigationController?.pushViewController(dreamViewController, animated: true)
     }
     

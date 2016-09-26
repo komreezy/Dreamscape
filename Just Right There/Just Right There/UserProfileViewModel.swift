@@ -17,13 +17,11 @@ class UserProfileViewModel: NSObject {
     
     var journals: [Dream] = []
     var starred: [Dream] = []
-    //var journalRef = rootRef.childByAppendingPath("/users/journals")
-    //var starredRef = rootRef.childByAppendingPath("/users/starred")
-    weak var delegate: UserProfileViewModelDelegate?
     var userDefaults: NSUserDefaults
     var username: String?
     var profilePicture: String?
     var reachable: Reachability
+    weak var delegate: UserProfileViewModelDelegate?
     
     var shareTitle = ""
     var shareAuthor = ""
@@ -48,8 +46,6 @@ class UserProfileViewModel: NSObject {
     func getUsername() -> String {
         if let username = userDefaults.stringForKey("username") {
             self.username = username
-            //self.journalRef = rootRef.childByAppendingPath("/users/\(username)/journals")
-            //self.starredRef = rootRef.childByAppendingPath("/users/\(username)/starred")
             return username
         }
         
@@ -98,11 +94,11 @@ class UserProfileViewModel: NSObject {
                 self.journals.removeAll()
                 var journalsCopy = NSMutableArray(array: journals)
                 for journal in journalsCopy {
-                    if let title = journal["title"]! as? String,
-                        let author = journal["author"]! as? String,
-                        let text = journal["text"]! as? String,
-                        let date = journal["date"]! as? String,
-                        let stars = journal["stars"]! as? Int {
+                    if let title = journal["title"] as? String,
+                        let author = journal["author"] as? String,
+                        let text = journal["text"] as? String,
+                        let date = journal["date"] as? String,
+                        let stars = journal["stars"] as? Int {
                             let dream = Dream(title: title, author: author, text: text, date: date, stars: stars, id: "")
                             self.journals.append(dream)
                             
@@ -124,11 +120,11 @@ class UserProfileViewModel: NSObject {
                 starredIds.removeAll()
                 self.starred.removeAll()
                 for (id, data) in starredData {
-                    if let title = data["title"]! as? String,
-                        let author = data["author"]! as? String,
-                        let text = data["text"]! as? String,
-                        let date = data["date"]! as? String,
-                        let stars = data["stars"]! as? Int {
+                    if let title = data["title"] as? String,
+                        let author = data["author"] as? String,
+                        let text = data["text"] as? String,
+                        let date = data["date"] as? String,
+                        let stars = data["stars"] as? Int {
                             starredIds.append(id)
                             let dream = Dream(title: title, author: author, text: text, date: date, stars: stars, id: id)
                             starredTemp.append(dream)
