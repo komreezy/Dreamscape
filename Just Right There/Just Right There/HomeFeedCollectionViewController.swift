@@ -18,7 +18,7 @@ UserProfileViewModelDelegate {
     var viewModel: HomeFeedViewModel
     var userDefaults: NSUserDefaults
     var refreshControl: UIRefreshControl
-    var loadingLabel: UILabel
+    var hud: MBProgressHUD?
     
     let alphabet = ["a","b","c","d","e","f","g",
                     "h","i","j","k","l","m","n",
@@ -34,21 +34,17 @@ UserProfileViewModelDelegate {
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl.tintColor = UIColor.primaryDarkBlue()
         
-        loadingLabel = UILabel()
-        loadingLabel.translatesAutoresizingMaskIntoConstraints = false
-        loadingLabel.text = "Loading..."
-        loadingLabel.font = UIFont.systemFontOfSize(20.0)
-        
         super.init(collectionViewLayout: HomeFeedCollectionViewController.provideCollectionViewLayout())
+        
+        hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        hud?.mode = .Indeterminate
+        hud?.label.text = "Loading"
         
         view.backgroundColor = UIColor.whiteColor()
         viewModel.delegate = self
         refreshControl.addTarget(self, action: #selector(HomeFeedCollectionViewController.refresh), forControlEvents: .ValueChanged)
         
         collectionView!.addSubview(refreshControl)
-        view.addSubview(loadingLabel)
-        
-        setupLayout()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -187,7 +183,8 @@ UserProfileViewModelDelegate {
     
     func dataDidLoad() {
         collectionView?.reloadSections(NSIndexSet(index: 0))
-        loadingLabel.hidden = true
+        hud?.hideAnimated(true)
+        //loadingLabel.hidden = true
     }
     
     func refresh() {
@@ -197,7 +194,7 @@ UserProfileViewModelDelegate {
     }
     
     func loadingTimeout() {
-        loadingLabel.text = "Check Internet Connection"
+        hud?.label.text = "Check Internet Connection"
     }
     
     // MARK: HomeFeedCellDelegate
@@ -205,13 +202,6 @@ UserProfileViewModelDelegate {
         if let collectionView = collectionView {
             collectionView.reloadData()
         }
-    }
-    
-    func setupLayout() {
-        view.addConstraints([
-            loadingLabel.al_centerY == view.al_centerY - 10,
-            loadingLabel.al_centerX == view.al_centerX
-        ])
     }
 }
 

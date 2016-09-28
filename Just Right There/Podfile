@@ -12,5 +12,6 @@ target 'Dreamscape' do
     pod 'Firebase/Database'
     pod 'Fabric'
     pod 'TwitterKit'
+    pod 'MBProgressHUD'
 end
 

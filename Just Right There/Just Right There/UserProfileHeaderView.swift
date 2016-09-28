@@ -40,6 +40,7 @@ class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
         collapseNameLabel = UILabel()
         collapseNameLabel.translatesAutoresizingMaskIntoConstraints = false
         collapseNameLabel.font = UIFont(name: "Roboto", size: 14.0)
+        collapseNameLabel.textColor = UIColor.blackColor()
         collapseNameLabel.textAlignment = .Center
         collapseNameLabel.alpha = 0
         
