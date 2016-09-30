@@ -31,7 +31,7 @@ class SettingsCloseView: UIView {
         
         super.init(frame: frame)
         
-        backgroundColor = NavyColor
+        backgroundColor = UIColor(red: 25.0/255.0, green: 26.0/255.0, blue: 26.0/255.0, alpha: 1.0)
         
         addSubview(closeButton)
         addSubview(borderView)

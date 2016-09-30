@@ -32,7 +32,7 @@ UserProfileViewModelDelegate {
         
         refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        refreshControl.tintColor = UIColor.primaryDarkBlue()
+        refreshControl.tintColor = UIColor.whiteColor()
         
         super.init(collectionViewLayout: HomeFeedCollectionViewController.provideCollectionViewLayout())
         
@@ -40,7 +40,7 @@ UserProfileViewModelDelegate {
         hud?.mode = .Indeterminate
         hud?.label.text = "Loading"
         
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
         viewModel.delegate = self
         refreshControl.addTarget(self, action: #selector(HomeFeedCollectionViewController.refresh), forControlEvents: .ValueChanged)
         
@@ -58,14 +58,18 @@ UserProfileViewModelDelegate {
         
         // Register cell classes
         if let collectionView = collectionView {
-            collectionView.backgroundColor = UIColor.whiteColor()
+            collectionView.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
             collectionView.alwaysBounceVertical = true
             collectionView.registerClass(HomeFeedImageCollectionViewCell.self, forCellWithReuseIdentifier: "imageCell")
         }
         
-        let logoImageView = UIImageView(image: UIImage(named: "logo"))
-        logoImageView.contentMode = .ScaleAspectFit
+        let logoImageView = UILabel()
+        logoImageView.text = "dreamscape".uppercaseString
         logoImageView.frame = CGRectMake(0, 0, 100, 30)
+        logoImageView.font = UIFont(name: "Montserrat-Regular", size: 12.0)
+        logoImageView.textColor = UIColor.whiteColor()
+        logoImageView.textAlignment = .Center
+        
         navigationItem.titleView = logoImageView
         
         let loadingTimer = NSTimer.scheduledTimerWithTimeInterval(4.0, target: self, selector: "loadingTimeout", userInfo: nil, repeats: false)
@@ -95,10 +99,10 @@ UserProfileViewModelDelegate {
     class func provideCollectionViewLayout() -> UICollectionViewLayout {
         let screenWidth = UIScreen.mainScreen().bounds.size.width
         let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.itemSize = CGSizeMake(screenWidth, 160)
-        flowLayout.minimumLineSpacing = 1.0
-        flowLayout.minimumInteritemSpacing = 1.0
-        flowLayout.sectionInset = UIEdgeInsetsMake(0.0, 0.0, 50.0, 0.0)
+        flowLayout.itemSize = CGSizeMake(screenWidth - 24.0, 192)
+        flowLayout.minimumLineSpacing = 7.0
+        flowLayout.minimumInteritemSpacing = 7.0
+        flowLayout.sectionInset = UIEdgeInsetsMake(10.0, 0.0, 50.0, 0.0)
         return flowLayout
     }
 

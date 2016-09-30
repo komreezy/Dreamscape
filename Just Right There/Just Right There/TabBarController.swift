@@ -34,28 +34,33 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, NewDream
         let userViewModel = UserProfileViewModel()
         
         homeViewController = HomeFeedCollectionViewController(homeFeedViewModel: homeFeedViewModel)
-        homeViewController.tabBarItem = UITabBarItem(title: "Home", image: homeImageGrey, selectedImage: homeImageBlue)
+        homeViewController.tabBarItem = UITabBarItem(title: "", image: homeImageGrey, selectedImage: homeImageBlue)
         
         addDreamViewController = NewDreamViewController()
-        addDreamViewController.tabBarItem = UITabBarItem(title: "New", image: addImageGrey, selectedImage: addImageBlue)
+        addDreamViewController.tabBarItem = UITabBarItem(title: "", image: addImageGrey, selectedImage: addImageBlue)
         
         userViewModel.delegate = homeViewController
         userProfileViewController = UserProfileCollectionViewController(userViewModel: userViewModel)
-        userProfileViewController.tabBarItem = UITabBarItem(title: "User", image: profileImageGrey, selectedImage: profileImageBlue)
+        userProfileViewController.tabBarItem = UITabBarItem(title: "", image: profileImageGrey, selectedImage: profileImageBlue)
         
         super.init(nibName: nil, bundle: nil)
         
         delegate = self
         addDreamViewController.delegate = self
         
-        view.backgroundColor = UIColor.whiteColor()
-        tabBar.tintColor = UIColor.navyColor()
+        tabBar.tintColor = UIColor.whiteColor()
+        tabBar.barTintColor = UIColor(red: 34.0/255.0, green: 35.0/255.0, blue: 38.0/255.0, alpha: 1.0)
+        tabBar.translucent = false
         
         let homeFeedNavigationController = ContainerNavigationController(rootViewController: homeViewController)
-        homeFeedNavigationController.navigationBar.barTintColor = UIColor.navyColor()
+        homeFeedNavigationController.navigationBar.barTintColor = UIColor(red: 25.0/255.0, green: 26.0/255.0, blue: 26.0/255.0, alpha: 1.0)
         homeFeedNavigationController.navigationBar.translucent = false
         
-        let tabControllers = [homeFeedNavigationController, addDreamViewController, userProfileViewController]
+        let composeNavigationController = ContainerNavigationController(rootViewController: addDreamViewController)
+        composeNavigationController.navigationBar.barTintColor = UIColor(red: 25.0/255.0, green: 26.0/255.0, blue: 26.0/255.0, alpha: 1.0)
+        composeNavigationController.navigationBar.translucent = false
+        
+        let tabControllers = [homeFeedNavigationController, composeNavigationController, userProfileViewController]
         viewControllers = tabControllers
     }
 

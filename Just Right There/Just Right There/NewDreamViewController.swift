@@ -11,7 +11,7 @@ import FirebaseDatabase
 
 var saveText: String = ""
 
-class NewDreamViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
+class NewDreamViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate, ComposeAccessoryViewDelegate {
 
     enum TabState {
         case Share
@@ -19,13 +19,7 @@ class NewDreamViewController: UIViewController, UITextFieldDelegate, UITextViewD
     }
     
     var state: TabState
-    
-    var navigationBar: UIView
     var textView: UITextView
-    var cancelButton: UIButton
-    var sendButton: UIButton
-    
-    var containerTabBar: UIView
     var shareLabel: UILabel
     var keepLabel: UILabel
     var dreamTitleLabel: UITextField
@@ -33,6 +27,7 @@ class NewDreamViewController: UIViewController, UITextFieldDelegate, UITextViewD
     var borderLine: UIView
     var highlightLine: UIView
     var textViewSeparatorView: UIView
+    var composeAccessoryView: DreamInputAccessoryView
     
     var shareTapRecognizer: UITapGestureRecognizer?
     var keepTapRecognizer: UITapGestureRecognizer?
@@ -45,43 +40,30 @@ class NewDreamViewController: UIViewController, UITextFieldDelegate, UITextViewD
     var dateFormatter: NSDateFormatter
     var now: NSDate?
     var nowString: String?
-    
     var keyboardHeight: CGFloat?
-    
     weak var delegate: NewDreamViewControllerAnimatable?
+    weak var inputDelegate: DoneButtonAdjustable?
     
     init() {
-        
         state = .Keep
         
-        navigationBar = UIView()
-        navigationBar.translatesAutoresizingMaskIntoConstraints = false
-        navigationBar.backgroundColor = UIColor.navyColor()
+        composeAccessoryView = DreamInputAccessoryView()
+        composeAccessoryView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 60.0)
         
         textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.font = UIFont(name: "OpenSans", size: 16.0)
-        textView.text = "Type your Dream here.."
-        textView.textColor = UIColor.lightGrayColor()
+        textView.font = UIFont(name: "Courier", size: 16.0)
+        textView.text = " What did you dream about?..."
+        textView.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
+        textView.textColor = UIColor.whiteColor().colorWithAlphaComponent(0.54)
         textView.selectable = true
-        
-        cancelButton = UIButton()
-        cancelButton.translatesAutoresizingMaskIntoConstraints = false
-        cancelButton.setImage(UIImage(named: "close"), forState: .Normal)
-        cancelButton.contentEdgeInsets = UIEdgeInsetsMake(30.0, 15.0, 15.0, 30.0)
-        
-        sendButton = UIButton()
-        sendButton.translatesAutoresizingMaskIntoConstraints = false
-        sendButton.setTitle("Done", forState: .Normal)
-        sendButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        
-        containerTabBar = UIView()
-        containerTabBar.translatesAutoresizingMaskIntoConstraints = false
+        textView.contentInset = UIEdgeInsetsMake(18.0, 6.0, 0.0, 24.0)
+        textView.inputAccessoryView = composeAccessoryView
         
         shareLabel = UILabel()
         shareLabel.translatesAutoresizingMaskIntoConstraints = false
         shareLabel.font = UIFont(name: "HelveticaNeue", size: 16.0)
-        shareLabel.text = "SHARE"
+        shareLabel.text = "share".uppercaseString
         shareLabel.textAlignment = .Center
         shareLabel.textColor = UIColor.lightGreyBlue()
         shareLabel.userInteractionEnabled = true
@@ -89,70 +71,58 @@ class NewDreamViewController: UIViewController, UITextFieldDelegate, UITextViewD
         keepLabel = UILabel()
         keepLabel.translatesAutoresizingMaskIntoConstraints = false
         keepLabel.font = UIFont(name: "HelveticaNeue", size: 16.0)
-        keepLabel.text = "KEEP"
+        keepLabel.text = "keep".uppercaseString
         keepLabel.textAlignment = .Center
         keepLabel.textColor = UIColor.primaryDarkBlue()
         keepLabel.userInteractionEnabled = true
         
         borderLine = UIView()
         borderLine.translatesAutoresizingMaskIntoConstraints = false
-        borderLine.backgroundColor = UIColor.grayColor()
+        borderLine.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.12)
         
         highlightLine = UIView()
         highlightLine.translatesAutoresizingMaskIntoConstraints = false
-        highlightLine.backgroundColor = UIColor.navyColor()
+        highlightLine.backgroundColor = UIColor.primaryPurple()
         
         dreamTitleLabel = UITextField()
         dreamTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        dreamTitleLabel.font = UIFont(name: "HelveticaNeue", size: 24.0)
-        dreamTitleLabel.placeholder = "Enter Dream Title"
-        dreamTitleLabel.textAlignment = .Center
-        dreamTitleLabel.textColor = BlackColor
+        dreamTitleLabel.font = UIFont(name: "Montserrat-Regular", size: 18.0)
+        dreamTitleLabel.attributedPlaceholder = NSAttributedString(string: "Add Title", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
+        dreamTitleLabel.textAlignment = .Left
+        dreamTitleLabel.textColor = UIColor.whiteColor()
         dreamTitleLabel.returnKeyType = .Done
+        dreamTitleLabel.inputAccessoryView = composeAccessoryView
         
         dateLabel = UILabel()
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
-        dateLabel.textColor = UIColor.grayColor()
-        dateLabel.font = UIFont(name: "HelveticaNeue", size: 12.0)
+        dateLabel.textColor = UIColor.whiteColor().colorWithAlphaComponent(0.74)
+        dateLabel.font = UIFont(name: "Courier", size: 14.0)
         dateLabel.textAlignment = .Center
 
         textViewSeparatorView = UIView()
         textViewSeparatorView.translatesAutoresizingMaskIntoConstraints = false
-        textViewSeparatorView.backgroundColor = UIColor.navyColor()
+        textViewSeparatorView.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.12)
         
         dateFormatter = NSDateFormatter()
         dateFormatter.timeStyle = .FullStyle
-        dateFormatter.dateFormat = "MMM d, yyyy hh:mm a zz"
+        dateFormatter.dateFormat = "MMMM d, yyyy"
         
         super.init(nibName: nil, bundle: nil)
         
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
+        composeAccessoryView.delegate = self
+        inputDelegate = composeAccessoryView
         
         shareTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(NewDreamViewController.shareTapped))
         keepTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(NewDreamViewController.keepTapped))
         shareLabel.addGestureRecognizer(shareTapRecognizer!)
         keepLabel.addGestureRecognizer(keepTapRecognizer!)
         
-        cancelButton.addTarget(self, action: #selector(NewDreamViewController.cancelTapped), forControlEvents: .TouchUpInside)
-        sendButton.addTarget(self, action: #selector(NewDreamViewController.sendTapped), forControlEvents: .TouchUpInside)
-        
         dreamTitleLabel.delegate = self
         textView.delegate = self
         
-        view.addSubview(navigationBar)
-        
-        containerTabBar.addSubview(shareLabel)
-        containerTabBar.addSubview(keepLabel)
-        containerTabBar.addSubview(borderLine)
-        containerTabBar.addSubview(highlightLine)
-        view.addSubview(containerTabBar)
-        
         view.addSubview(dreamTitleLabel)
         view.addSubview(dateLabel)
-        
-        navigationBar.addSubview(cancelButton)
-        navigationBar.addSubview(sendButton)
-        view.addSubview(navigationBar)
         view.addSubview(textView)
         view.addSubview(textViewSeparatorView)
         
@@ -171,11 +141,29 @@ class NewDreamViewController: UIViewController, UITextFieldDelegate, UITextViewD
         now = NSDate()
         nowString = dateFormatter.stringFromDate(now!)
         dateLabel.text = nowString
+        
+        let logoImageView = UILabel()
+        logoImageView.text = "compose".uppercaseString
+        logoImageView.frame = CGRectMake(0, 0, 100, 30)
+        logoImageView.font = UIFont(name: "Montserrat-Regular", size: 12.0)
+        logoImageView.textColor = UIColor.whiteColor()
+        logoImageView.textAlignment = .Center
+        
+        let cancelButton = UIButton()
+        cancelButton.frame = CGRectMake(0, 0, 50, 25)
+        cancelButton.setTitle("Cancel", forState: .Normal)
+        cancelButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        cancelButton.titleLabel?.font = UIFont(name: "Montserrat-Regular", size: 13.0)
+        cancelButton.addTarget(self, action: #selector(NewDreamViewController.cancelTapped), forControlEvents: .TouchUpInside)
+        
+        let cancelBarButton = UIBarButtonItem(customView: cancelButton)
+        
+        navigationItem.leftBarButtonItem = cancelBarButton
+        navigationItem.titleView = logoImageView
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
         let hasSeenToolTip = NSUserDefaults.standardUserDefaults().boolForKey("newdreamtooltip")
         
         if hasSeenToolTip {
@@ -215,9 +203,8 @@ class NewDreamViewController: UIViewController, UITextFieldDelegate, UITextViewD
     }
     
     func textViewDidBeginEditing(textView: UITextView) {
-        if textView.textColor == UIColor.lightGrayColor() {
-            textView.text = nil
-            textView.textColor = BlackColor
+        if textView.text == " What did you dream about?..." {
+            textView.text = " "
         }
         
         if let keyboardHeight = keyboardHeight {
@@ -230,9 +217,8 @@ class NewDreamViewController: UIViewController, UITextFieldDelegate, UITextViewD
     }
     
     func textViewDidEndEditing(textView: UITextView) {
-        if textView.text.isEmpty {
-            textView.text = "Type your Dream here.."
-            textView.textColor = UIColor.lightGrayColor()
+        if textView.text == " " {
+            textView.text = " What did you dream about?..."
         } else {
             saveText = textView.text
         }
@@ -244,6 +230,14 @@ class NewDreamViewController: UIViewController, UITextFieldDelegate, UITextViewD
         })
     }
     
+    func textViewDidChange(textView: UITextView) {
+        if textView.text.length > 1 && textView.text != " What did you dream about?..." && dreamTitleLabel.text?.isEmpty == false {
+            inputDelegate?.updateDoneButton("highlighted")
+        } else {
+            inputDelegate?.updateDoneButton("disabled")
+        }
+    }
+    
     func keyboardWillShow(notification: NSNotification) {
         let frame = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
         keyboardHeight = frame.height
@@ -253,9 +247,6 @@ class NewDreamViewController: UIViewController, UITextFieldDelegate, UITextViewD
         shareLabel.textColor = UIColor.primaryDarkBlue()
         keepLabel.textColor = UIColor.lightGreyBlue()
         state = .Share
-        
-        highlightLeftConstraint?.constant = -containerTabBar.bounds.width / 2
-        highlightRightConstraint?.constant = -containerTabBar.bounds.width / 2
         
         UIView.animateWithDuration(0.4, animations: {
             self.view.layoutIfNeeded()
@@ -281,10 +272,11 @@ class NewDreamViewController: UIViewController, UITextFieldDelegate, UITextViewD
     }
     
     func sendTapped() {
-        if dreamTitleLabel.text?.isEmpty == false && textView.text != "Type your Dream here.." {
+        if dreamTitleLabel.text?.isEmpty == false && textView.text != " What did you dream about?..." && textView.text != " " {
             if state == .Keep {
                 if let username = NSUserDefaults.standardUserDefaults().stringForKey("username") {
-                    let dreamDictionary = ["title":dreamTitleLabel.text!, "author":"\(username)", "text":textView.text, "date":"\(nowString!)", "stars":0]
+                    let text = String(textView.text.characters.dropFirst())
+                    let dreamDictionary = ["title":dreamTitleLabel.text!, "author":"\(username)", "text":text, "date":"\(nowString!)", "stars":0]
                     FIRDatabase.database().reference().child("/users/\(username)/journals").childByAutoId().setValue(dreamDictionary)
                     
                     if let journals = NSUserDefaults.standardUserDefaults().objectForKey("journals") as? [[String:AnyObject]] {
@@ -313,136 +305,58 @@ class NewDreamViewController: UIViewController, UITextFieldDelegate, UITextViewD
                     let alert = UIAlertController(title: "Don't Forget A Title!", message: "Before you save that dream of yours, make sure you give it name.", preferredStyle: .Alert)
                     alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
                     self.presentViewController(alert, animated: true, completion: nil)
-                } else {
-                    let alert = UIAlertController(title: "Don't Forget A Title!", message: "Before you share that masterpiece, give your work a title.", preferredStyle: .Alert)
-                    alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
-                }
-            } else if textView.text == "Type your Dream here.." {
-                let alert = UIAlertController(title: "Whoops!", message: "No dream to upload. Type your dream in the text view below.", preferredStyle: .Alert)
+            } else {
+                let alert = UIAlertController(title: "Don't Forget A Title!", message: "Before you share that masterpiece, give your work a title.", preferredStyle: .Alert)
                 alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
                 self.presentViewController(alert, animated: true, completion: nil)
             }
+        } else if textView.text == " What did you dream about?..." || textView.text == " " {
+            let alert = UIAlertController(title: "Whoops!", message: "No dream to upload. Type your dream in the text view below.", preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
         }
-//        if dreamTitleLabel.text?.isEmpty == false && textView.text != "Type your Dream here.." {
-//            if state == .Keep {
-//                if let username = NSUserDefaults.standardUserDefaults().stringForKey("username") {
-//                        let dreamDictionary = ["title":dreamTitleLabel.text!, "author":"\(username)", "text":textView.text, "date":"\(nowString!)", "stars":0]
-//                        let userRef = rootRef.childByAppendingPath("/users/\(username)/journals")
-//                        let userPostRef = userRef.childByAutoId()
-//                        userPostRef.setValue(dreamDictionary)
-//                    
-//                    if let journals = NSUserDefaults.standardUserDefaults().objectForKey("journals") as? [[String:AnyObject]] {
-//                        var journalsCopy = NSMutableArray(array: journals)
-//                        journalsCopy.addObject(dreamDictionary)
-//                        NSUserDefaults.standardUserDefaults().setObject(journalsCopy, forKey: "journals")
-//                    } else {
-//                        let newJournalsArray = [dreamDictionary]
-//                        NSUserDefaults.standardUserDefaults().setObject(newJournalsArray, forKey: "journals")
-//                    }
-//                }
-//            } else if state == .Share {
-//                if let username = NSUserDefaults.standardUserDefaults().stringForKey("username") {
-//                    let dreamDictionary = ["title":dreamTitleLabel.text!, "author":"\(username)", "text":textView.text, "date":"\(nowString!)", "stars":0]
-//                    let feedRef = rootRef.childByAppendingPath("/feed")
-//                    let newPostRef: Firebase = feedRef.childByAutoId()
-//                    let userRef = rootRef.childByAppendingPath("/users/\(username)/journals")
-//                    let userPostRef = userRef.childByAutoId()
-//                    
-//                    userPostRef.setValue(dreamDictionary)
-//                    newPostRef.setValue(dreamDictionary)
-//                }
-//            }
-//            saveText = ""
-//            textView.text = ""
-//            dreamTitleLabel.text = ""
-//            delegate?.shouldLeaveNewDreamViewController(2)
-//        } else if dreamTitleLabel.text?.isEmpty == true {
-//            if state == .Keep {
-//                let alert = UIAlertController(title: "Don't Forget A Title!", message: "Before you save that dream of yours, make sure you give it name.", preferredStyle: .Alert)
-//                alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
-//                self.presentViewController(alert, animated: true, completion: nil)
-//            } else {
-//                let alert = UIAlertController(title: "Don't Forget A Title!", message: "Before you share that masterpiece, give your work a title.", preferredStyle: .Alert)
-//                alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
-//                self.presentViewController(alert, animated: true, completion: nil)
-//            }
-//        } else if textView.text == "Type your Dream here.." {
-//            let alert = UIAlertController(title: "Whoops!", message: "No dream to upload. Type your dream in the text view below.", preferredStyle: .Alert)
-//            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
-//            self.presentViewController(alert, animated: true, completion: nil)
-//        }
+    }
+    
+    func stateDidChange(state: String) {
+        if state == "public" {
+            self.state = .Share
+        } else {
+            self.state = .Keep
+        }
+    }
+    
+    func doneButtonTapped() {
+        sendTapped()
+    }
     
     func setupLayout() {
-        
-        highlightLeftConstraint = highlightLine.al_left == containerTabBar.al_centerX
-        highlightRightConstraint = highlightLine.al_right == containerTabBar.al_right
         textViewBottomConstraint = textView.al_bottom == view.al_bottom
         
         view.addConstraints([
-            navigationBar.al_left == view.al_left,
-            navigationBar.al_right == view.al_right,
-            navigationBar.al_top == view.al_top,
-            navigationBar.al_height == 50,
-            
-            cancelButton.al_left == navigationBar.al_left,
-            cancelButton.al_centerY == navigationBar.al_centerY - 5,
-            cancelButton.al_width == 60,
-            cancelButton.al_height == 60,
-            
-            sendButton.al_right == navigationBar.al_right - 15,
-            sendButton.al_centerY == navigationBar.al_centerY,
-            
-            textView.al_top == navigationBar.al_bottom + 155,
+            textView.al_top == textViewSeparatorView.al_bottom,
             textViewBottomConstraint!,
             textView.al_left == view.al_left + 5,
             textView.al_right == view.al_right - 5,
             
-            containerTabBar.al_left == view.al_left,
-            containerTabBar.al_right == view.al_right,
-            containerTabBar.al_top == navigationBar.al_bottom,
-            containerTabBar.al_height == 50,
+            dreamTitleLabel.al_top == dateLabel.al_bottom + 27,
+            dreamTitleLabel.al_left == view.al_left + 24,
+            dreamTitleLabel.al_right == view.al_right - 24,
             
-            shareLabel.al_left == containerTabBar.al_left,
-            shareLabel.al_right == containerTabBar.al_centerX,
-            shareLabel.al_bottom == containerTabBar.al_bottom,
-            shareLabel.al_top == containerTabBar.al_top,
-            
-            keepLabel.al_top == containerTabBar.al_top,
-            keepLabel.al_bottom == containerTabBar.al_bottom,
-            keepLabel.al_left == containerTabBar.al_centerX,
-            keepLabel.al_right == containerTabBar.al_right,
-            
-            dreamTitleLabel.al_centerX == view.al_centerX,
-            dreamTitleLabel.al_top == containerTabBar.al_bottom + 25,
-            dreamTitleLabel.al_left == view.al_left,
-            dreamTitleLabel.al_right == view.al_right,
-            
-            dateLabel.al_left == dreamTitleLabel.al_left,
-            dateLabel.al_right == dreamTitleLabel.al_right,
             dateLabel.al_centerX == view.al_centerX,
-            dateLabel.al_top == dreamTitleLabel.al_bottom + 5
-        ])
-        
-        view.addConstraints([
-            borderLine.al_height == 1.0,
-            borderLine.al_left == containerTabBar.al_left,
-            borderLine.al_right == containerTabBar.al_right,
-            borderLine.al_bottom == containerTabBar.al_bottom,
-            
-            highlightLine.al_height == 4.0,
-            highlightLeftConstraint!,
-            highlightRightConstraint!,
-            highlightLine.al_bottom == containerTabBar.al_bottom,
+            dateLabel.al_top == view.al_top + 24,
             
             textViewSeparatorView.al_height == 2.0,
-            textViewSeparatorView.al_left == view.al_left,
-            textViewSeparatorView.al_right == view.al_right,
-            textViewSeparatorView.al_bottom == textView.al_top - 2
+            textViewSeparatorView.al_left == view.al_left + 24,
+            textViewSeparatorView.al_right == view.al_right - 24,
+            textViewSeparatorView.al_top == dreamTitleLabel.al_bottom + 24
         ])
     }
 }
 
 protocol NewDreamViewControllerAnimatable: class {
     func shouldLeaveNewDreamViewController(index: Int)
+}
+
+protocol DoneButtonAdjustable: class {
+    func updateDoneButton(state: String)
 }

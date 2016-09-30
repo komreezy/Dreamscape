@@ -37,7 +37,7 @@ DZNEmptyDataSetDelegate {
         
         super.init(collectionViewLayout: UserProfileCollectionViewController.provideCollectionViewLayout())
         
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
         
         viewModel.getUsername()
         viewModel.requestJournalData()
@@ -52,13 +52,13 @@ DZNEmptyDataSetDelegate {
         let screenWidth = UIScreen.mainScreen().bounds.size.width
         let flowLayout = CSStickyHeaderFlowLayout()
         flowLayout.parallaxHeaderMinimumReferenceSize = CGSizeMake(screenWidth, 100)
-        flowLayout.parallaxHeaderReferenceSize = CGSizeMake(screenWidth, 200)
+        flowLayout.parallaxHeaderReferenceSize = CGSizeMake(screenWidth, 335.5)
         flowLayout.parallaxHeaderAlwaysOnTop = true
         flowLayout.disableStickyHeaders = false
-        flowLayout.minimumLineSpacing = 0.0
-        flowLayout.minimumInteritemSpacing = 0.0
-        flowLayout.sectionInset = UIEdgeInsetsMake(0.0, 0.0, 50.0, 0.0)
-        flowLayout.itemSize = CGSizeMake(screenWidth, 60)
+        flowLayout.minimumLineSpacing = 7.0
+        flowLayout.minimumInteritemSpacing = 7.0
+        flowLayout.sectionInset = UIEdgeInsetsMake(10.0, 0.0, 50.0, 0.0)
+        flowLayout.itemSize = CGSizeMake(screenWidth - 24.0, 192)
         return flowLayout
     }
     
@@ -68,10 +68,11 @@ DZNEmptyDataSetDelegate {
         if let collectionView = collectionView {
             collectionView.emptyDataSetSource = self
             collectionView.emptyDataSetDelegate = self
-            collectionView.backgroundColor = UIColor.whiteColor()
+            collectionView.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
             collectionView.showsVerticalScrollIndicator = false
             collectionView.registerClass(UserProfileHeaderView.self, forSupplementaryViewOfKind: CSStickyHeaderParallaxHeader, withReuseIdentifier: "profile-header")
-            collectionView.registerClass(UserProfileCollectionViewCell.self, forCellWithReuseIdentifier: userProfileReuseIdentifier)
+            //collectionView.registerClass(UserProfileCollectionViewCell.self, forCellWithReuseIdentifier: userProfileReuseIdentifier)
+            collectionView.registerClass(HomeFeedImageCollectionViewCell.self, forCellWithReuseIdentifier: userProfileReuseIdentifier)
         }
         
         headerDelegate?.numberOfItemsInSection(viewModel.journals.count, starred: viewModel.starred.count)
@@ -107,7 +108,11 @@ DZNEmptyDataSetDelegate {
     }
     
     override func prefersStatusBarHidden() -> Bool {
-        return true
+        return false
+    }
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return .LightContent
     }
     
     // MARK: DZNEmptyDataSet
@@ -174,26 +179,12 @@ DZNEmptyDataSetDelegate {
     }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(userProfileReuseIdentifier, forIndexPath: indexPath) as?UserProfileCollectionViewCell
-        
-        cell?.delegate = self
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(userProfileReuseIdentifier, forIndexPath: indexPath) as?HomeFeedImageCollectionViewCell
         
         if state == .Journal {
-            cell?.titleLabel.text = viewModel.journals[indexPath.row].title
-            cell?.dateLabel.text = viewModel.journals[indexPath.row].date
-            
-            cell?.title = viewModel.journals[indexPath.row].title
-            cell?.author = viewModel.journals[indexPath.row].author
-            cell?.text = viewModel.journals[indexPath.row].text
-            cell?.id = viewModel.journals[indexPath.row].id
+            cell?.dream = viewModel.journals[indexPath.row]
         } else {
-            cell?.titleLabel.text = viewModel.starred[indexPath.row].title
-            cell?.dateLabel.text = viewModel.starred[indexPath.row].date
-            
-            cell?.title = viewModel.starred[indexPath.row].title
-            cell?.author = viewModel.starred[indexPath.row].author
-            cell?.text = viewModel.starred[indexPath.row].text
-            cell?.id = viewModel.starred[indexPath.row].id
+            cell?.dream = viewModel.starred[indexPath.row]
         }
         
         return cell!

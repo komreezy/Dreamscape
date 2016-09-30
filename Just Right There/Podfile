@@ -4,7 +4,7 @@
 #use_frameworks!
 
 target 'Dreamscape' do
-    pod "CSStickyHeaderFlowLayout"
+    pod 'CSStickyHeaderFlowLayout'
     pod 'DZNEmptyDataSet'
     pod 'Firebase/Core'
     pod 'Firebase/Auth'
@@ -13,5 +13,6 @@ target 'Dreamscape' do
     pod 'Fabric'
     pod 'TwitterKit'
     pod 'MBProgressHUD'
+    pod 'Reveal-iOS-SDK', :configurations => ['Debug']
 end
 

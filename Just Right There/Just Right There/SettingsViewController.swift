@@ -57,7 +57,7 @@ class SettingsViewController: UIViewController,
         appSettingView.tableView.delegate = self
         appSettingView.tableView.dataSource = self
         
-        closeHeaderView.closeButton.addTarget(self, action: "closeSettingsTapped", forControlEvents: .TouchUpInside)
+        closeHeaderView.closeButton.addTarget(self, action: #selector(SettingsViewController.closeSettingsTapped), forControlEvents: .TouchUpInside)
         
         view.addSubview(closeHeaderView)
         view.addSubview(appSettingView)

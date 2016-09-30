@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		690CB8461BDCD4E600857130 /* FavoriteAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690CB8451BDCD4E600857130 /* FavoriteAlertView.swift */; };
+		690DA7071D9DAF4B0092CC6B /* DreamInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690DA7061D9DAF4B0092CC6B /* DreamInputAccessoryView.swift */; };
+		690DA70C1D9DB8CF0092CC6B /* UILabel+AttributedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690DA70B1D9DB8CF0092CC6B /* UILabel+AttributedText.swift */; };
 		6912563A1C7F766F0089C30B /* AppSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691256391C7F766F0089C30B /* AppSettingsView.swift */; };
 		691256491C7F76B20089C30B /* UserProfileSettingsSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691256481C7F76B20089C30B /* UserProfileSettingsSectionHeaderView.swift */; };
 		6912564B1C7F76E10089C30B /* SettingsCloseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6912564A1C7F76E10089C30B /* SettingsCloseView.swift */; };
@@ -179,6 +181,8 @@
 /* Begin PBXFileReference section */
 		2667FAEE898BE576D45D92C2 /* Pods-Dreamscape.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dreamscape.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dreamscape/Pods-Dreamscape.debug.xcconfig"; sourceTree = "<group>"; };
 		690CB8451BDCD4E600857130 /* FavoriteAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteAlertView.swift; sourceTree = "<group>"; };
+		690DA7061D9DAF4B0092CC6B /* DreamInputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DreamInputAccessoryView.swift; sourceTree = "<group>"; };
+		690DA70B1D9DB8CF0092CC6B /* UILabel+AttributedText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+AttributedText.swift"; sourceTree = "<group>"; };
 		691256391C7F766F0089C30B /* AppSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppSettingsView.swift; sourceTree = "<group>"; };
 		691256481C7F76B20089C30B /* UserProfileSettingsSectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileSettingsSectionHeaderView.swift; sourceTree = "<group>"; };
 		6912564A1C7F76E10089C30B /* SettingsCloseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCloseView.swift; sourceTree = "<group>"; };
@@ -958,6 +962,7 @@
 			isa = PBXGroup;
 			children = (
 				69B33F051B8D5BE000DEF7FB /* AppDelegate.swift */,
+				690DA70B1D9DB8CF0092CC6B /* UILabel+AttributedText.swift */,
 				69CF5E771C34C24D007DB822 /* Constants.swift */,
 			);
 			name = Managers;
@@ -967,6 +972,7 @@
 			isa = PBXGroup;
 			children = (
 				6951320B1BDC0C1D00852941 /* HomeFeedImageCollectionViewCell.swift */,
+				690DA7061D9DAF4B0092CC6B /* DreamInputAccessoryView.swift */,
 				69711D951BDB1C58009F70DB /* UserProfileHeaderView.swift */,
 				690CB8451BDCD4E600857130 /* FavoriteAlertView.swift */,
 				691256391C7F766F0089C30B /* AppSettingsView.swift */,
@@ -1436,8 +1442,10 @@
 				69A8CF111C10CD4200AC4EC4 /* ImageLoader.swift in Sources */,
 				69A8CF1E1C10CD4200AC4EC4 /* SpringTextView.swift in Sources */,
 				69838CE91C57FD1B00EE0E8F /* ErrorDropView.swift in Sources */,
+				690DA7071D9DAF4B0092CC6B /* DreamInputAccessoryView.swift in Sources */,
 				698BB2DA1C90C71B00819FDF /* AgreeRulesViewController.swift in Sources */,
 				69A8CF081C10CD4200AC4EC4 /* AutoTextView.swift in Sources */,
+				690DA70C1D9DB8CF0092CC6B /* UILabel+AttributedText.swift in Sources */,
 				69A8CF0E1C10CD4200AC4EC4 /* DesignableTextField.swift in Sources */,
 				69A8CF1C1C10CD4200AC4EC4 /* SpringLabel.swift in Sources */,
 				69A8CF0B1C10CD4200AC4EC4 /* DesignableImageView.swift in Sources */,

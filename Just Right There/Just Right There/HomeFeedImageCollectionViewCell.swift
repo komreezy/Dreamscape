@@ -27,7 +27,6 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
     var dateLabel: UILabel
     var previewLabel: UILabel
     var imageView: UIButton
-    var highlightLine: UIView
     var starred: Bool = false
     var id: String?
     var stars: Int? {
@@ -63,26 +62,25 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
         
         dreamTitleLabel = UILabel()
         dreamTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        dreamTitleLabel.font = UIFont(name: "OpenSans-Semibold", size: 16.0)
-        dreamTitleLabel.alpha = 0.80
-        dreamTitleLabel.text = "Dream Title"
+        dreamTitleLabel.font = UIFont(name: "Montserrat-Regular", size: 16.0)
         dreamTitleLabel.numberOfLines = 2
+        dreamTitleLabel.textColor = UIColor.whiteColor()
         
         authorLabel = UILabel()
         authorLabel.translatesAutoresizingMaskIntoConstraints = false
-        authorLabel.font = UIFont(name: "OpenSans", size: 13.0)
-        authorLabel.text = "by komreezy"
+        authorLabel.font = UIFont(name: "Montserrat-Regular", size: 12.0)
+        authorLabel.textColor = UIColor.whiteColor()
         
         dateLabel = UILabel()
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
-        dateLabel.font = UIFont(name: "OpenSans", size: 11.0)
-        dateLabel.textColor = UIColor.grayColor()
-        dateLabel.text = "November 28, 2015"
+        dateLabel.font = UIFont(name: "Courier", size: 12.0)
+        dateLabel.textColor = UIColor.whiteColor().colorWithAlphaComponent(0.54)
         
         previewLabel = UILabel()
         previewLabel.translatesAutoresizingMaskIntoConstraints = false
-        previewLabel.font = UIFont(name: "OpenSans", size: 15.0)
-        previewLabel.numberOfLines = 3
+        previewLabel.font = UIFont(name: "Courier", size: 16.0)
+        previewLabel.numberOfLines = 5
+        previewLabel.textColor = UIColor.whiteColor().colorWithAlphaComponent(0.74)
         
         imageView = UIButton()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -92,10 +90,6 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
         imageView.contentEdgeInsets = UIEdgeInsetsMake(7.0, 7.0, 7.0, 7.0)
         imageView.userInteractionEnabled = false
         imageView.backgroundColor = NavyColor
-        
-        highlightLine = UIView()
-        highlightLine.translatesAutoresizingMaskIntoConstraints = false
-        highlightLine.backgroundColor = UIColor.lightGrayColor()
         
         starButton = SpringButton()
         starButton.translatesAutoresizingMaskIntoConstraints = false
@@ -113,8 +107,8 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
         
         super.init(frame: frame)
         
-        backgroundColor = WhiteColor
-        
+        backgroundColor = UIColor(red: 34.0/255.0, green: 35.0/255.0, blue: 38.0/255.0, alpha: 1.0)
+        layer.cornerRadius = 2.0
         starButton.addTarget(self, action: #selector(HomeFeedImageCollectionViewCell.starTapped), forControlEvents: .TouchUpInside)
         
         addSubview(dreamTitleLabel)
@@ -124,7 +118,6 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
         addSubview(imageView)
         addSubview(starButton)
         addSubview(starLabel)
-        addSubview(highlightLine)
         
         setupLayout()
     }
@@ -183,7 +176,7 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
             dateLabel.al_right == al_right - 5,
             dateLabel.al_bottom == imageView.al_bottom - 2,
             
-            previewLabel.al_right == al_right - 5,
+            previewLabel.al_right == al_right - 10,
             previewLabel.al_bottom == al_bottom - 20,
             previewLabel.al_left == imageView.al_left,
             previewLabel.al_top ==  imageView.al_bottom,
@@ -192,11 +185,6 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
             imageView.al_left == al_left + 10,
             imageView.al_height == 40,
             imageView.al_top == dreamTitleLabel.al_bottom,
-            
-            highlightLine.al_bottom == al_bottom,
-            highlightLine.al_left == al_left,
-            highlightLine.al_right == al_right,
-            highlightLine.al_height == 0.5,
             
             starButton.al_centerX == al_right - 40,
             starButton.al_height == 30,

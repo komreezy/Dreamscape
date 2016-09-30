@@ -18,9 +18,15 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
     var authorLabel: UILabel
     var dreamTextView: UITextView
     var saveButton: UIButton
-    var dividerView: UIView
-    var starButton: SpringButton
+    var topDividerView: UIView
+    var bottomDividerView: UIView
+    var dateLabel: UILabel
+    var profileImageView: UIImageView
+    var upvoteButton: SpringButton
+    var downvoteButton: SpringButton
     var starLabel: SpringLabel
+    var shareButton: UIButton
+    var optionsBar: UIView
     var dream: Dream
     
     var currentTitle: String
@@ -50,39 +56,77 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
         currentId = dream.id
         stars = dream.stars
         
+        optionsBar = UIView()
+        optionsBar.translatesAutoresizingMaskIntoConstraints = false
+        optionsBar.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
+        
+        shareButton = UIButton()
+        shareButton.translatesAutoresizingMaskIntoConstraints = false
+        shareButton.titleLabel?.font = UIFont(name: "Montserrat-Regular", size: 10.5)
+        shareButton.backgroundColor = UIColor.clearColor()
+        shareButton.layer.cornerRadius = 4.0
+        shareButton.layer.borderWidth = 1.5
+        shareButton.layer.borderColor = UIColor.whiteColor().colorWithAlphaComponent(0.5).CGColor
+        shareButton.setTitle("share".uppercaseString, forState: .Normal)
+        shareButton.setTitleColor(UIColor.whiteColor().colorWithAlphaComponent(0.5), forState: .Normal)
+        
         scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         
-        dividerView = UIView()
-        dividerView.translatesAutoresizingMaskIntoConstraints = false
-        dividerView.backgroundColor = UIColor.lightBlueGrey()
+        topDividerView = UIView()
+        topDividerView.translatesAutoresizingMaskIntoConstraints = false
+        topDividerView.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.12)
+        
+        bottomDividerView = UIView()
+        bottomDividerView.translatesAutoresizingMaskIntoConstraints = false
+        bottomDividerView.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.12)
         
         headerView = UIView()
         headerView.translatesAutoresizingMaskIntoConstraints = false
-        headerView.backgroundColor = UIColor.whiteColor()
         
         dreamTitle = UILabel()
         dreamTitle.translatesAutoresizingMaskIntoConstraints = false
-        dreamTitle.font = UIFont(name: "Avenir", size: 22.0)
-        dreamTitle.textColor = UIColor.blackColor()
+        dreamTitle.font = UIFont(name: "Montserrat", size: 22.0)
+        dreamTitle.textColor = UIColor.whiteColor()
         dreamTitle.textAlignment = .Left
         dreamTitle.numberOfLines = 3
         dreamTitle.text = currentTitle
         
         authorLabel = UILabel()
         authorLabel.translatesAutoresizingMaskIntoConstraints = false
-        authorLabel.font = UIFont(name: "OpenSans", size: 14.0)
-        authorLabel.textColor = UIColor.flatGrey()
-        authorLabel.textAlignment = .Left
+        authorLabel.font = UIFont(name: "Montserrat", size: 14.0)
+        authorLabel.textColor = UIColor.whiteColor()
         authorLabel.text = "by \(currentAuthor)"
+        
+        dateLabel = UILabel()
+        dateLabel.translatesAutoresizingMaskIntoConstraints = false
+        dateLabel.font = UIFont(name: "Courier", size: 14.0)
+        dateLabel.text = dream.date
+        dateLabel.textColor = UIColor.whiteColor().colorWithAlphaComponent(0.54)
+        
+        profileImageView = UIImageView()
+        profileImageView.translatesAutoresizingMaskIntoConstraints = false
+        profileImageView.layer.cornerRadius = 18.0
+        profileImageView.backgroundColor = UIColor.primaryPurple()
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 20.0
+        paragraphStyle.maximumLineHeight = 20.0
+        paragraphStyle.minimumLineHeight = 20.0
+        
+        let attributes = [
+            NSFontAttributeName: UIFont(name: "Courier", size: 17.0)!,
+            NSParagraphStyleAttributeName: paragraphStyle
+        ]
         
         dreamTextView = UITextView()
         dreamTextView.translatesAutoresizingMaskIntoConstraints = false
-        dreamTextView.backgroundColor = UIColor.whiteColor()
-        dreamTextView.font = UIFont(name: "OpenSans", size: 17.0)
+        dreamTextView.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
         dreamTextView.showsVerticalScrollIndicator = false
         dreamTextView.scrollEnabled = false
-        dreamTextView.text = currentText
+        dreamTextView.attributedText = NSAttributedString(string: currentText, attributes: attributes)
+        
+        dreamTextView.textColor = UIColor.whiteColor().colorWithAlphaComponent(0.74)
         
         saveButton = UIButton()
         saveButton.translatesAutoresizingMaskIntoConstraints = false
@@ -90,11 +134,17 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
         saveButton.setTitleColor(WhiteColor, forState: .Normal)
         saveButton.titleLabel?.font = UIFont(name: "OpenSans", size: 16.0)
         
-        starButton = SpringButton()
-        starButton.translatesAutoresizingMaskIntoConstraints = false
-        starButton.setImage(UIImage(named: "greystar"), forState: .Normal)
-        starButton.contentEdgeInsets = UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0)
-        starButton.animation = "pop"
+        upvoteButton = SpringButton()
+        upvoteButton.translatesAutoresizingMaskIntoConstraints = false
+        upvoteButton.setImage(UIImage(named: "greystar"), forState: .Normal)
+        upvoteButton.contentEdgeInsets = UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0)
+        upvoteButton.animation = "pop"
+        
+        downvoteButton = SpringButton()
+        downvoteButton.translatesAutoresizingMaskIntoConstraints = false
+        downvoteButton.setImage(UIImage(named: "greystar"), forState: .Normal)
+        downvoteButton.contentEdgeInsets = UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0)
+        downvoteButton.animation = "pop"
         
         starLabel = SpringLabel()
         starLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -108,23 +158,31 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
         
         super.init(nibName: nil, bundle: nil)
         
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
+        hidesBottomBarWhenPushed = true
         
         saveButton.addTarget(self, action: #selector(DreamViewController.saveTapped), forControlEvents: .TouchUpInside)
-        starButton.addTarget(self, action: #selector(DreamViewController.starTapped), forControlEvents: .TouchUpInside)
+        upvoteButton.addTarget(self, action: #selector(DreamViewController.starTapped), forControlEvents: .TouchUpInside)
         dreamTextView.delegate = self
         
         headerView.addSubview(dreamTitle)
         headerView.addSubview(authorLabel)
+        headerView.addSubview(profileImageView)
+        headerView.addSubview(dateLabel)
         headerView.addSubview(saveButton)
-        headerView.addSubview(starLabel)
-        headerView.addSubview(starButton)
+        headerView.addSubview(topDividerView)
+        headerView.addSubview(bottomDividerView)
         
         scrollView.addSubview(headerView)
-        scrollView.addSubview(dividerView)
         scrollView.addSubview(dreamTextView)
         
+        optionsBar.addSubview(starLabel)
+        optionsBar.addSubview(upvoteButton)
+        optionsBar.addSubview(downvoteButton)
+        optionsBar.addSubview(shareButton)
+        
         view.addSubview(scrollView)
+        view.addSubview(optionsBar)
         setupLayout()
     }
 
@@ -188,8 +246,8 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
     func starTapped() {
         if let username = NSUserDefaults.standardUserDefaults().stringForKey("username") {
             if !starredIds.contains(currentId) {
-                starButton.animate()
-                starButton.setImage(UIImage(named: "goldstar"), forState: .Normal)
+                upvoteButton.animate()
+                upvoteButton.setImage(UIImage(named: "goldstar"), forState: .Normal)
                 starLabel.text = "\(dream.stars + 1)"
                 starLabel.textColor = UIColor.flatGold()
                 starLabel.animate()
@@ -203,8 +261,8 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
                     
                 }
             } else {
-                starButton.animate()
-                starButton.setImage(UIImage(named: "greystar"), forState: .Normal)
+                upvoteButton.animate()
+                upvoteButton.setImage(UIImage(named: "greystar"), forState: .Normal)
                 starLabel.text = "\(stars - 1)"
                 starLabel.textColor = UIColor.grayColor()
                 starLabel.animate()
@@ -284,43 +342,73 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
             headerView.al_top == scrollView.al_top,
             headerView.al_left == scrollView.al_left,
             headerView.al_right == scrollView.al_right,
-            headerView.al_height == 180,
+            headerView.al_height == UIScreen.mainScreen().bounds.height * 0.25,
             
             dreamTitle.al_centerX == headerView.al_centerX,
-            dreamTitle.al_centerY == headerView.al_centerY - 7,
+            dreamTitle.al_top == headerView.al_top + 30,
             dreamTitle.al_left == view.al_left + 20,
             dreamTitle.al_right == view.al_right - 35,
             
-            authorLabel.al_left == dreamTitle.al_left,
-            authorLabel.al_top == dreamTitle.al_bottom + 4,
+            authorLabel.al_left == profileImageView.al_right + 12,
+            authorLabel.al_bottom == profileImageView.al_centerY,
+            
+            dateLabel.al_left == authorLabel.al_left,
+            dateLabel.al_top == authorLabel.al_bottom + 2,
             
             dreamTextView.al_left == scrollView.al_left + 20,
             dreamTextView.al_bottom == scrollView.al_bottom,
             dreamTextView.al_right == scrollView.al_right - 20,
-            dreamTextView.al_top == dividerView.al_bottom,
+            dreamTextView.al_top == bottomDividerView.al_bottom + 12,
+            
+            profileImageView.al_left == headerView.al_left + 24,
+            profileImageView.al_centerY == bottomDividerView.al_top - UIScreen.mainScreen().bounds.height * 0.07,
+            profileImageView.al_height == 36,
+            profileImageView.al_width == 36,
             
             saveButton.al_right == view.al_right - 15,
             saveButton.al_centerY == headerView.al_centerY - 5,
             saveButton.al_width == 55,
             saveButton.al_height == 35,
             
-            scrollView.al_bottom == view.al_bottom,
+            scrollView.al_bottom == optionsBar.al_top,
             scrollView.al_top == view.al_top,
             scrollView.al_left == view.al_left,
             scrollView.al_right == view.al_right,
             
-            dividerView.al_left == view.al_left,
-            dividerView.al_right == view.al_right,
-            dividerView.al_top == headerView.al_bottom,
-            dividerView.al_height == 7,
+            topDividerView.al_left == view.al_left + 24,
+            topDividerView.al_right == view.al_right - 24,
+            topDividerView.al_top == dreamTitle.al_bottom + 24,
+            topDividerView.al_height == 1,
             
-            starButton.al_centerX == headerView.al_right - 30,
-            starButton.al_height == 30,
-            starButton.al_width == 30,
-            starButton.al_centerY == dreamTitle.al_centerY,
+            bottomDividerView.al_left == view.al_left + 24,
+            bottomDividerView.al_right == view.al_right - 24,
+            bottomDividerView.al_top == headerView.al_bottom,
+            bottomDividerView.al_height == 1
+        ])
+        
+        view.addConstraints([
+            optionsBar.al_left == view.al_left,
+            optionsBar.al_right == view.al_right,
+            optionsBar.al_bottom == view.al_bottom,
+            optionsBar.al_height == 54,
             
-            starLabel.al_centerX == starButton.al_centerX,
-            starLabel.al_top == starButton.al_bottom
+            downvoteButton.al_right == optionsBar.al_right - 24,
+            downvoteButton.al_centerY == optionsBar.al_centerY,
+            downvoteButton.al_height == 24,
+            downvoteButton.al_width == 24,
+            
+            upvoteButton.al_right == downvoteButton.al_left - 12,
+            upvoteButton.al_centerY == optionsBar.al_centerY,
+            upvoteButton.al_height == 24,
+            upvoteButton.al_width == 24,
+            
+            starLabel.al_centerY == upvoteButton.al_centerY,
+            starLabel.al_right == upvoteButton.al_left - 12,
+            
+            shareButton.al_left == optionsBar.al_left + 24,
+            shareButton.al_centerY == optionsBar.al_centerY,
+            shareButton.al_height == 31.0,
+            shareButton.al_width == 63.5
         ])
     }
 }

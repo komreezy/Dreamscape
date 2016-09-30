@@ -44,6 +44,10 @@ extension UIColor {
     class func lightBlueGrey() -> UIColor {
         return UIColor(red: 236.0/255.0, green: 240.0/255.0, blue: 241.0/255.0, alpha: 1.0)
     }
+    
+    class func primaryPurple() -> UIColor {
+        return UIColor(red: 159.0/255.0, green: 74.0/255.0, blue: 255.0/255.0, alpha: 1.0)
+    }
 }
 
 extension UIImage {
