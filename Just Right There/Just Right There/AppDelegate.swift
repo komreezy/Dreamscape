@@ -10,7 +10,8 @@ import UIKit
 import Firebase
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate,
+    UITabBarControllerDelegate {
     var window: UIWindow?
     var mainController: UITabBarController!
     
@@ -24,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if let window = self.window {
             mainController = TabBarController()
+            mainController.delegate = self
             
             UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Fade)
             
@@ -55,6 +57,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+
+    func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
+        if viewController == tabBarController.viewControllers?[1] {
+            let composeNavigationController = ContainerNavigationController(rootViewController: NewDreamViewController())
+            composeNavigationController.navigationBar.barTintColor = UIColor(red: 25.0/255.0, green: 26.0/255.0, blue: 26.0/255.0, alpha: 1.0)
+            composeNavigationController.navigationBar.translucent = false
+
+            tabBarController.presentViewController(composeNavigationController, animated: true, completion: nil)
+
+            return false
+        }
+
+        return true
     }
     
     

@@ -268,7 +268,8 @@ class NewDreamViewController: UIViewController, UITextFieldDelegate, UITextViewD
     
     func cancelTapped() {
         saveText = ""
-        delegate?.shouldLeaveNewDreamViewController(0)
+        dismissViewControllerAnimated(true, completion: nil)
+        
     }
     
     func sendTapped() {
