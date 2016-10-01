@@ -46,7 +46,9 @@
 		69838CE91C57FD1B00EE0E8F /* ErrorDropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69838CE81C57FD1B00EE0E8F /* ErrorDropView.swift */; };
 		69866DA71D5AEA2000FF5983 /* ContainerNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69866DA61D5AEA2000FF5983 /* ContainerNavigationController.swift */; };
 		698BB2DA1C90C71B00819FDF /* AgreeRulesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698BB2D91C90C71B00819FDF /* AgreeRulesViewController.swift */; };
+		699948D21D9EBF5600A84B9A /* UserSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699948D11D9EBF5600A84B9A /* UserSettingView.swift */; };
 		699D6D2F1D90951E00F8987B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 699D6D2E1D90951E00F8987B /* GoogleService-Info.plist */; };
+		69A779511D9EC270003B2B69 /* UserSettingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A779501D9EC270003B2B69 /* UserSettingButton.swift */; };
 		69A8CEBA1C10B49B00AC4EC4 /* Morningtype Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69A8CEB81C10B49B00AC4EC4 /* Morningtype Light.ttf */; };
 		69A8CEBB1C10B49B00AC4EC4 /* Morningtype.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69A8CEB91C10B49B00AC4EC4 /* Morningtype.ttf */; };
 		69A8CECA1C10B57A00AC4EC4 /* coolvetica rg.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69A8CEC91C10B57A00AC4EC4 /* coolvetica rg.ttf */; };
@@ -86,6 +88,7 @@
 		69CF5E781C34C24D007DB822 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CF5E771C34C24D007DB822 /* Constants.swift */; };
 		69D031761BDB0AE800B31CF5 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D031751BDB0AE800B31CF5 /* TabBarController.swift */; };
 		69D031781BDB0B9500B31CF5 /* UserProfileCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D031771BDB0B9500B31CF5 /* UserProfileCollectionViewController.swift */; };
+		69EC98761D9EBF0E00AE0C6C /* UserSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EC98751D9EBF0E00AE0C6C /* UserSettingViewController.swift */; };
 		69F0281B1C7E3DE500970439 /* ProfileIconPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F0281A1C7E3DE500970439 /* ProfileIconPickerView.swift */; };
 		69F0282B1C7E44B100970439 /* ProfileIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F0282A1C7E44B100970439 /* ProfileIconView.swift */; };
 		9030E8B2D72A64A6D5F7DFC9 /* libPods-Dreamscape.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C5D4BA7DCC366358C60D424D /* libPods-Dreamscape.a */; };
@@ -450,8 +453,10 @@
 		69838CE81C57FD1B00EE0E8F /* ErrorDropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorDropView.swift; sourceTree = "<group>"; };
 		69866DA61D5AEA2000FF5983 /* ContainerNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerNavigationController.swift; sourceTree = "<group>"; };
 		698BB2D91C90C71B00819FDF /* AgreeRulesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgreeRulesViewController.swift; sourceTree = "<group>"; };
+		699948D11D9EBF5600A84B9A /* UserSettingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingView.swift; sourceTree = "<group>"; };
 		699D6D2E1D90951E00F8987B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		69A1DA821B9827F2001B68FF /* Just Right There-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Just Right There-Bridging-Header.h"; sourceTree = "<group>"; };
+		69A779501D9EC270003B2B69 /* UserSettingButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingButton.swift; sourceTree = "<group>"; };
 		69A8CEB81C10B49B00AC4EC4 /* Morningtype Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Morningtype Light.ttf"; sourceTree = "<group>"; };
 		69A8CEB91C10B49B00AC4EC4 /* Morningtype.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Morningtype.ttf; sourceTree = "<group>"; };
 		69A8CEC91C10B57A00AC4EC4 /* coolvetica rg.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "coolvetica rg.ttf"; sourceTree = "<group>"; };
@@ -496,6 +501,7 @@
 		69CF5E771C34C24D007DB822 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		69D031751BDB0AE800B31CF5 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		69D031771BDB0B9500B31CF5 /* UserProfileCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileCollectionViewController.swift; sourceTree = "<group>"; };
+		69EC98751D9EBF0E00AE0C6C /* UserSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingViewController.swift; sourceTree = "<group>"; };
 		69F0281A1C7E3DE500970439 /* ProfileIconPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileIconPickerView.swift; sourceTree = "<group>"; };
 		69F0282A1C7E44B100970439 /* ProfileIconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileIconView.swift; sourceTree = "<group>"; };
 		C1E66AD84528804F123B3744 /* Pods-Dreamscape.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dreamscape.release.xcconfig"; path = "Pods/Target Support Files/Pods-Dreamscape/Pods-Dreamscape.release.xcconfig"; sourceTree = "<group>"; };
@@ -953,6 +959,7 @@
 				691256511C7F79F50089C30B /* SettingsWebViewController.swift */,
 				69711D9C1BDB24D0009F70DB /* DreamViewController.swift */,
 				6912564C1C7F77230089C30B /* SettingsViewController.swift */,
+				69EC98751D9EBF0E00AE0C6C /* UserSettingViewController.swift */,
 				69D031751BDB0AE800B31CF5 /* TabBarController.swift */,
 			);
 			name = "View Controllers";
@@ -972,6 +979,8 @@
 			isa = PBXGroup;
 			children = (
 				6951320B1BDC0C1D00852941 /* HomeFeedImageCollectionViewCell.swift */,
+				69A779501D9EC270003B2B69 /* UserSettingButton.swift */,
+				699948D11D9EBF5600A84B9A /* UserSettingView.swift */,
 				690DA7061D9DAF4B0092CC6B /* DreamInputAccessoryView.swift */,
 				69711D951BDB1C58009F70DB /* UserProfileHeaderView.swift */,
 				690CB8451BDCD4E600857130 /* FavoriteAlertView.swift */,
@@ -1442,6 +1451,9 @@
 				69A8CF111C10CD4200AC4EC4 /* ImageLoader.swift in Sources */,
 				69A8CF1E1C10CD4200AC4EC4 /* SpringTextView.swift in Sources */,
 				69838CE91C57FD1B00EE0E8F /* ErrorDropView.swift in Sources */,
+				69EC98761D9EBF0E00AE0C6C /* UserSettingViewController.swift in Sources */,
+				69A779511D9EC270003B2B69 /* UserSettingButton.swift in Sources */,
+				699948D21D9EBF5600A84B9A /* UserSettingView.swift in Sources */,
 				690DA7071D9DAF4B0092CC6B /* DreamInputAccessoryView.swift in Sources */,
 				698BB2DA1C90C71B00819FDF /* AgreeRulesViewController.swift in Sources */,
 				69A8CF081C10CD4200AC4EC4 /* AutoTextView.swift in Sources */,

@@ -239,7 +239,7 @@ DZNEmptyDataSetDelegate {
     }
     
     func settingsSelected() {
-        let settingsVC = SettingsViewController()
+        let settingsVC = UserSettingViewController()
         presentViewController(settingsVC, animated: true, completion: nil)
     }
     
