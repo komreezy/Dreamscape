@@ -18,7 +18,7 @@ class UserProfileCollectionViewController: UICollectionViewController,
     UserProfileHeaderDelegate,
     UserProfileViewModelDelegate,
     DZNEmptyDataSetSource,
-DZNEmptyDataSetDelegate {
+    DZNEmptyDataSetDelegate {
     
     enum UserState {
         case Journal
