@@ -117,45 +117,45 @@ class UserProfileCollectionViewController: UICollectionViewController,
     
     // MARK: DZNEmptyDataSet
     func imageForEmptyDataSet(scrollView: UIScrollView!) -> UIImage! {
-        return UIImage(named: "bluemoon")
+        return UIImage(named: "snooze")
     }
     
     func titleForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
         if state == .Journal {
-            let title = "No Journals yet"
+            let title = "No Dreams yet"
             let myMutableString = NSMutableAttributedString(
                 string: title,
                 attributes: [NSFontAttributeName:UIFont(
-                    name: "HelveticaNeue",
-                    size: 22.0)!, NSForegroundColorAttributeName: UIColor.navyColor()])
+                    name: "Montserrat",
+                    size: 16.0)!, NSForegroundColorAttributeName: UIColor.whiteColor()])
             return myMutableString
         } else {
-            let title = "No Stars yet"
+            let title = "No Upvotes yet"
             let myMutableString = NSMutableAttributedString(
                 string: title,
                 attributes: [NSFontAttributeName:UIFont(
-                    name: "HelveticaNeue",
-                    size: 22.0)!, NSForegroundColorAttributeName: UIColor.navyColor()])
+                    name: "Montserrat",
+                    size: 16.0)!, NSForegroundColorAttributeName: UIColor.whiteColor()])
             return myMutableString
         }
     }
     
     func descriptionForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
         if state == .Journal {
-            let description = "You can add a new journal by tapping on the 'New' tab in the tab bar at the bottom of your screen."
+            let description = "You can add a new dream by tapping on the + button at the bottom of your screen."
             let myMutableString = NSMutableAttributedString(
                 string: description,
                 attributes: [NSFontAttributeName:UIFont(
-                    name: "HelveticaNeue",
-                    size: 14.0)!])
+                    name: "Courier",
+                    size: 14.0)!, NSForegroundColorAttributeName: UIColor.whiteColor().colorWithAlphaComponent(0.74)])
             return myMutableString
         } else {
-            let description = "You can star dreams that you like while reading on the home screen, and they'll be saved here."
+            let description = "You can upvote dreams that you like while reading on the home screen, and they'll be saved here."
             let myMutableString = NSMutableAttributedString(
                 string: description,
                 attributes: [NSFontAttributeName:UIFont(
-                    name: "HelveticaNeue",
-                    size: 14.0)!])
+                    name: "Courier",
+                    size: 14.0)!, NSForegroundColorAttributeName: UIColor.whiteColor().colorWithAlphaComponent(0.74)])
             return myMutableString
         }
     }

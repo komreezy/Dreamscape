@@ -42,14 +42,15 @@ class TabBarController: UITabBarController,
         addImageBlue = UIImage(named: "add-blue")!
         addImageGrey = UIImage(named: "add-grey")!
         
-        profileImageBlue = UIImage(named: "bluehelmet")!
-        profileImageGrey = UIImage(named: "greyhelmet")!
+        profileImageBlue = UIImage(named: "profile")!
+        profileImageGrey = UIImage(named: "profile")!
         
         let homeFeedViewModel = HomeFeedViewModel()
         let userViewModel = UserProfileViewModel()
         
         homeViewController = HomeFeedCollectionViewController(homeFeedViewModel: homeFeedViewModel)
         homeViewController.tabBarItem = UITabBarItem(title: "", image: homeImageGrey, selectedImage: homeImageBlue)
+        homeViewController.tabBarItem.imageInsets = UIEdgeInsetsMake(5.0, 25.0, -5.0, -25.0)
         
         addDreamViewController = NewDreamViewController()
         addDreamViewController.tabBarItem = UITabBarItem(title: "", image: addImageGrey.imageWithRenderingMode(.AlwaysOriginal), selectedImage: addImageBlue)
@@ -57,12 +58,14 @@ class TabBarController: UITabBarController,
         userViewModel.delegate = homeViewController
         userProfileViewController = UserProfileCollectionViewController(userViewModel: userViewModel)
         userProfileViewController.tabBarItem = UITabBarItem(title: "", image: profileImageGrey, selectedImage: profileImageBlue)
+        userProfileViewController.tabBarItem.imageInsets = UIEdgeInsetsMake(5.0, -25.0, -5.0, 25.0)
         
         super.init(nibName: nil, bundle: nil)
         
         delegate = self
         addDreamViewController.delegate = self
 
+        tabBar.tintColor = UIColor.whiteColor()
         tabBar.barTintColor = UIColor(red: 34.0/255.0, green: 35.0/255.0, blue: 38.0/255.0, alpha: 1.0)
         tabBar.backgroundColor = UIColor(red: 34.0/255.0, green: 35.0/255.0, blue: 38.0/255.0, alpha: 1.0)
         tabBar.shadowImage = UIImage()
@@ -91,15 +94,6 @@ class TabBarController: UITabBarController,
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    func setupLayout() {
-        view.addConstraints([
-            imageView.al_centerX == tabBar.al_centerX,
-            imageView.al_centerY == tabBar.al_centerY - 5,
-            imageView.al_height == 75,
-            imageView.al_width == 75
-            ])
-    }
     
     override func shouldAutorotate() -> Bool {
         if selectedIndex == 2 {
@@ -121,5 +115,14 @@ class TabBarController: UITabBarController,
     
     func shouldLeaveNewDreamViewController(index: Int) {
         selectedIndex = index
+    }
+    
+    func setupLayout() {
+        view.addConstraints([
+            imageView.al_centerX == tabBar.al_centerX,
+            imageView.al_centerY == tabBar.al_centerY - 5,
+            imageView.al_height == 75,
+            imageView.al_width == 75
+        ])
     }
 }
