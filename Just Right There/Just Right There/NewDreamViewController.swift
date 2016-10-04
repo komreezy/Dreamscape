@@ -277,7 +277,15 @@ class NewDreamViewController: UIViewController, UITextFieldDelegate, UITextViewD
             if state == .Keep {
                 if let username = NSUserDefaults.standardUserDefaults().stringForKey("username") {
                     let text = String(textView.text.characters.dropFirst())
-                    let dreamDictionary = ["title":dreamTitleLabel.text!, "author":"\(username)", "text":text, "date":"\(nowString!)", "stars":0]
+                    let now = nowString
+                    let dreamDictionary = [
+                        "title":dreamTitleLabel.text!,
+                        "author":"\(username)",
+                        "text":text,
+                        "date":"\(now)",
+                        "upvotes":0,
+                        "downvotes":0
+                    ]
                     FIRDatabase.database().reference().child("/users/\(username)/journals").childByAutoId().setValue(dreamDictionary)
                     
                     if let journals = NSUserDefaults.standardUserDefaults().objectForKey("journals") as? [[String:AnyObject]] {
@@ -291,9 +299,19 @@ class NewDreamViewController: UIViewController, UITextFieldDelegate, UITextViewD
                 }
             } else if state == .Share {
                 if let username = NSUserDefaults.standardUserDefaults().stringForKey("username") {
-                    let dreamDictionary = ["title":dreamTitleLabel.text!, "author":"\(username)", "text":textView.text, "date":"\(nowString!)", "stars":0]
-                    FIRDatabase.database().reference().child("/feed").childByAutoId().setValue(dreamDictionary)
-                    FIRDatabase.database().reference().child("/users/\(username)/journals").childByAutoId().setValue(dreamDictionary)
+                    let text = dreamTitleLabel.text!
+                    let dreamDictionary = [
+                        "title":text,
+                        "author":"\(username)",
+                        "text":textView.text,
+                        "date":"\(nowString!)",
+                        "upvotes":0,
+                        "downvotes":0
+                    ]
+                    let ref = FIRDatabase.database().reference().child("/feed").childByAutoId()
+                    let id = ref.key
+                    ref.setValue(dreamDictionary)
+                    FIRDatabase.database().reference().child("/users/\(username)/journals/\(id)").setValue(dreamDictionary)
                 }
             }
             
@@ -328,6 +346,7 @@ class NewDreamViewController: UIViewController, UITextFieldDelegate, UITextViewD
     
     func doneButtonTapped() {
         sendTapped()
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     func setupLayout() {

@@ -120,6 +120,10 @@ class UserProfileCollectionViewController: UICollectionViewController,
         return UIImage(named: "snooze")
     }
     
+    func verticalOffsetForEmptyDataSet(scrollView: UIScrollView!) -> CGFloat {
+        return view.frame.size.height * 0.25
+    }
+    
     func titleForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
         if state == .Journal {
             let title = "No Dreams yet"
@@ -183,8 +187,34 @@ class UserProfileCollectionViewController: UICollectionViewController,
         
         if state == .Journal {
             cell?.dream = viewModel.journals[indexPath.row]
+            
+            let id = viewModel.journals[indexPath.row].id
+            if starredIds.contains(id) {
+                cell?.upvoteButton.selected = true
+            } else {
+                cell?.upvoteButton.selected = false
+            }
+            
+            if downvoteIds.contains(id) {
+                cell?.downvoteButton.selected = true
+            } else {
+                cell?.downvoteButton.selected = false
+            }
         } else {
             cell?.dream = viewModel.starred[indexPath.row]
+            
+            let id = viewModel.starred[indexPath.row].id
+            if starredIds.contains(id) {
+                cell?.upvoteButton.selected = true
+            } else {
+                cell?.upvoteButton.selected = false
+            }
+            
+            if downvoteIds.contains(id) {
+                cell?.downvoteButton.selected = true
+            } else {
+                cell?.downvoteButton.selected = false
+            }
         }
         
         return cell!
@@ -271,7 +301,7 @@ class UserProfileCollectionViewController: UICollectionViewController,
             case 0:
                 print(")")
             case 1:
-                let dreamDictionary = ["title":viewModel.shareTitle, "author":viewModel.shareAuthor, "text":viewModel.shareText, "date":viewModel.shareDate, "stars":0]
+                let dreamDictionary = ["title":viewModel.shareTitle, "author":viewModel.shareAuthor, "text":viewModel.shareText, "date":viewModel.shareDate, "upvotes":0, "downvotes":0]
                 
                 FIRDatabase.database().reference().child("/feed").child("\(viewModel.shareId)").setValue(dreamDictionary)
             case 2:

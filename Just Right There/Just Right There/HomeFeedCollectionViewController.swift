@@ -86,12 +86,16 @@ UserProfileViewModelDelegate {
     
     override func viewDidAppear(animated: Bool) {
         if userDefaults.boolForKey("user") == false {
-            let vc = SignupViewController()
+            let vc = ContainerNavigationController(rootViewController: LandingPageViewController())
+            vc.navigationBarHidden = true
+            vc.navigationBar.barTintColor = UIColor(red: 34.0/255.0, green: 35.0/255.0, blue: 38.0/255.0, alpha: 1.0)
+            //let vc = LandingPageViewController()
             presentViewController(vc, animated: true, completion: nil)
         }
         
         if let collectionView = collectionView {
             viewModel.requestStarredData()
+            viewModel.requestDownvotesData()
             collectionView.reloadData()
         }
     }
@@ -157,12 +161,16 @@ UserProfileViewModelDelegate {
             }
         
             if starredIds.contains(cell.id!) {
-                cell.starButton.setImage(UIImage(named: "goldstar"), forState: .Normal)
-                cell.starLabel.textColor = UIColor.flatGold()
+                cell.upvoteButton.selected = true
             } else {
-                cell.starButton.setImage(UIImage(named: "greystar"), forState: .Normal)
-                cell.starLabel.textColor = UIColor.flatGrey()
-        }
+                cell.upvoteButton.selected = false
+            }
+        
+            if downvoteIds.contains(cell.id!) {
+                cell.downvoteButton.selected = true
+            } else {
+                cell.downvoteButton.selected = false
+            }
         return cell
     }
     

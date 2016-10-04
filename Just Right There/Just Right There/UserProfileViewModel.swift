@@ -12,6 +12,7 @@ import FirebaseDatabase
 import Firebase
 
 var starredIds: [String] = []
+var downvoteIds: [String] = []
 
 class UserProfileViewModel: NSObject {
     
@@ -68,14 +69,22 @@ class UserProfileViewModel: NSObject {
                     self.journals.removeAll()
                     for (id, data) in journalsData {
                         if let journalData = data as? [String:AnyObject] {
-                            if let title = journalData["title"]! as? String,
-                                let author = journalData["author"]! as? String,
-                                let text = journalData["text"]! as? String,
-                                let date = journalData["date"]! as? String,
-                                let stars = journalData["stars"]! as? Int {
-                                let dream = Dream(title: title, author: author, text: text, date: date, stars: stars, id: id)
-                                self.journals.append(dream)
+                            if let title = journalData["title"] as? String,
+                                let author = journalData["author"] as? String,
+                                let text = journalData["text"] as? String,
+                                let date = journalData["date"] as? String {
                                 
+                                if let upvotes = data["upvotes"] as? Int,
+                                    let downvotes = data["downvotes"] as? Int {
+                                    let dream = Dream(title: title, author: author, text: text, date: date, id: id, upvotes: upvotes, downvotes: downvotes)
+                                    self.journals.append(dream)
+                                } else if let stars = data["stars"] as? Int {
+                                    let dream = Dream(title: title, author: author, text: text, date: date, id: id, upvotes: stars, downvotes: 0)
+                                    self.journals.append(dream)
+                                } else {
+                                    let dream = Dream(title: title, author: author, text: text, date: date, id: id, upvotes: 0, downvotes: 0)
+                                    self.journals.append(dream)
+                                }
                             }
                         }
                     }
@@ -97,11 +106,19 @@ class UserProfileViewModel: NSObject {
                     if let title = journal["title"] as? String,
                         let author = journal["author"] as? String,
                         let text = journal["text"] as? String,
-                        let date = journal["date"] as? String,
-                        let stars = journal["stars"] as? Int {
-                            let dream = Dream(title: title, author: author, text: text, date: date, stars: stars, id: "")
+                        let date = journal["date"] as? String {
+                        
+                        if let upvotes = journal["upvotes"] as? Int,
+                            let downvotes = journal["downvotes"] as? Int {
+                            let dream = Dream(title: title, author: author, text: text, date: date, id: "", upvotes: upvotes, downvotes: downvotes)
                             self.journals.append(dream)
-                            
+                        } else if let stars = journal["stars"] as? Int {
+                            let dream = Dream(title: title, author: author, text: text, date: date, id: "", upvotes: stars, downvotes: 0)
+                            self.journals.append(dream)
+                        } else {
+                            let dream = Dream(title: title, author: author, text: text, date: date, id: "", upvotes: 0, downvotes: 0)
+                            self.journals.append(dream)
+                        }
                     }
                 }
                 delegate?.dataDidLoad()
@@ -123,22 +140,34 @@ class UserProfileViewModel: NSObject {
                     if let title = data["title"] as? String,
                         let author = data["author"] as? String,
                         let text = data["text"] as? String,
-                        let date = data["date"] as? String,
-                        let stars = data["stars"] as? Int {
+                        let date = data["date"] as? String {
+                        
+                        if let upvotes = data["upvotes"] as? Int,
+                            let downvotes = data["downvotes"] as? Int {
+                            let dream = Dream(title: title, author: author, text: text, date: date, id: id, upvotes: upvotes, downvotes: downvotes)
                             starredIds.append(id)
-                            let dream = Dream(title: title, author: author, text: text, date: date, stars: stars, id: id)
                             starredTemp.append(dream)
-                            self.starred = starredTemp
-                    }
-                }
-                // check for duplicates
-                for var i = 0; i < starredTemp.count; i++ {
-                    for var j = 0; j < starredTemp.count; j++ {
-                        if starredTemp[i].id == starredTemp[j].id && i != j {
-                            starredTemp.removeAtIndex(j)
+                        } else if let stars = data["stars"] as? Int {
+                            let dream = Dream(title: title, author: author, text: text, date: date, id: id, upvotes: stars, downvotes: 0)
+                            starredIds.append(id)
+                            starredTemp.append(dream)
+                        } else {
+                            let dream = Dream(title: title, author: author, text: text, date: date, id: id, upvotes: 0, downvotes: 0)
+                            starredIds.append(id)
+                            starredTemp.append(dream)
                         }
+                        
+                        self.starred = starredTemp
                     }
                 }
+//                // check for duplicates
+//                for i in 0 ..< starredTemp.count {
+//                    for j in 0 ..< starredTemp.count {
+//                        if starredTemp[i].id == starredTemp[j].id && i != j {
+//                            starredTemp.removeAtIndex(j)
+//                        }
+//                    }
+//                }
                 
                 self.starred = starredTemp
                 self.delegate?.dataDidLoad()

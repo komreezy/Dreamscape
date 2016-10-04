@@ -33,10 +33,13 @@
 		6951320A1BDBEB7B00852941 /* NewDreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695132091BDBEB7B00852941 /* NewDreamViewController.swift */; };
 		6951320C1BDC0C1D00852941 /* HomeFeedImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6951320B1BDC0C1D00852941 /* HomeFeedImageCollectionViewCell.swift */; };
 		6957C9CE1C03E7CB00434F79 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6957C9CD1C03E7CB00434F79 /* SignupViewController.swift */; };
+		696DC5B91DA2B7A4003CE026 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696DC5B81DA2B7A4003CE026 /* AuthenticationView.swift */; };
+		696DC5BB1DA2BA8F003CE026 /* AuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696DC5BA1DA2BA8F003CE026 /* AuthenticationViewController.swift */; };
 		69711D8D1BDB1326009F70DB /* HomeFeedCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69711D8C1BDB1326009F70DB /* HomeFeedCollectionViewController.swift */; };
 		69711D921BDB190C009F70DB /* UserProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69711D911BDB190C009F70DB /* UserProfileCollectionViewCell.swift */; };
 		69711D961BDB1C58009F70DB /* UserProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69711D951BDB1C58009F70DB /* UserProfileHeaderView.swift */; };
 		69711D9D1BDB24D0009F70DB /* DreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69711D9C1BDB24D0009F70DB /* DreamViewController.swift */; };
+		6976E0491DA20DA1003CB935 /* LandingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6976E0481DA20DA1003CB935 /* LandingPageViewController.swift */; };
 		697D6ACA1B98C2FF00056780 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 697D6ABD1B98C2FF00056780 /* .gitignore */; };
 		697D6ACB1B98C2FF00056780 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 697D6ABE1B98C2FF00056780 /* LICENSE */; };
 		697D6ACC1B98C2FF00056780 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 697D6ABF1B98C2FF00056780 /* README.md */; };
@@ -437,10 +440,13 @@
 		695132091BDBEB7B00852941 /* NewDreamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewDreamViewController.swift; sourceTree = "<group>"; };
 		6951320B1BDC0C1D00852941 /* HomeFeedImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeFeedImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		6957C9CD1C03E7CB00434F79 /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
+		696DC5B81DA2B7A4003CE026 /* AuthenticationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
+		696DC5BA1DA2BA8F003CE026 /* AuthenticationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationViewController.swift; sourceTree = "<group>"; };
 		69711D8C1BDB1326009F70DB /* HomeFeedCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeFeedCollectionViewController.swift; sourceTree = "<group>"; };
 		69711D911BDB190C009F70DB /* UserProfileCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileCollectionViewCell.swift; sourceTree = "<group>"; };
 		69711D951BDB1C58009F70DB /* UserProfileHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileHeaderView.swift; sourceTree = "<group>"; };
 		69711D9C1BDB24D0009F70DB /* DreamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DreamViewController.swift; sourceTree = "<group>"; };
+		6976E0481DA20DA1003CB935 /* LandingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingPageViewController.swift; sourceTree = "<group>"; };
 		697D6ABD1B98C2FF00056780 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		697D6ABE1B98C2FF00056780 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		697D6ABF1B98C2FF00056780 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -953,6 +959,7 @@
 				694D6F7E1D938587006EC600 /* UserDreamViewController.swift */,
 				69866DA61D5AEA2000FF5983 /* ContainerNavigationController.swift */,
 				69711D8C1BDB1326009F70DB /* HomeFeedCollectionViewController.swift */,
+				696DC5BA1DA2BA8F003CE026 /* AuthenticationViewController.swift */,
 				698BB2D91C90C71B00819FDF /* AgreeRulesViewController.swift */,
 				695132091BDBEB7B00852941 /* NewDreamViewController.swift */,
 				6957C9CD1C03E7CB00434F79 /* SignupViewController.swift */,
@@ -961,6 +968,7 @@
 				6912564C1C7F77230089C30B /* SettingsViewController.swift */,
 				69EC98751D9EBF0E00AE0C6C /* UserSettingViewController.swift */,
 				69D031751BDB0AE800B31CF5 /* TabBarController.swift */,
+				6976E0481DA20DA1003CB935 /* LandingPageViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -978,7 +986,9 @@
 		69271CE31BA148690074CBF6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				695132001BDBD35D00852941 /* DreamReaderView.swift */,
 				6951320B1BDC0C1D00852941 /* HomeFeedImageCollectionViewCell.swift */,
+				696DC5B81DA2B7A4003CE026 /* AuthenticationView.swift */,
 				69A779501D9EC270003B2B69 /* UserSettingButton.swift */,
 				699948D11D9EBF5600A84B9A /* UserSettingView.swift */,
 				690DA7061D9DAF4B0092CC6B /* DreamInputAccessoryView.swift */,
@@ -990,7 +1000,6 @@
 				6912564E1C7F77520089C30B /* UserProfileSettingsTableViewCell.swift */,
 				69711D911BDB190C009F70DB /* UserProfileCollectionViewCell.swift */,
 				69838CE81C57FD1B00EE0E8F /* ErrorDropView.swift */,
-				695132001BDBD35D00852941 /* DreamReaderView.swift */,
 				69F0281A1C7E3DE500970439 /* ProfileIconPickerView.swift */,
 				69F0282A1C7E44B100970439 /* ProfileIconView.swift */,
 			);
@@ -1455,6 +1464,7 @@
 				69A779511D9EC270003B2B69 /* UserSettingButton.swift in Sources */,
 				699948D21D9EBF5600A84B9A /* UserSettingView.swift in Sources */,
 				690DA7071D9DAF4B0092CC6B /* DreamInputAccessoryView.swift in Sources */,
+				696DC5B91DA2B7A4003CE026 /* AuthenticationView.swift in Sources */,
 				698BB2DA1C90C71B00819FDF /* AgreeRulesViewController.swift in Sources */,
 				69A8CF081C10CD4200AC4EC4 /* AutoTextView.swift in Sources */,
 				690DA70C1D9DB8CF0092CC6B /* UILabel+AttributedText.swift in Sources */,
@@ -1499,8 +1509,10 @@
 				69A8CF0A1C10CD4200AC4EC4 /* DesignableButton.swift in Sources */,
 				6912564F1C7F77520089C30B /* UserProfileSettingsTableViewCell.swift in Sources */,
 				69D031781BDB0B9500B31CF5 /* UserProfileCollectionViewController.swift in Sources */,
+				6976E0491DA20DA1003CB935 /* LandingPageViewController.swift in Sources */,
 				69A8CF0C1C10CD4200AC4EC4 /* DesignableLabel.swift in Sources */,
 				69F0281B1C7E3DE500970439 /* ProfileIconPickerView.swift in Sources */,
+				696DC5BB1DA2BA8F003CE026 /* AuthenticationViewController.swift in Sources */,
 				69A8CF141C10CD4200AC4EC4 /* LoadingView.swift in Sources */,
 				6912564D1C7F77230089C30B /* SettingsViewController.swift in Sources */,
 			);

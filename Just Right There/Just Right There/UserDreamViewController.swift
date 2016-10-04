@@ -173,11 +173,11 @@ class UserDreamViewController: UIViewController, UITextViewDelegate, MFMailCompo
             if let username = NSUserDefaults.standardUserDefaults().stringForKey("username") {
                 let userRef = FIRDatabase.database().reference().child("/users/\(username)/journals/\(currentId)")
                 userRef.removeValue()
+                FIRDatabase.database().reference().child("/feed/\(currentId)").removeValue()
             }
             
             NSUserDefaults.standardUserDefaults().setObject(nil, forKey: "journals")
         }
-        
         dismissViewControllerAnimated(true, completion: nil)
     }
     

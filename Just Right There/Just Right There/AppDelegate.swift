@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
             
             UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Fade)
             
-            window.backgroundColor = UIColor.whiteColor()
+            window.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
             window.rootViewController = mainController
             window.makeKeyAndVisible()
         }

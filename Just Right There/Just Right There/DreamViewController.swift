@@ -26,8 +26,12 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
     var downvoteButton: SpringButton
     var starLabel: SpringLabel
     var shareButton: UIButton
-    var optionsBar: UIView
     var dream: Dream
+    var karma: Int = 0 {
+        didSet {
+            starLabel.text = "\(self.karma)"
+        }
+    }
     
     var currentTitle: String
     var currentAuthor: String
@@ -35,12 +39,6 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
     var currentId: String
     
     var id: String?
-    var stars: Int {
-        didSet {
-            starLabel.text = "\(dream.stars)"
-        }
-    }
-    
     var currentState: DreamState
     
     enum DreamState {
@@ -54,11 +52,6 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
         currentAuthor = dream.author
         currentText = dream.text
         currentId = dream.id
-        stars = dream.stars
-        
-        optionsBar = UIView()
-        optionsBar.translatesAutoresizingMaskIntoConstraints = false
-        optionsBar.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
         
         shareButton = UIButton()
         shareButton.translatesAutoresizingMaskIntoConstraints = false
@@ -125,7 +118,6 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
         dreamTextView.showsVerticalScrollIndicator = false
         dreamTextView.scrollEnabled = false
         dreamTextView.attributedText = NSAttributedString(string: currentText, attributes: attributes)
-        
         dreamTextView.textColor = UIColor.whiteColor().colorWithAlphaComponent(0.74)
         
         saveButton = UIButton()
@@ -136,14 +128,14 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
         
         upvoteButton = SpringButton()
         upvoteButton.translatesAutoresizingMaskIntoConstraints = false
-        upvoteButton.setImage(UIImage(named: "greystar"), forState: .Normal)
-        upvoteButton.contentEdgeInsets = UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0)
+        upvoteButton.setImage(UIImage(named: "upvote"), forState: .Normal)
+        upvoteButton.setImage(UIImage(named: "upvote-highlighted"), forState: .Selected)
         upvoteButton.animation = "pop"
         
         downvoteButton = SpringButton()
         downvoteButton.translatesAutoresizingMaskIntoConstraints = false
-        downvoteButton.setImage(UIImage(named: "greystar"), forState: .Normal)
-        downvoteButton.contentEdgeInsets = UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0)
+        downvoteButton.setImage(UIImage(named: "downvote"), forState: .Normal)
+        downvoteButton.setImage(UIImage(named: "downvote-highlighted"), forState: .Selected)
         downvoteButton.animation = "pop"
         
         starLabel = SpringLabel()
@@ -152,23 +144,25 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
         starLabel.textAlignment = .Center
         starLabel.animation = "squeeze"
         starLabel.duration = 0.5
-        starLabel.text = "\(stars)"
         
         currentState = .Delete
         
         super.init(nibName: nil, bundle: nil)
         
         view.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
-        hidesBottomBarWhenPushed = true
         
         saveButton.addTarget(self, action: #selector(DreamViewController.saveTapped), forControlEvents: .TouchUpInside)
-        upvoteButton.addTarget(self, action: #selector(DreamViewController.starTapped), forControlEvents: .TouchUpInside)
+        upvoteButton.addTarget(self, action: #selector(DreamViewController.upvoteTapped), forControlEvents: .TouchUpInside)
+        downvoteButton.addTarget(self, action: #selector(DreamViewController.downvoteTapped), forControlEvents: .TouchUpInside)
         dreamTextView.delegate = self
         
         headerView.addSubview(dreamTitle)
         headerView.addSubview(authorLabel)
         headerView.addSubview(profileImageView)
         headerView.addSubview(dateLabel)
+        headerView.addSubview(starLabel)
+        headerView.addSubview(upvoteButton)
+        headerView.addSubview(downvoteButton)
         headerView.addSubview(saveButton)
         headerView.addSubview(topDividerView)
         headerView.addSubview(bottomDividerView)
@@ -176,13 +170,7 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
         scrollView.addSubview(headerView)
         scrollView.addSubview(dreamTextView)
         
-        optionsBar.addSubview(starLabel)
-        optionsBar.addSubview(upvoteButton)
-        optionsBar.addSubview(downvoteButton)
-        optionsBar.addSubview(shareButton)
-        
         view.addSubview(scrollView)
-        view.addSubview(optionsBar)
         setupLayout()
     }
 
@@ -206,8 +194,8 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
         
         let reportFlag = UIButton()
         reportFlag.frame = CGRectMake(0, 0, 30, 30)
-        reportFlag.setImage(UIImage(named: "settingsDiamond"), forState: .Normal)
-        reportFlag.contentEdgeInsets = UIEdgeInsetsMake(6.0, 8.0, 6.0, 4.0)
+        reportFlag.contentEdgeInsets = UIEdgeInsetsMake(13.0, 5.0, 13.0, 5.0)
+        reportFlag.setImage(UIImage(named: "more"), forState: .Normal)
         reportFlag.addTarget(self, action: #selector(DreamViewController.flagTapped), forControlEvents: .TouchUpInside)
         
         let rightBarButton = UIBarButtonItem(customView: reportFlag)
@@ -243,32 +231,90 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
         saveButton.setTitle("Delete", forState: .Normal)
     }
     
-    func starTapped() {
-        if let username = NSUserDefaults.standardUserDefaults().stringForKey("username") {
-            if !starredIds.contains(currentId) {
-                upvoteButton.animate()
-                upvoteButton.setImage(UIImage(named: "goldstar"), forState: .Normal)
-                starLabel.text = "\(dream.stars + 1)"
-                starLabel.textColor = UIColor.flatGold()
+    func upvoteTapped() {
+        if upvoteButton.selected {
+            upvoteButton.selected = false
+            
+            if let username = NSUserDefaults.standardUserDefaults().stringForKey("username"),
+                let id = id {
+                starLabel.text = "\(karma - 1)"
+                starLabel.animate()
+                
+                FIRDatabase.database().reference().child("feed/\(id)/upvotes").setValue(dream.upvotes - 1)
+                FIRDatabase.database().reference().child("/users/\(username)/starred/\(id)").removeValue()
+            }
+        } else {
+            upvoteButton.selected = true
+            downvoteButton.selected = false
+            
+            if let username = NSUserDefaults.standardUserDefaults().stringForKey("username"),
+                let id = id {
+                if !starredIds.contains(id) {
+                    starLabel.text = "\(self.karma + 1)"
+                    starLabel.animate()
+                    
+                    if let title = dreamTitle.text,
+                        let author = authorLabel.text,
+                        let text = dreamTextView.text,
+                        let date = dateLabel.text {
+                        
+                        let dreamDictionary = [
+                            "title":title,
+                            "author":author,
+                            "text":text,
+                            "date":"\(date)",
+                            "upvotes":"\(dream.upvotes + 1)",
+                            "downvote":"\(dream.downvotes)"
+                        ]
+                        
+                        FIRDatabase.database().reference().child("feed/\(id)/upvotes").setValue(dream.upvotes + 1)
+                        FIRDatabase.database().reference().child("/users/\(username)/starred/\(id)").setValue(dreamDictionary)
+                    }
+                }
+            }
+        }
+    }
+    
+    func downvoteTapped() {
+        if downvoteButton.selected {
+            downvoteButton.selected = false
+            
+            if let username = NSUserDefaults.standardUserDefaults().stringForKey("username"),
+                let id = id {
+                upvoteButton.selected = false
+                starLabel.text = "\(karma - 1)"
+                starLabel.animate()
+                
+                FIRDatabase.database().reference().child("feed/\(id)/downvotes").setValue(dream.downvotes - 1)
+                FIRDatabase.database().reference().child("/users/\(username)/downvotes/\(id)").removeValue()
+            }
+        } else {
+            downvoteButton.selected = true
+            upvoteButton.selected = false
+            
+            if let username = NSUserDefaults.standardUserDefaults().stringForKey("username"),
+                let id = id {
+                upvoteButton.selected = false
+                starLabel.text = "\(karma + 1)"
                 starLabel.animate()
                 
                 if let title = dreamTitle.text,
                     let author = authorLabel.text,
-                    let text = dreamTextView.text {
-                    let dreamDictionary = ["title":title, "author":author, "text":text, "stars":stars + 1, "date":dream.date]
-                    FIRDatabase.database().reference().child("feed/\(currentId)/stars").setValue(stars + 1)
-                    FIRDatabase.database().reference().child("/users/\(username)/starred/\(currentId)").setValue(dreamDictionary)
+                    let text = dreamTextView.text,
+                    let date = dateLabel.text {
                     
+                    let dreamDictionary = [
+                        "title":title,
+                        "author":author,
+                        "text":text,
+                        "date":"\(date)",
+                        "upvotes":"\(dream.upvotes)",
+                        "downvote":"\(dream.downvotes)"
+                    ]
+                    
+                    FIRDatabase.database().reference().child("feed/\(id)/downvotes").setValue(dream.downvotes + 1)
+                    FIRDatabase.database().reference().child("/users/\(username)/downvotes/\(id)").setValue(dreamDictionary)
                 }
-            } else {
-                upvoteButton.animate()
-                upvoteButton.setImage(UIImage(named: "greystar"), forState: .Normal)
-                starLabel.text = "\(stars - 1)"
-                starLabel.textColor = UIColor.grayColor()
-                starLabel.animate()
-                
-                FIRDatabase.database().reference().child("feed/\(currentId)/stars").setValue(stars - 1)
-                FIRDatabase.database().reference().child("/users/\(username)/starred/\(currentId)").removeValue()
             }
         }
     }
@@ -370,7 +416,7 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
             saveButton.al_width == 55,
             saveButton.al_height == 35,
             
-            scrollView.al_bottom == optionsBar.al_top,
+            scrollView.al_bottom == view.al_bottom,
             scrollView.al_top == view.al_top,
             scrollView.al_left == view.al_left,
             scrollView.al_right == view.al_right,
@@ -387,28 +433,18 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
         ])
         
         view.addConstraints([
-            optionsBar.al_left == view.al_left,
-            optionsBar.al_right == view.al_right,
-            optionsBar.al_bottom == view.al_bottom,
-            optionsBar.al_height == 54,
-            
-            downvoteButton.al_right == optionsBar.al_right - 24,
-            downvoteButton.al_centerY == optionsBar.al_centerY,
+            downvoteButton.al_right == headerView.al_right - 24,
+            downvoteButton.al_centerY == dreamTitle.al_centerY,
             downvoteButton.al_height == 24,
             downvoteButton.al_width == 24,
             
             upvoteButton.al_right == downvoteButton.al_left - 12,
-            upvoteButton.al_centerY == optionsBar.al_centerY,
+            upvoteButton.al_centerY == dreamTitle.al_centerY,
             upvoteButton.al_height == 24,
             upvoteButton.al_width == 24,
             
             starLabel.al_centerY == upvoteButton.al_centerY,
-            starLabel.al_right == upvoteButton.al_left - 12,
-            
-            shareButton.al_left == optionsBar.al_left + 24,
-            shareButton.al_centerY == optionsBar.al_centerY,
-            shareButton.al_height == 31.0,
-            shareButton.al_width == 63.5
+            starLabel.al_right == upvoteButton.al_left - 12
         ])
     }
 }

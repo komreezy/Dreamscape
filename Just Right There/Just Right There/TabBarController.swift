@@ -105,12 +105,18 @@ class TabBarController: UITabBarController,
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TabBarController.updateHiddenTabBar), name: "updateTabBar", object: nil)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func updateHiddenTabBar() {
+        tabBar.hidden = tabBar.hidden ? false : true
+        imageView.hidden = imageView.hidden ? false : true
+        dummyTabBar.hidden = dummyTabBar.hidden ? false : true
     }
     
     func shouldLeaveNewDreamViewController(index: Int) {

@@ -50,7 +50,7 @@ class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
         profileImageView.contentMode = .ScaleAspectFit
         profileImageView.clipsToBounds = true
         profileImageView.layer.cornerRadius = 30
-        profileImageView.backgroundColor = NavyColor
+        profileImageView.backgroundColor = UIColor.primaryPurple()
         profileImageView.contentEdgeInsets = UIEdgeInsetsMake(10.0, 10.0, 10.0, 10.0)
         
         backgroundImage = UIImageView()

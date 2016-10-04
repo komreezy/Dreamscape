@@ -13,16 +13,18 @@ class Dream: NSObject {
     var author: String
     var text: String
     var id: String
-    var stars: Int
     var date: String
+    var upvotes: Int
+    var downvotes: Int
     
-    init(title: String, author: String, text: String, date: String, stars: Int, id: String) {
+    init(title: String, author: String, text: String, date: String, id: String, upvotes: Int, downvotes: Int) {
         self.title = title
         self.author = author
         self.text = text
         self.date = date
         self.id = id
-        self.stars = stars
+        self.upvotes = upvotes
+        self.downvotes = downvotes
         
         super.init()
     }
