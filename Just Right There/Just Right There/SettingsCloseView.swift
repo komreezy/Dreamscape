@@ -16,12 +16,12 @@ class SettingsCloseView: UIView {
     override init(frame: CGRect) {
         closeButton = UIButton()
         closeButton.translatesAutoresizingMaskIntoConstraints = false
-        closeButton.setImage(UIImage(named: "close"), forState: .Normal)
+        closeButton.setImage(UIImage(named: "close"), for: UIControlState())
         closeButton.contentEdgeInsets = UIEdgeInsetsMake(9.0, 9.0, 9.0, 9.0)
         
         borderView = UIView()
         borderView.translatesAutoresizingMaskIntoConstraints = false
-        borderView.backgroundColor = UIColor.lightGrayColor()
+        borderView.backgroundColor = UIColor.lightGray
         
         titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -49,13 +49,17 @@ class SettingsCloseView: UIView {
             closeButton.al_right == al_right - 20,
             closeButton.al_centerY == al_centerY,
             closeButton.al_height == 30,
-            closeButton.al_width == 30,
-            
+            closeButton.al_width == 30
+        ])
+        
+        addConstraints([
             borderView.al_left == al_left,
             borderView.al_right == al_right,
             borderView.al_bottom == al_bottom,
-            borderView.al_height == 1,
-            
+            borderView.al_height == 1
+        ])
+        
+        addConstraints([
             titleLabel.al_centerX == al_centerX,
             titleLabel.al_centerY == al_centerY
         ])

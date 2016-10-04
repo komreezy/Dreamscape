@@ -15,7 +15,7 @@ class ProfileIconView: UIView {
     override init(frame: CGRect) {
         tabBarIconImageView = UIImageView()
         tabBarIconImageView.translatesAutoresizingMaskIntoConstraints = false
-        tabBarIconImageView.contentMode = .ScaleAspectFit
+        tabBarIconImageView.contentMode = .scaleAspectFit
         tabBarIconImageView.clipsToBounds = true
         tabBarIconImageView.backgroundColor = ClearColor
         

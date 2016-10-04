@@ -18,7 +18,7 @@ class UserProfileViewModel: NSObject {
     
     var journals: [Dream] = []
     var starred: [Dream] = []
-    var userDefaults: NSUserDefaults
+    var userDefaults: UserDefaults
     var username: String?
     var profilePicture: String?
     var reachable: Reachability
@@ -31,7 +31,7 @@ class UserProfileViewModel: NSObject {
     var shareDate = ""
     
     override init() {
-        userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults = UserDefaults.standard
         
         reachable = Reachability()
         
@@ -45,7 +45,7 @@ class UserProfileViewModel: NSObject {
     }
     
     func getUsername() -> String {
-        if let username = userDefaults.stringForKey("username") {
+        if let username = userDefaults.string(forKey: "username") {
             self.username = username
             return username
         }
@@ -54,7 +54,7 @@ class UserProfileViewModel: NSObject {
     }
     
     func getProfilePicture() {
-        if let picture = userDefaults.stringForKey("username") {
+        if let picture = userDefaults.string(forKey: "username") {
             profilePicture = picture
         }
     }
@@ -64,7 +64,7 @@ class UserProfileViewModel: NSObject {
             guard let username = username else {
                 return
             }
-            FIRDatabase.database().reference().child("/users/\(username)/journals").observeEventType(.Value, withBlock: { snapshot in
+            FIRDatabase.database().reference().child("/users/\(username)/journals").observe(.value, with: { snapshot in
                 if let journalsData = snapshot.value as? [String:AnyObject] {
                     self.journals.removeAll()
                     for (id, data) in journalsData {
@@ -99,9 +99,9 @@ class UserProfileViewModel: NSObject {
                 }
             })
         } else { // no internet - get data from the phone
-            if let journals = NSUserDefaults.standardUserDefaults().objectForKey("journals") as? [[String:AnyObject]] {
+            if let journals = UserDefaults.standard.object(forKey: "journals") as? [[String:AnyObject]] {
                 self.journals.removeAll()
-                var journalsCopy = NSMutableArray(array: journals)
+                var journalsCopy = journals
                 for journal in journalsCopy {
                     if let title = journal["title"] as? String,
                         let author = journal["author"] as? String,
@@ -132,7 +132,7 @@ class UserProfileViewModel: NSObject {
         }
         
         var starredTemp: [Dream] = []
-        FIRDatabase.database().reference().child("/users/\(username)/starred").observeEventType(.Value, withBlock: { snapshot in
+        FIRDatabase.database().reference().child("/users/\(username)/starred").observe(.value, with: { snapshot in
             if let starredData = snapshot.value as? [String:[String:AnyObject]] {
                 starredIds.removeAll()
                 self.starred.removeAll()
@@ -182,12 +182,12 @@ protocol UserProfileViewModelDelegate: class {
     func dataDidLoad()
 }
 
-public class Reachability {
+open class Reachability {
     func isConnectedToNetwork() -> Bool {
         var zeroAddress = sockaddr_in()
-        zeroAddress.sin_len = UInt8(sizeofValue(zeroAddress))
+        zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
         zeroAddress.sin_family = sa_family_t(AF_INET)
-        let defaultRouteReachability = withUnsafePointer(&zeroAddress) {
+        let defaultRouteReachability = withUnsafePointer(to: &zeroAddress) {
             SCNetworkReachabilityCreateWithAddress(nil, UnsafePointer($0))
         }
         var flags = SCNetworkReachabilityFlags()

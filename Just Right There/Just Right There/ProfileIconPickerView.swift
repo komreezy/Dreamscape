@@ -21,14 +21,14 @@ class ProfileIconPickerView: UIViewController, UIScrollViewDelegate {
     var pageImages: [UIImage]
     var pageTexts: [String]
     var pageViews: [ProfileIconView]
-    var userDefaults: NSUserDefaults
+    var userDefaults: UserDefaults
     var pointerAlignmentConstraint: NSLayoutConstraint?
     var currentPage: Int {
         return Int(floor((scrollView.contentOffset.x * 2.0 + pageWidth) / (pageWidth * 2.0)))
     }
     
     var tabWidth: CGFloat {
-        return UIScreen.mainScreen().bounds.width / CGFloat(pageCount)
+        return UIScreen.main.bounds.width / CGFloat(pageCount)
     }
     
     var arrowXOffset: CGFloat {
@@ -36,7 +36,7 @@ class ProfileIconPickerView: UIViewController, UIScrollViewDelegate {
     }
     
     init() {
-        pageWidth = UIScreen.mainScreen().bounds.width - 20
+        pageWidth = UIScreen.main.bounds.width - 20
         
         pageImages = [
             UIImage(named: "alien-head")!,
@@ -66,11 +66,11 @@ class ProfileIconPickerView: UIViewController, UIScrollViewDelegate {
         
         tintView = UIImageView()
         tintView.translatesAutoresizingMaskIntoConstraints = false
-        tintView.backgroundColor = BlackColor.colorWithAlphaComponent(0.8)
+        tintView.backgroundColor = BlackColor.withAlphaComponent(0.8)
         
         scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.pagingEnabled = true
+        scrollView.isPagingEnabled = true
         scrollView.backgroundColor = ClearColor
         scrollView.showsHorizontalScrollIndicator = false
         
@@ -78,34 +78,34 @@ class ProfileIconPickerView: UIViewController, UIScrollViewDelegate {
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         pageControl.currentPage = 0
         pageControl.pageIndicatorTintColor = DarkGrey
-        pageControl.currentPageIndicatorTintColor = WhiteColor.colorWithAlphaComponent(0.75)
+        pageControl.currentPageIndicatorTintColor = WhiteColor.withAlphaComponent(0.75)
         
         pageCount = 14
         
         closeButton = UIButton()
         closeButton.translatesAutoresizingMaskIntoConstraints = false
-        closeButton.setImage(UIImage(named: "close"), forState: .Normal)
+        closeButton.setImage(UIImage(named: "close"), for: UIControlState())
         closeButton.contentEdgeInsets = UIEdgeInsetsMake(10.0, 10.0, 10.0, 10.0)
         
         selectButton = UIButton()
         selectButton.translatesAutoresizingMaskIntoConstraints = false
-        selectButton.setTitle("SELECT", forState: .Normal)
-        selectButton.setTitleColor(WhiteColor, forState: .Normal)
+        selectButton.setTitle("SELECT", for: UIControlState())
+        selectButton.setTitleColor(WhiteColor, for: UIControlState())
         selectButton.titleLabel?.font = UIFont(name: "Montserrat", size: 21.0)
         
         pointerImageView = UIImageView()
         pointerImageView.translatesAutoresizingMaskIntoConstraints = false
-        pointerImageView.contentMode = .ScaleAspectFit
+        pointerImageView.contentMode = .scaleAspectFit
         pointerImageView.image = UIImage(named: "tooltippointer")
         
-        userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults = UserDefaults.standard
         
         super.init(nibName: nil, bundle: nil)
         
         view.backgroundColor = ClearColor
         
-        closeButton.addTarget(self, action: #selector(ProfileIconPickerView.nextButtonDidTap(_:)), forControlEvents: .TouchUpInside)
-        selectButton.addTarget(self, action: #selector(ProfileIconPickerView.selectTapped), forControlEvents: .TouchUpInside)
+        closeButton.addTarget(self, action: #selector(ProfileIconPickerView.nextButtonDidTap(_:)), for: .touchUpInside)
+        selectButton.addTarget(self, action: #selector(ProfileIconPickerView.selectTapped), for: .touchUpInside)
         
         scrollView.delegate = self
         
@@ -142,7 +142,7 @@ class ProfileIconPickerView: UIViewController, UIScrollViewDelegate {
         }
     }
     
-    func loadPage(page: Int) {
+    func loadPage(_ page: Int) {
         let icon = ProfileIconView()
         icon.translatesAutoresizingMaskIntoConstraints = false
         icon.tabBarIconImageView.image = pageImages[page]
@@ -160,23 +160,23 @@ class ProfileIconPickerView: UIViewController, UIScrollViewDelegate {
         pageViews.append(icon)
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         /// Load the pages that are now on screen
         pageControl.currentPage = currentPage
         
         pointerAlignmentConstraint?.constant = arrowXOffset
         
-        UIView.animateWithDuration(0.3, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()
         })
     }
     
-    func nextButtonDidTap(sender: UIButton) {
-        dismissViewControllerAnimated(true, completion: nil)
+    func nextButtonDidTap(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
     }
     
     func selectTapped() {
-        if let username = NSUserDefaults.standardUserDefaults().stringForKey("username") {
+        if let username = UserDefaults.standard.string(forKey: "username") {
             //let userRef = rootRef.childByAppendingPath("/users/\(username)/picture")
             var pictureString = ""
             
@@ -219,7 +219,7 @@ class ProfileIconPickerView: UIViewController, UIScrollViewDelegate {
             userDefaults.synchronize()
         }
         
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     func setupLayout() {
@@ -229,27 +229,37 @@ class ProfileIconPickerView: UIViewController, UIScrollViewDelegate {
             tintView.al_top == view.al_top,
             tintView.al_bottom == view.al_bottom,
             tintView.al_left == view.al_left,
-            tintView.al_right == view.al_right,
-            
+            tintView.al_right == view.al_right
+        ])
+        
+        view.addConstraints([
             pageControl.al_centerX == scrollView.al_centerX,
             pageControl.al_bottom == scrollView.al_bottom - 18,
-            pageControl.al_height == 5,
-            
+            pageControl.al_height == 5
+        ])
+        
+        view.addConstraints([
             scrollView.al_centerY == view.al_centerY,
             scrollView.al_width == view.al_width - 20,
             scrollView.al_height == view.al_height - 40,
-            scrollView.al_left == view.al_left + 10,
-            
+            scrollView.al_left == view.al_left + 10
+        ])
+        
+        view.addConstraints([
             closeButton.al_top == view.al_top + 25,
             closeButton.al_right == view.al_right - 15,
             closeButton.al_height == 35,
-            closeButton.al_width == 35,
-            
+            closeButton.al_width == 35
+        ])
+        
+        view.addConstraints([
             selectButton.al_width == 200,
             selectButton.al_height == 40,
             selectButton.al_centerX == view.al_centerX,
-            selectButton.al_top == view.al_bottom - 100,
-            
+            selectButton.al_top == view.al_bottom - 100
+        ])
+        
+        view.addConstraints([
             pointerImageView.al_top == view.al_top + 20,
             pointerAlignmentConstraint!,
             pointerImageView.al_height == 25,

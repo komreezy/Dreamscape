@@ -28,34 +28,34 @@ class UserSettingViewController: UIViewController, UIActionSheetDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        userSettingView.cancelButton.addTarget(self, action: #selector(UserSettingViewController.closeUserProfile), forControlEvents: .TouchUpInside)
-        userSettingView.signOutButton.addTarget(self, action: #selector(UserSettingViewController.logout), forControlEvents: .TouchUpInside)
+        userSettingView.cancelButton.addTarget(self, action: #selector(UserSettingViewController.closeUserProfile), for: .touchUpInside)
+        userSettingView.signOutButton.addTarget(self, action: #selector(UserSettingViewController.logout), for: .touchUpInside)
     }
     
     func logout() {
         let actionSheet = UIActionSheet(title: "Are you sure you want to logout?", delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: "Logout")
-        actionSheet.showInView(view)
+        actionSheet.show(in: view)
     }
     
     // MARK: UIActionSheetDelegate
-    func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+    func actionSheet(_ actionSheet: UIActionSheet, clickedButtonAt buttonIndex: Int) {
         switch buttonIndex {
         case 0:
             print("Logging out")
-            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "user")
-            NSUserDefaults.standardUserDefaults().setObject(nil, forKey: "journals")
+            UserDefaults.standard.set(false, forKey: "user")
+            UserDefaults.standard.set(nil, forKey: "journals")
         default:
             print("Logging out")
-            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "user")
-            NSUserDefaults.standardUserDefaults().setObject(nil, forKey: "journals")
+            UserDefaults.standard.set(false, forKey: "user")
+            UserDefaults.standard.set(nil, forKey: "journals")
         }
         
         let signInVC = SignupViewController()
-        presentViewController(signInVC, animated: true, completion: nil)
+        present(signInVC, animated: true, completion: nil)
     }
     
     func closeUserProfile() {
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     func setupLayout() {

@@ -10,10 +10,10 @@ import UIKit
 import MessageUI
 
 enum ProfileSettingsSection: Int {
-    case Account = 0
-    case Actions = 1
-    case About = 2
-    case Logout = 3
+    case account = 0
+    case actions = 1
+    case about = 2
+    case logout = 3
 }
 
 class SettingsViewController: UIViewController,
@@ -47,7 +47,7 @@ class SettingsViewController: UIViewController,
     init() {
         appSettingView = AppSettingsView()
         appSettingView.translatesAutoresizingMaskIntoConstraints = false
-        appSettingView.tableView.registerClass(UserProfileSettingsTableViewCell.self, forCellReuseIdentifier: "settingCell")
+        appSettingView.tableView.register(UserProfileSettingsTableViewCell.self, forCellReuseIdentifier: "settingCell")
         
         closeHeaderView = SettingsCloseView()
         closeHeaderView.translatesAutoresizingMaskIntoConstraints = false
@@ -57,12 +57,12 @@ class SettingsViewController: UIViewController,
         appSettingView.tableView.delegate = self
         appSettingView.tableView.dataSource = self
         
-        closeHeaderView.closeButton.addTarget(self, action: #selector(SettingsViewController.closeSettingsTapped), forControlEvents: .TouchUpInside)
+        closeHeaderView.closeButton.addTarget(self, action: #selector(SettingsViewController.closeSettingsTapped), for: .touchUpInside)
         
         view.addSubview(closeHeaderView)
         view.addSubview(appSettingView)
         
-        navigationItem.title = "settings".uppercaseString
+        navigationItem.title = "settings".uppercased()
         
         setupLayout()
     }
@@ -75,14 +75,14 @@ class SettingsViewController: UIViewController,
         super.viewDidLoad()
     }
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
     
-    override func viewWillAppear(animated: Bool) {
-        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .None)
-        navigationController?.navigationBar.translucent = false
-        navigationController?.navigationBar.barStyle = .Default
+    override func viewWillAppear(_ animated: Bool) {
+        UIApplication.shared.setStatusBarHidden(false, with: .none)
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.barStyle = .default
     }
     
     override func didReceiveMemoryWarning() {
@@ -105,46 +105,46 @@ class SettingsViewController: UIViewController,
     }
     
     func closeSettingsTapped() {
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
-    func pushNewAboutViewController(url: String, title: String) {
+    func pushNewAboutViewController(_ url: String, title: String) {
         let vc = SettingsWebViewController(title: title, website: url)
-        presentViewController(vc, animated: true, completion: nil)
+        present(vc, animated: true, completion: nil)
     }
     
     // MARK: TableViewDelegate and Datasource
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let enumVal = ProfileSettingsSection(rawValue: section) else {
             return nil
         }
         
         switch enumVal {
-        case .Account:
+        case .account:
             return "Account"
-        case .Actions:
+        case .actions:
             return "Actions"
-        case .About:
+        case .about:
             return "About"
-        case .Logout:
+        case .logout:
             return ""
         }
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 4
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let settingsSection = ProfileSettingsSection(rawValue: section) {
             switch settingsSection {
-            case .Account:
+            case .account:
                 return accountSettings.count
-            case .Actions:
+            case .actions:
                 return actionsSettings.count
-            case .About:
+            case .about:
                 return aboutSettings.count
-            case .Logout:
+            case .logout:
                 return logoutSettings.count
             }
         }
@@ -152,31 +152,31 @@ class SettingsViewController: UIViewController,
         return 0
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60.0
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if let settingsSection = ProfileSettingsSection(rawValue: indexPath.section) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let settingsSection = ProfileSettingsSection(rawValue: (indexPath as NSIndexPath).section) {
             switch settingsSection {
-            case .Account:
-                switch indexPath.row {
+            case .account:
+                switch (indexPath as NSIndexPath).row {
                 case 0:
-                    tableView.deselectRowAtIndexPath(indexPath, animated: false)
+                    tableView.deselectRow(at: indexPath, animated: false)
                 default: break
                 }
                 
-            case .Actions:
-                switch indexPath.row {
+            case .actions:
+                switch (indexPath as NSIndexPath).row {
                 case 0:
                     print("")
                 case 1: launchEmail(self)
                 default: break
                 }
                 
-            case .About:
+            case .about:
                 var link, title: String?
-                switch indexPath.row {
+                switch (indexPath as NSIndexPath).row {
                 case 0:
                     link = "https://getdreamscape.wordpress.com/2016/03/19/faq/"
                     title = aboutSettings[0]
@@ -190,90 +190,90 @@ class SettingsViewController: UIViewController,
                 }
                 
                 
-                if let page = link , headerText = title {
+                if let page = link , let headerText = title {
                     pushNewAboutViewController(page, title: headerText)
                 }
                 
-            case .Logout:
+            case .logout:
                 let actionSheet = UIActionSheet(title: "Are you sure you want to logout?", delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: "Logout")
-                actionSheet.showInView(view)
+                actionSheet.show(in: view)
             }
         }
         
-        tableView.deselectRowAtIndexPath(indexPath, animated: false)
+        tableView.deselectRow(at: indexPath, animated: false)
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UserProfileSettingsSectionHeaderView()
         
-        if ProfileSettingsSection.Account.rawValue == section {
+        if ProfileSettingsSection.account.rawValue == section {
             headerView.titleLabel.text = "ACCOUNT"
-        } else if ProfileSettingsSection.Actions.rawValue == section {
+        } else if ProfileSettingsSection.actions.rawValue == section {
             headerView.titleLabel.text = "ACTIONS"
-        } else if ProfileSettingsSection.About.rawValue == section {
+        } else if ProfileSettingsSection.about.rawValue == section {
             headerView.titleLabel.text = "ABOUT"
-        } else if ProfileSettingsSection.Logout.rawValue == section {
+        } else if ProfileSettingsSection.logout.rawValue == section {
             
         }
         
         return headerView
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50.0
     }
     
-    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         guard let settingsSection = ProfileSettingsSection(rawValue: section) else {
             return 0.01
         }
         
         switch settingsSection {
-        case .About:
+        case .about:
             return 30
         default:
             return 0.01
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        guard let settingsSection: ProfileSettingsSection = ProfileSettingsSection(rawValue: indexPath.section) else {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let settingsSection: ProfileSettingsSection = ProfileSettingsSection(rawValue: (indexPath as NSIndexPath).section) else {
             return UITableViewCell()
         }
         
-        var cell = UserProfileSettingsTableViewCell(type: .Switch)
+        var cell = UserProfileSettingsTableViewCell(type: .switch)
         
         switch settingsSection {
-        case .Account:
-            switch indexPath.row {
+        case .account:
+            switch (indexPath as NSIndexPath).row {
             case 0:
-                cell = UserProfileSettingsTableViewCell(type: .Nondisclosure)
-                cell.secondaryTextField.text = NSUserDefaults.standardUserDefaults().stringForKey("username")
-                cell.userInteractionEnabled = false
+                cell = UserProfileSettingsTableViewCell(type: .nondisclosure)
+                cell.secondaryTextField.text = UserDefaults.standard.string(forKey: "username")
+                cell.isUserInteractionEnabled = false
             default:
                 break
             }
             
-            cell.titleLabel.text = accountSettings[indexPath.row]
+            cell.titleLabel.text = accountSettings[(indexPath as NSIndexPath).row]
             return cell
             
-        case .Actions:
-            let cell = UserProfileSettingsTableViewCell(type: .Default)
-            cell.titleLabel.text = actionsSettings[indexPath.row]
+        case .actions:
+            let cell = UserProfileSettingsTableViewCell(type: .default)
+            cell.titleLabel.text = actionsSettings[(indexPath as NSIndexPath).row]
             return cell
-        case .About:
-            let cell = UserProfileSettingsTableViewCell(type: .Default)
-            cell.titleLabel.text = aboutSettings[indexPath.row]
+        case .about:
+            let cell = UserProfileSettingsTableViewCell(type: .default)
+            cell.titleLabel.text = aboutSettings[(indexPath as NSIndexPath).row]
             return cell
-        case .Logout:
-            let cell = UserProfileSettingsTableViewCell(type: .Logout)
-            cell.titleLabel.text = logoutSettings[indexPath.row]
+        case .logout:
+            let cell = UserProfileSettingsTableViewCell(type: .logout)
+            cell.titleLabel.text = logoutSettings[(indexPath as NSIndexPath).row]
             return cell
         }
     }
     
     // MARK: MFMailComposeViewControllerDelegate - (Does not work in Simulator)
-    func launchEmail(sender: AnyObject) {
+    func launchEmail(_ sender: AnyObject) {
         let emailTitle = "Dreamscape Feedback"
         let messageBody = ""
         let toRecipents = ["dreamscape9817234@gmail.com"]
@@ -284,46 +284,46 @@ class SettingsViewController: UIViewController,
         mc.setMessageBody(messageBody, isHTML: false)
         mc.setToRecipients(toRecipents)
         
-        mc.modalTransitionStyle = .CoverVertical
-        presentViewController(mc, animated: true, completion: nil)
+        mc.modalTransitionStyle = .coverVertical
+        present(mc, animated: true, completion: nil)
     }
     
     
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         switch result.rawValue {
-        case MFMailComposeResultCancelled.rawValue:
+        case MFMailComposeResult.cancelled.rawValue:
             print("Mail cancelled")
-        case MFMailComposeResultSaved.rawValue:
+        case MFMailComposeResult.saved.rawValue:
             print("Mail saved")
-        case MFMailComposeResultSent.rawValue:
+        case MFMailComposeResult.sent.rawValue:
             print("Mail sent")
-        case MFMailComposeResultFailed.rawValue:
+        case MFMailComposeResult.failed.rawValue:
             print("Mail sent failure: \(error!.localizedDescription)")
         default:
             break
         }
-        controller.dismissViewControllerAnimated(true, completion: nil)
+        controller.dismiss(animated: true, completion: nil)
     }
     
     // MARK: UIActionSheetDelegate
-    func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+    func actionSheet(_ actionSheet: UIActionSheet, clickedButtonAt buttonIndex: Int) {
         switch buttonIndex {
         case 0:
             print("Logging out")
-            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "user")
-            NSUserDefaults.standardUserDefaults().setObject(nil, forKey: "journals")
+            UserDefaults.standard.set(false, forKey: "user")
+            UserDefaults.standard.set(nil, forKey: "journals")
         default:
             print("Logging out")
-            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "user")
-            NSUserDefaults.standardUserDefaults().setObject(nil, forKey: "journals")
+            UserDefaults.standard.set(false, forKey: "user")
+            UserDefaults.standard.set(nil, forKey: "journals")
         }
         
         let signInVC = SignupViewController()
-        presentViewController(signInVC, animated: true, completion: nil)
+        present(signInVC, animated: true, completion: nil)
     }
     
     //MARK: TableViewCellDelegate
-    func didFinishEditingName(newName: String) {
+    func didFinishEditingName(_ newName: String) {
         
     }
     

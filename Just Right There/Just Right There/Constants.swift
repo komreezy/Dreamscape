@@ -51,7 +51,7 @@ extension UIColor {
 }
 
 extension UIImage {
-    public class func imageOfBackarrow(frame frame: CGRect = CGRect(x: 0, y: 0, width: 50, height: 50), color: UIColor = UIColor(red: 0.095, green: 0.095, blue: 0.095, alpha: 1.000), scale: CGFloat = 0.5, selected: Bool = false, rotate: CGFloat = -90) -> UIImage {
+    public class func imageOfBackarrow(frame: CGRect = CGRect(x: 0, y: 0, width: 50, height: 50), color: UIColor = UIColor(red: 0.095, green: 0.095, blue: 0.095, alpha: 1.000), scale: CGFloat = 0.5, selected: Bool = false, rotate: CGFloat = -90) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(frame.size, false, 0)
         drawBackarrow(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height), color: color, scale: scale, selected: selected, rotate: rotate)
         
@@ -61,7 +61,7 @@ extension UIImage {
         return imageOfBackarrow!
     }
     
-    public class func drawBackarrow(frame frame: CGRect = CGRect(x: 0, y: 0, width: 50, height: 50), color: UIColor = UIColor(red: 0.095, green: 0.095, blue: 0.095, alpha: 1.000), scale: CGFloat = 0.5, selected: Bool = false, rotate: CGFloat = -90) {
+    public class func drawBackarrow(frame: CGRect = CGRect(x: 0, y: 0, width: 50, height: 50), color: UIColor = UIColor(red: 0.095, green: 0.095, blue: 0.095, alpha: 1.000), scale: CGFloat = 0.5, selected: Bool = false, rotate: CGFloat = -90) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
         
@@ -71,26 +71,26 @@ extension UIImage {
         colorBrightnessComponent: CGFloat = 1
         color.getHue(&colorHueComponent, saturation: &colorSaturationComponent, brightness: &colorBrightnessComponent, alpha: nil)
         
-        let highlightedColor = UIColor(hue: 0.449, saturation: colorSaturationComponent, brightness: colorBrightnessComponent, alpha: CGColorGetAlpha(color.CGColor))
+        let highlightedColor = UIColor(hue: 0.449, saturation: colorSaturationComponent, brightness: colorBrightnessComponent, alpha: color.cgColor.alpha)
         
         //// Variable Declarations
         let strokeColor = selected ? highlightedColor : color
         
         //// arrow Drawing
-        CGContextSaveGState(context!)
-        CGContextTranslateCTM(context!, frame.minX + 0.50500 * frame.width, frame.minY + 0.49700 * frame.height)
-        CGContextRotateCTM(context!, -rotate * CGFloat(M_PI) / 180)
-        CGContextScaleCTM(context!, scale, scale)
+        context!.saveGState()
+        context!.translateBy(x: frame.minX + 0.50500 * frame.width, y: frame.minY + 0.49700 * frame.height)
+        context!.rotate(by: -rotate * CGFloat(M_PI) / 180)
+        context!.scaleBy(x: scale, y: scale)
         
         let arrowPath = UIBezierPath()
-        arrowPath.moveToPoint(CGPoint(x: 6.5, y: 11.7))
-        arrowPath.addLineToPoint(CGPoint(x: -6.5, y: 0))
-        arrowPath.addLineToPoint(CGPoint(x: 6.5, y: -11.7))
+        arrowPath.move(to: CGPoint(x: 6.5, y: 11.7))
+        arrowPath.addLine(to: CGPoint(x: -6.5, y: 0))
+        arrowPath.addLine(to: CGPoint(x: 6.5, y: -11.7))
         arrowPath.miterLimit = 4;
         
-        arrowPath.lineCapStyle = .Round;
+        arrowPath.lineCapStyle = .round;
         
-        arrowPath.lineJoinStyle = .Round;
+        arrowPath.lineJoinStyle = .round;
         
         arrowPath.usesEvenOddFillRule = true;
         
@@ -98,29 +98,29 @@ extension UIImage {
         arrowPath.lineWidth = 5
         arrowPath.stroke()
         
-        CGContextRestoreGState(context!)
+        context!.restoreGState()
     }
     
-    func drawSettingsDiamond(frame frame: CGRect = CGRect(x: 0, y: 0, width: 50, height: 50), color: UIColor = UIColor(red: 0.095, green: 0.095, blue: 0.095, alpha: 1.000)) {
+    func drawSettingsDiamond(frame: CGRect = CGRect(x: 0, y: 0, width: 50, height: 50), color: UIColor = UIColor(red: 0.095, green: 0.095, blue: 0.095, alpha: 1.000)) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
         
         //// settingsDiamond
         //// path-1 Drawing
-        CGContextSaveGState(context)
-        CGContextTranslateCTM(context, frame.minX + 25, frame.minY + 24)
-        CGContextRotateCTM(context, 45 * CGFloat(M_PI) / 180)
+        context?.saveGState()
+        context?.translateBy(x: frame.minX + 25, y: frame.minY + 24)
+        context?.rotate(by: 45 * CGFloat(M_PI) / 180)
         
         let path1Path = UIBezierPath(roundedRect: CGRect(x: -13.45, y: -13.45, width: 26.9, height: 26.9), cornerRadius: 6.4)
         color.setStroke()
         path1Path.lineWidth = 4.4
         path1Path.stroke()
         
-        CGContextRestoreGState(context)
+        context?.restoreGState()
         
         
         //// Oval-17 Drawing
-        let oval17Path = UIBezierPath(ovalInRect: CGRect(x: frame.minX + 19.66, y: frame.minY + 18.66, width: 10.6, height: 10.6))
+        let oval17Path = UIBezierPath(ovalIn: CGRect(x: frame.minX + 19.66, y: frame.minY + 18.66, width: 10.6, height: 10.6))
         color.setStroke()
         oval17Path.lineWidth = 3.2
         oval17Path.stroke()
@@ -134,6 +134,6 @@ let GreyColor = UIColor(red: 109.0/255.0, green: 120.0/255.0, blue: 145.0/255.0,
 let DarkBlue = UIColor(red: 65.0/255.0, green: 89.0/255.0, blue: 145.0/255.0, alpha: 1.0) // #415991
 let BlueColor = UIColor(red: 100.0/255.0, green: 135.0/255.0, blue: 222.0/255.0, alpha: 1.0) // #6487DE
 let PurpleColor = UIColor(red: 142.0/255.0, green: 79.0/255.0, blue: 255.0/255.0, alpha: 1.0)
-let WhiteColor = UIColor.whiteColor()
-let BlackColor = UIColor.blackColor()
-let ClearColor = UIColor.clearColor()
+let WhiteColor = UIColor.white
+let BlackColor = UIColor.black
+let ClearColor = UIColor.clear

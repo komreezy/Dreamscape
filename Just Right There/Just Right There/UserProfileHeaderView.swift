@@ -32,22 +32,22 @@ class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
     var leftHighlightBarPositionConstraint: NSLayoutConstraint?
     var offsetValue: CGFloat
     
-    var userDefaults: NSUserDefaults
+    var userDefaults: UserDefaults
     weak var delegate: UserProfileHeaderDelegate?
     
     override init(frame: CGRect) {
-        userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults = UserDefaults.standard
         
         collapseNameLabel = UILabel()
         collapseNameLabel.translatesAutoresizingMaskIntoConstraints = false
         collapseNameLabel.font = UIFont(name: "Montserrat-Regular", size: 14.0)
-        collapseNameLabel.textColor = UIColor.whiteColor()
-        collapseNameLabel.textAlignment = .Center
+        collapseNameLabel.textColor = UIColor.white
+        collapseNameLabel.textAlignment = .center
         collapseNameLabel.alpha = 0
         
         profileImageView = UIButton()
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
-        profileImageView.contentMode = .ScaleAspectFit
+        profileImageView.contentMode = .scaleAspectFit
         profileImageView.clipsToBounds = true
         profileImageView.layer.cornerRadius = 30
         profileImageView.backgroundColor = UIColor.primaryPurple()
@@ -56,59 +56,59 @@ class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
         backgroundImage = UIImageView()
         backgroundImage.translatesAutoresizingMaskIntoConstraints = false
         backgroundImage.image = UIImage(named: "profile-background")
-        backgroundImage.contentMode = .ScaleAspectFit
+        backgroundImage.contentMode = .scaleAspectFit
         
         illustrationView = UIImageView()
         illustrationView.translatesAutoresizingMaskIntoConstraints = false
         illustrationView.image = UIImage(named: "illustration")
-        illustrationView.contentMode = .ScaleAspectFill
+        illustrationView.contentMode = .scaleAspectFill
         
-        if let picture = NSUserDefaults.standardUserDefaults().stringForKey("picture") {
-            profileImageView.setImage(UIImage(named: "\(picture)"), forState: .Normal)
+        if let picture = UserDefaults.standard.string(forKey: "picture") {
+            profileImageView.setImage(UIImage(named: "\(picture)"), for: UIControlState())
         } else {
-            profileImageView.setImage(UIImage(named: "alien-head"), forState: .Normal)
+            profileImageView.setImage(UIImage(named: "alien-head"), for: UIControlState())
         }
         
         nameLabel = UILabel()
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.font = UIFont(name: "Montserrat-Regular", size: 16.0)
-        nameLabel.textAlignment = .Center
-        nameLabel.textColor = UIColor.whiteColor()
+        nameLabel.textAlignment = .center
+        nameLabel.textColor = UIColor.white
         
         settingsButton = UIButton()
         settingsButton.translatesAutoresizingMaskIntoConstraints = false
-        settingsButton.setImage(UIImage(named: "settingsDiamond"), forState: .Normal)
+        settingsButton.setImage(UIImage(named: "settingsDiamond"), for: UIControlState())
         settingsButton.contentEdgeInsets = UIEdgeInsetsMake(0.0, 10.0, 10.0, 0.0)
         
         journalsLabel = UILabel()
         journalsLabel.translatesAutoresizingMaskIntoConstraints = false
         journalsLabel.font = UIFont(name: "OpenSans", size: 13.0)
-        journalsLabel.textAlignment = .Center
+        journalsLabel.textAlignment = .center
         journalsLabel.text = "Journals"
         
         starredLabel = UILabel()
         starredLabel.translatesAutoresizingMaskIntoConstraints = false
         starredLabel.font = UIFont(name: "OpenSans", size: 13.0)
-        starredLabel.textAlignment = .Center
+        starredLabel.textAlignment = .center
         starredLabel.text = "Starred"
         
         karmaLabel = UILabel()
         karmaLabel.translatesAutoresizingMaskIntoConstraints = false
-        karmaLabel.textColor = UIColor.whiteColor().colorWithAlphaComponent(0.54)
+        karmaLabel.textColor = UIColor.white.withAlphaComponent(0.54)
         karmaLabel.font = UIFont(name: "Courier", size: 13.5)
         karmaLabel.text = "334 Karma Points"
-        karmaLabel.textAlignment = .Center
+        karmaLabel.textAlignment = .center
         
         journalsNumberLabel = UILabel()
         journalsNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         journalsNumberLabel.font = UIFont(name: "Roboto-Bold", size: 13.0)
-        journalsNumberLabel.textAlignment = .Center
+        journalsNumberLabel.textAlignment = .center
         journalsNumberLabel.text = "5"
         
         starredNumberLabel = UILabel()
         starredNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         starredNumberLabel.font = UIFont(name: "Roboto-Bold", size: 13.0)
-        starredNumberLabel.textAlignment = .Center
+        starredNumberLabel.textAlignment = .center
         starredNumberLabel.text = "17"
         
         tabContainerView = UIView()
@@ -116,21 +116,21 @@ class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
         
         favoritesTabButton = UIButton()
         favoritesTabButton.translatesAutoresizingMaskIntoConstraints = false
-        favoritesTabButton.setTitle("dreams".uppercaseString, forState: .Normal)
-        favoritesTabButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        favoritesTabButton.setTitleColor(UIColor.whiteColor().colorWithAlphaComponent(0.54), forState: .Selected)
+        favoritesTabButton.setTitle("dreams".uppercased(), for: UIControlState())
+        favoritesTabButton.setTitleColor(UIColor.white, for: UIControlState())
+        favoritesTabButton.setTitleColor(UIColor.white.withAlphaComponent(0.54), for: .selected)
         favoritesTabButton.titleLabel?.font = UIFont(name: "Montserrat-Regular", size: 13.0)
-        favoritesTabButton.titleLabel?.textAlignment = .Center
-        favoritesTabButton.selected = false
+        favoritesTabButton.titleLabel?.textAlignment = .center
+        favoritesTabButton.isSelected = false
         
         recentsTabButton = UIButton()
         recentsTabButton.translatesAutoresizingMaskIntoConstraints = false
-        recentsTabButton.setTitle("upvotes".uppercaseString, forState: .Normal)
-        recentsTabButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        recentsTabButton.setTitleColor(UIColor.whiteColor().colorWithAlphaComponent(0.54), forState: .Selected)
+        recentsTabButton.setTitle("upvotes".uppercased(), for: UIControlState())
+        recentsTabButton.setTitleColor(UIColor.white, for: UIControlState())
+        recentsTabButton.setTitleColor(UIColor.white.withAlphaComponent(0.54), for: .selected)
         recentsTabButton.titleLabel?.font = UIFont(name: "Montserrat-Regular", size: 13.0)
-        recentsTabButton.titleLabel?.textAlignment = .Center
-        recentsTabButton.selected = true
+        recentsTabButton.titleLabel?.textAlignment = .center
+        recentsTabButton.isSelected = true
         
         highlightBarView = UIView()
         highlightBarView.translatesAutoresizingMaskIntoConstraints = false
@@ -143,10 +143,10 @@ class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
         backgroundColor = UIColor(red: 34.0/255.0, green: 35.0/255.0, blue: 38.0/255.0, alpha: 1.0)
         clipsToBounds = true
         
-        profileImageView.addTarget(self, action: #selector(UserProfileHeaderView.profileImageTapped), forControlEvents: .TouchUpInside)
-        favoritesTabButton.addTarget(self, action: #selector(UserProfileHeaderView.journalTabTapped), forControlEvents: .TouchUpInside)
-        recentsTabButton.addTarget(self, action: #selector(UserProfileHeaderView.starredTabTapped), forControlEvents: .TouchUpInside)
-        settingsButton.addTarget(self, action: #selector(UserProfileHeaderView.settingsTapped), forControlEvents: .TouchUpInside)
+        profileImageView.addTarget(self, action: #selector(UserProfileHeaderView.profileImageTapped), for: .touchUpInside)
+        favoritesTabButton.addTarget(self, action: #selector(UserProfileHeaderView.journalTabTapped), for: .touchUpInside)
+        recentsTabButton.addTarget(self, action: #selector(UserProfileHeaderView.starredTabTapped), for: .touchUpInside)
+        settingsButton.addTarget(self, action: #selector(UserProfileHeaderView.settingsTapped), for: .touchUpInside)
         
         addSubview(illustrationView)
         addSubview(collapseNameLabel)
@@ -170,15 +170,15 @@ class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
     
     // UserScrollHeaderDelegate
     
-    func userDidSelectTab(type: String) {
+    func userDidSelectTab(_ type: String) {
         if type == "favorites" {
             leftHighlightBarPositionConstraint?.constant = 0.0
         } else {
-            leftHighlightBarPositionConstraint?.constant = UIScreen.mainScreen().bounds.width / 2
+            leftHighlightBarPositionConstraint?.constant = UIScreen.main.bounds.width / 2
         }
     }
     
-    override func applyLayoutAttributes(layoutAttributes: UICollectionViewLayoutAttributes) {
+    override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
         if let attributes = layoutAttributes as? CSStickyHeaderFlowLayoutAttributes {
             let progressiveness = attributes.progressiveness
             collapseNameLabel.alpha = 1 - progressiveness
@@ -201,47 +201,67 @@ class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
             illustrationView.al_left == al_left,
             illustrationView.al_bottom == tabContainerView.al_top,
             illustrationView.al_top == al_top,
-            illustrationView.al_right == al_right,
-            
+            illustrationView.al_right == al_right
+        ])
+        
+        addConstraints([
             collapseNameLabel.al_centerX == al_centerX,
-            collapseNameLabel.al_centerY == settingsButton.al_centerY - 5,
-            
+            collapseNameLabel.al_centerY == settingsButton.al_centerY - 5
+        ])
+        
+        addConstraints([
             profileImageView.al_top == al_top + bounds.height * 0.32,
             profileImageView.al_centerX == al_centerX,
             profileImageView.al_height == 60,
-            profileImageView.al_width == 60,
-            
+            profileImageView.al_width == 60
+        ])
+        
+        addConstraints([
             backgroundImage.al_centerX == profileImageView.al_centerX,
             backgroundImage.al_centerY == profileImageView.al_centerY,
             backgroundImage.al_height == 160,
-            backgroundImage.al_width == 160,
-            
+            backgroundImage.al_width == 160
+        ])
+        
+        addConstraints([
             nameLabel.al_centerX == al_centerX,
-            nameLabel.al_top == profileImageView.al_bottom + 18,
-            
+            nameLabel.al_top == profileImageView.al_bottom + 18
+        ])
+        
+        addConstraints([
             settingsButton.al_right == al_right - 15,
             settingsButton.al_top == al_top + 30,
             settingsButton.al_height == 30,
-            settingsButton.al_width == 30,
-            
+            settingsButton.al_width == 30
+        ])
+        
+        addConstraints([
             karmaLabel.al_centerX == al_centerX,
-            karmaLabel.al_top == nameLabel.al_bottom + 7,
-            
+            karmaLabel.al_top == nameLabel.al_bottom + 7
+        ])
+        
+        addConstraints([
             tabContainerView.al_bottom == al_bottom,
             tabContainerView.al_left == al_left,
             tabContainerView.al_right == al_right,
-            tabContainerView.al_height == 60,
-            
+            tabContainerView.al_height == 60
+        ])
+        
+        addConstraints([
             favoritesTabButton.al_left == tabContainerView.al_left,
             favoritesTabButton.al_bottom == tabContainerView.al_bottom,
             favoritesTabButton.al_top == tabContainerView.al_top,
-            favoritesTabButton.al_right == tabContainerView.al_centerX,
-            
+            favoritesTabButton.al_right == tabContainerView.al_centerX
+        ])
+        
+        addConstraints([
             recentsTabButton.al_bottom == tabContainerView.al_bottom,
             recentsTabButton.al_top == tabContainerView.al_top,
             recentsTabButton.al_right == tabContainerView.al_right,
-            recentsTabButton.al_left == tabContainerView.al_centerX,
-            
+            recentsTabButton.al_left == tabContainerView.al_centerX
+        ])
+        
+        addConstraints([
             highlightBarView.al_bottom == tabContainerView.al_bottom,
             highlightBarView.al_height == 4,
             highlightBarView.al_width == tabContainerView.al_width / 2,
@@ -260,12 +280,12 @@ class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
         }
         
         leftHighlightBarPositionConstraint?.constant = 0
-        recentsTabButton.selected = true
-        favoritesTabButton.selected = false
+        recentsTabButton.isSelected = true
+        favoritesTabButton.isSelected = false
         
-        UIView.animateWithDuration(0.3) {
+        UIView.animate(withDuration: 0.3, animations: {
             self.layoutIfNeeded()
-        }
+        }) 
     }
     
     func starredTabTapped() {
@@ -274,19 +294,19 @@ class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
         }
         
         leftHighlightBarPositionConstraint?.constant = tabContainerView.bounds.width / 2
-        recentsTabButton.selected = false
-        favoritesTabButton.selected = true
+        recentsTabButton.isSelected = false
+        favoritesTabButton.isSelected = true
         
-        UIView.animateWithDuration(0.3) {
+        UIView.animate(withDuration: 0.3, animations: {
             self.layoutIfNeeded()
-        }
+        }) 
     }
     
     func settingsTapped() {
         delegate?.settingsSelected()
     }
     
-    func numberOfItemsInSection(journals: Int, starred: Int) {
+    func numberOfItemsInSection(_ journals: Int, starred: Int) {
         journalsNumberLabel.text = "\(journals)"
         starredNumberLabel.text = "\(starred)"
     }

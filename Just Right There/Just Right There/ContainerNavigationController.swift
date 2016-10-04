@@ -10,23 +10,23 @@ import UIKit
 
 class ContainerNavigationController: UINavigationController {
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let backNavImage = UIImage.imageOfBackarrow(frame: CGRectMake(0, 0, 22, 22),
+        let backNavImage = UIImage.imageOfBackarrow(frame: CGRect(x: 0, y: 0, width: 22, height: 22),
                                                     color: WhiteColor,
-                                                    rotate: 0,
                                                     scale: 0.5,
-                                                    selected: false)
-        navigationBar.translucent = false
+                                                    selected: false,
+                                                    rotate: 0)
+        navigationBar.isTranslucent = false
         
         let navBarAppearance = UINavigationBar.appearance()
         navBarAppearance.barTintColor = UIColor.navyColor()
-        navBarAppearance.tintColor = UIColor.whiteColor()
+        navBarAppearance.tintColor = UIColor.white
         navBarAppearance.backIndicatorImage = backNavImage
         navBarAppearance.backIndicatorTransitionMaskImage = backNavImage
     }

@@ -14,23 +14,23 @@ class DreamInputAccessoryView: UIView, DoneButtonAdjustable {
     var doneButton: UIButton
     var buttonState: ButtonState {
         didSet {
-            if buttonState == .Disabled {
-                doneButton.backgroundColor = UIColor.clearColor()
+            if buttonState == .disabled {
+                doneButton.backgroundColor = UIColor.clear
                 doneButton.layer.borderWidth = 1.5
-                doneButton.setTitleColor(UIColor.whiteColor().colorWithAlphaComponent(0.5), forState: .Normal)
-                doneButton.userInteractionEnabled = false
+                doneButton.setTitleColor(UIColor.white.withAlphaComponent(0.5), for: UIControlState())
+                doneButton.isUserInteractionEnabled = false
             } else {
                 doneButton.backgroundColor = UIColor.primaryPurple()
-                doneButton.setTitleColor(UIColor.whiteColor(), forState: .Highlighted)
+                doneButton.setTitleColor(UIColor.white, for: .highlighted)
                 doneButton.layer.borderWidth = 0.0
-                doneButton.userInteractionEnabled = true
+                doneButton.isUserInteractionEnabled = true
             }
         }
     }
     var delegate: ComposeAccessoryViewDelegate?
     enum ButtonState {
-        case Disabled
-        case Highlighted
+        case disabled
+        case highlighted
     }
     
     override init(frame: CGRect) {
@@ -42,26 +42,26 @@ class DreamInputAccessoryView: UIView, DoneButtonAdjustable {
         stateLabel.translatesAutoresizingMaskIntoConstraints = false
         stateLabel.setTextWith(UIFont(name: "Montserrat-Regular", size: 11.5),
                                letterSpacing: 1.0,
-                               color: UIColor.whiteColor().colorWithAlphaComponent(0.5),
-                               text: "private".uppercaseString)
+                               color: UIColor.white.withAlphaComponent(0.5),
+                               text: "private".uppercased())
         
         doneButton = UIButton()
         doneButton.translatesAutoresizingMaskIntoConstraints = false
         doneButton.titleLabel?.font = UIFont(name: "Montserrat-Regular", size: 10.5)
-        doneButton.backgroundColor = UIColor.clearColor()
+        doneButton.backgroundColor = UIColor.clear
         doneButton.layer.cornerRadius = 4.0
         doneButton.layer.borderWidth = 1.5
-        doneButton.userInteractionEnabled = false
-        doneButton.layer.borderColor = UIColor.whiteColor().colorWithAlphaComponent(0.5).CGColor
-        doneButton.setTitle("done".uppercaseString, forState: .Normal)
-        doneButton.setTitleColor(UIColor.whiteColor().colorWithAlphaComponent(0.5), forState: .Normal)
+        doneButton.isUserInteractionEnabled = false
+        doneButton.layer.borderColor = UIColor.white.withAlphaComponent(0.5).cgColor
+        doneButton.setTitle("done".uppercased(), for: UIControlState())
+        doneButton.setTitleColor(UIColor.white.withAlphaComponent(0.5), for: UIControlState())
         
-        buttonState = .Disabled
+        buttonState = .disabled
         
         super.init(frame: frame)
         
-        secretSwitch.addTarget(self, action: #selector(DreamInputAccessoryView.switchDidChange(_:)), forControlEvents: .ValueChanged)
-        doneButton.addTarget(self, action: #selector(DreamInputAccessoryView.doneButtonTapped), forControlEvents: .TouchUpInside)
+        secretSwitch.addTarget(self, action: #selector(DreamInputAccessoryView.switchDidChange(_:)), for: .valueChanged)
+        doneButton.addTarget(self, action: #selector(DreamInputAccessoryView.doneButtonTapped), for: .touchUpInside)
         
         backgroundColor = UIColor(red: 25.0/255.0, green: 25.0/255.0, blue: 25.0/255.0, alpha: 1.0)
         addSubview(secretSwitch)
@@ -75,27 +75,27 @@ class DreamInputAccessoryView: UIView, DoneButtonAdjustable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func switchDidChange(sender: UISwitch) {
-        if sender.on {
+    func switchDidChange(_ sender: UISwitch) {
+        if sender.isOn {
             delegate?.stateDidChange("public")
             stateLabel.setTextWith(UIFont(name: "Montserrat-Regular", size: 11.5),
                                    letterSpacing: 1.0,
-                                   color: UIColor.whiteColor().colorWithAlphaComponent(0.5),
-                                   text: "public".uppercaseString)
+                                   color: UIColor.white.withAlphaComponent(0.5),
+                                   text: "public".uppercased())
         } else {
             delegate?.stateDidChange("private")
             stateLabel.setTextWith(UIFont(name: "Montserrat-Regular", size: 11.5),
                                    letterSpacing: 1.0,
-                                   color: UIColor.whiteColor().colorWithAlphaComponent(0.5),
-                                   text: "private".uppercaseString)
+                                   color: UIColor.white.withAlphaComponent(0.5),
+                                   text: "private".uppercased())
         }
     }
     
-    func updateDoneButton(state: String) {
+    func updateDoneButton(_ state: String) {
         if state == "disabled" {
-            buttonState = .Disabled
+            buttonState = .disabled
         } else {
-            buttonState = .Highlighted
+            buttonState = .highlighted
         }
     }
     
@@ -120,6 +120,6 @@ class DreamInputAccessoryView: UIView, DoneButtonAdjustable {
 }
 
 protocol ComposeAccessoryViewDelegate {
-    func stateDidChange(state: String)
+    func stateDidChange(_ state: String)
     func doneButtonTapped()
 }

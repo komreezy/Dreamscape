@@ -8,3 +8,4 @@
 #import <Firebase/Firebase.h>
 #import "UIScrollView+EmptyDataSet.h"
 #import <MBProgressHUD/MBProgressHUD.h>
+#import "UIColor+HEXString.h"

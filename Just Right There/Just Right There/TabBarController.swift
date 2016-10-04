@@ -11,8 +11,8 @@ import UIKit
 class TabBarController: UITabBarController,
     UITabBarControllerDelegate,
     NewDreamViewControllerAnimatable {
-    private let dummyTabBar: UIView
-    private let imageView: UIImageView
+    fileprivate let dummyTabBar: UIView
+    fileprivate let imageView: UIImageView
     var homeImageBlue: UIImage
     var homeImageGrey: UIImage
     var addImageBlue: UIImage
@@ -27,13 +27,13 @@ class TabBarController: UITabBarController,
         imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(named: "tabBarLip")
-        imageView.contentMode = .ScaleAspectFit
+        imageView.contentMode = .scaleAspectFit
 
         dummyTabBar = UIView()
         dummyTabBar.backgroundColor = UIColor(red: 34.0/255.0, green: 35.0/255.0, blue: 38.0/255.0, alpha: 1.0)
         dummyTabBar.layer.shadowOpacity = 0.8
-        dummyTabBar.layer.shadowOffset = CGSizeMake(0, 0)
-        dummyTabBar.layer.shadowColor = UIColor.blackColor().CGColor
+        dummyTabBar.layer.shadowOffset = CGSize(width: 0, height: 0)
+        dummyTabBar.layer.shadowColor = UIColor.black.cgColor
         dummyTabBar.layer.shadowRadius = 4
 
         homeImageBlue = UIImage(named: "bluemoon")!
@@ -53,7 +53,7 @@ class TabBarController: UITabBarController,
         homeViewController.tabBarItem.imageInsets = UIEdgeInsetsMake(5.0, 25.0, -5.0, -25.0)
         
         addDreamViewController = NewDreamViewController()
-        addDreamViewController.tabBarItem = UITabBarItem(title: "", image: addImageGrey.imageWithRenderingMode(.AlwaysOriginal), selectedImage: addImageBlue)
+        addDreamViewController.tabBarItem = UITabBarItem(title: "", image: addImageGrey.withRenderingMode(.alwaysOriginal), selectedImage: addImageBlue)
         
         userViewModel.delegate = homeViewController
         userProfileViewController = UserProfileCollectionViewController(userViewModel: userViewModel)
@@ -65,27 +65,27 @@ class TabBarController: UITabBarController,
         delegate = self
         addDreamViewController.delegate = self
 
-        tabBar.tintColor = UIColor.whiteColor()
+        tabBar.tintColor = UIColor.white
         tabBar.barTintColor = UIColor(red: 34.0/255.0, green: 35.0/255.0, blue: 38.0/255.0, alpha: 1.0)
         tabBar.backgroundColor = UIColor(red: 34.0/255.0, green: 35.0/255.0, blue: 38.0/255.0, alpha: 1.0)
         tabBar.shadowImage = UIImage()
         tabBar.backgroundImage = UIImage()
-        tabBar.translucent = false
+        tabBar.isTranslucent = false
 
         dummyTabBar.frame = tabBar.frame
 
         let homeFeedNavigationController = ContainerNavigationController(rootViewController: homeViewController)
         homeFeedNavigationController.navigationBar.barTintColor = UIColor(red: 25.0/255.0, green: 26.0/255.0, blue: 26.0/255.0, alpha: 1.0)
-        homeFeedNavigationController.navigationBar.translucent = false
+        homeFeedNavigationController.navigationBar.isTranslucent = false
         
         let composeNavigationController = ContainerNavigationController(rootViewController: addDreamViewController)
         composeNavigationController.navigationBar.barTintColor = UIColor(red: 25.0/255.0, green: 26.0/255.0, blue: 26.0/255.0, alpha: 1.0)
-        composeNavigationController.navigationBar.translucent = false
+        composeNavigationController.navigationBar.isTranslucent = false
 
         view.insertSubview(imageView, belowSubview: tabBar)
         view.insertSubview(dummyTabBar, belowSubview: imageView)
 
-        let tabControllers = [homeFeedNavigationController, composeNavigationController, userProfileViewController]
+        let tabControllers = [homeFeedNavigationController, composeNavigationController, userProfileViewController] as [UIViewController]
         viewControllers = tabControllers
 
         setupLayout()
@@ -95,7 +95,7 @@ class TabBarController: UITabBarController,
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate : Bool {
         if selectedIndex == 2 {
             return false
         }
@@ -105,7 +105,7 @@ class TabBarController: UITabBarController,
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TabBarController.updateHiddenTabBar), name: "updateTabBar", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(TabBarController.updateHiddenTabBar), name: NSNotification.Name(rawValue: "updateTabBar"), object: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -114,12 +114,12 @@ class TabBarController: UITabBarController,
     }
     
     func updateHiddenTabBar() {
-        tabBar.hidden = tabBar.hidden ? false : true
-        imageView.hidden = imageView.hidden ? false : true
-        dummyTabBar.hidden = dummyTabBar.hidden ? false : true
+        tabBar.isHidden = tabBar.isHidden ? false : true
+        imageView.isHidden = imageView.isHidden ? false : true
+        dummyTabBar.isHidden = dummyTabBar.isHidden ? false : true
     }
     
-    func shouldLeaveNewDreamViewController(index: Int) {
+    func shouldLeaveNewDreamViewController(_ index: Int) {
         selectedIndex = index
     }
     

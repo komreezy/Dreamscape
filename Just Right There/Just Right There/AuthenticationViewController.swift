@@ -7,6 +7,19 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseDatabase
+
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
 
 class AuthenticationViewController: UIViewController, UITextFieldDelegate {
     var navigationBar: UIView
@@ -14,7 +27,7 @@ class AuthenticationViewController: UIViewController, UITextFieldDelegate {
     var email: Bool
     var errorView: ErrorDropView
     var errorViewConstraint: NSLayoutConstraint?
-    var userDefaults: NSUserDefaults
+    var userDefaults: UserDefaults
     var state: SignupState?
     var delegate: AuthenticationObservable?
     
@@ -33,7 +46,7 @@ class AuthenticationViewController: UIViewController, UITextFieldDelegate {
         navigationBar.translatesAutoresizingMaskIntoConstraints = false
         navigationBar.backgroundColor = UIColor(red: 34.0/255.0, green: 35.0/255.0, blue: 38.0/255.0, alpha: 1.0)
         
-        userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults = UserDefaults.standard
         
         errorView = ErrorDropView()
         errorView.translatesAutoresizingMaskIntoConstraints = false
@@ -44,7 +57,7 @@ class AuthenticationViewController: UIViewController, UITextFieldDelegate {
         authenticationView.usernameTextField.delegate = self
         authenticationView.passwordTextField.delegate = self
         
-        authenticationView.authenticationButton.addTarget(self, action: #selector(AuthenticationViewController.enterButtonTapped), forControlEvents: .TouchUpInside)
+        authenticationView.authenticationButton.addTarget(self, action: #selector(AuthenticationViewController.enterButtonTapped), for: .touchUpInside)
         
         view.addSubview(authenticationView)
         view.addSubview(navigationBar)
@@ -59,27 +72,18 @@ class AuthenticationViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        let titleViewLabel = UILabel(frame: CGRectMake(0,0,50,30))
+        let titleViewLabel = UILabel(frame: CGRect(x: 0,y: 0,width: 50,height: 30))
         if email {
-            titleViewLabel.text = "sign up".uppercaseString
+            titleViewLabel.text = "sign up".uppercased()
         } else {
-            titleViewLabel.text = "sign in".uppercaseString
+            titleViewLabel.text = "sign in".uppercased()
         }
     
         titleViewLabel.font = UIFont(name: "Montserrat-Regular", size: 12.0)
-        titleViewLabel.textAlignment = .Center
-        titleViewLabel.textColor = UIColor.whiteColor()
-        
-//        let cancelButton = UIButton(frame: CGRectMake(0,0,50,25))
-//        cancelButton.titleLabel?.font = UIFont(name: "Montserrat-Regular", size: 13.0)
-//        cancelButton.titleLabel?.textAlignment = .Right
-//        cancelButton.setTitle("Cancel", forState: .Normal)
-//        cancelButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-//        
-//        let rightBarButton = UIBarButtonItem(customView: cancelButton)
+        titleViewLabel.textAlignment = .center
+        titleViewLabel.textColor = UIColor.white
         
         navigationItem.titleView = titleViewLabel
-        //navigationItem.rightBarButtonItem = rightBarButton
     }
 
     override func didReceiveMemoryWarning() {
@@ -90,21 +94,21 @@ class AuthenticationViewController: UIViewController, UITextFieldDelegate {
     func enterButtonTapped() {
         if state == .Signup {
             if authenticationView.passwordTextField.text?.characters.count < 5 && authenticationView.usernameTextField.text?.characters.count < 3 {
-                errorView.setErrorText(.Username)
+                errorView.setErrorText(.username)
                 showError()
-                delay(3.0, closure: {
+                delay(delay: 3.0, closure: {
                     self.hideError()
                 })
             } else if authenticationView.usernameTextField.text?.characters.count < 3 {
-                errorView.setErrorText(.Username)
+                errorView.setErrorText(.username)
                 showError()
-                delay(3.0, closure: {
+                delay(delay: 3.0, closure: {
                     self.hideError()
                 })
             } else if authenticationView.passwordTextField.text?.characters.count < 5 {
-                errorView.setErrorText(.Password)
+                errorView.setErrorText(.password)
                 showError()
-                delay(3.0, closure: {
+                delay(delay: 3.0, closure: {
                     self.hideError()
                 })
             }
@@ -114,7 +118,7 @@ class AuthenticationViewController: UIViewController, UITextFieldDelegate {
                 let email = authenticationView.emailTextField.text {
                 
                 // create Firebase user with email
-                FIRAuth.auth()?.createUserWithEmail(email, password: password) { (user, error) in
+                FIRAuth.auth()?.createUser(withEmail: email, password: password) { (user, error) in
                     if error != nil {
                         print(error?.localizedDescription)
                     } else {
@@ -126,29 +130,27 @@ class AuthenticationViewController: UIViewController, UITextFieldDelegate {
                     "email":email
                 ])
                 
-                userDefaults.setBool(true, forKey: "user")
+                userDefaults.set(true, forKey: "user")
                 userDefaults.setValue("\(username)", forKey: "username")
                 userDefaults.setValue("\(self.authenticationView.passwordTextField.text)", forKey: "password")
                 
                 delegate?.didSignUpSuccessfully()
-                //navigationController?.popViewControllerAnimated(true)
-                //dismissViewControllerAnimated(true, completion: nil)
             }
         } else {
             if let username = authenticationView.usernameTextField.text,
                 let password = authenticationView.passwordTextField.text,
                 let email = authenticationView.emailTextField.text {
                 // Sign in with email firebase
-                FIRAuth.auth()?.signInWithEmail(email, password: password, completion: { (user, error) in
+                FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user, error) in
                     if error != nil {
                         print(error?.localizedDescription)
                     } else {
-                        let trimmedUsername = username.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-                        let trimmedEmail = email.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-                        FIRDatabase.database().reference().child("users/\(trimmedUsername)/email").observeSingleEventOfType(.Value,
-                            withBlock: { snapshot in
+                        let trimmedUsername = username.trimmingCharacters(in: .whitespaces)
+                        let trimmedEmail = email.trimmingCharacters(in: .whitespaces)
+                        FIRDatabase.database().reference().child("users/\(trimmedUsername)/email").observeSingleEvent(of: .value,
+                                                                                                                      with: { snapshot in
                                 if trimmedEmail == snapshot.value as? String {
-                                    self.userDefaults.setBool(true, forKey: "user")
+                                    self.userDefaults.set(true, forKey: "user")
                                     self.userDefaults.setValue("\(trimmedUsername)", forKey: "username")
                                     self.userDefaults.setValue("\(self.authenticationView.passwordTextField.text)", forKey: "password")
                                     
@@ -158,8 +160,6 @@ class AuthenticationViewController: UIViewController, UITextFieldDelegate {
                         })
                     }
                 })
-                //navigationController?.popViewControllerAnimated(true)
-                //dismissViewControllerAnimated(true, completion: nil)
             }
         }
         userDefaults.synchronize()
@@ -168,7 +168,7 @@ class AuthenticationViewController: UIViewController, UITextFieldDelegate {
     func showError() {
         errorViewConstraint?.constant = 25
         
-        UIView.animateWithDuration(0.4, animations: {
+        UIView.animate(withDuration: 0.4, animations: {
             self.view.layoutSubviews()
         })
     }
@@ -176,16 +176,16 @@ class AuthenticationViewController: UIViewController, UITextFieldDelegate {
     func hideError() {
         errorViewConstraint?.constant = 0
         
-        UIView.animateWithDuration(0.4, animations: {
+        UIView.animate(withDuration: 0.4, animations: {
             self.view.layoutSubviews()
         })
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         textField.resignFirstResponder()
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
@@ -197,8 +197,10 @@ class AuthenticationViewController: UIViewController, UITextFieldDelegate {
             authenticationView.al_left == view.al_left,
             authenticationView.al_right == view.al_right,
             authenticationView.al_top == view.al_top,
-            authenticationView.al_bottom == view.al_bottom,
-            
+            authenticationView.al_bottom == view.al_bottom
+        ])
+        
+        view.addConstraints([
             errorView.al_left == view.al_left,
             errorView.al_right == view.al_right,
             errorViewConstraint!,

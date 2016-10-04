@@ -33,19 +33,19 @@ class UserProfileCollectionViewCell: UICollectionViewCell {
         
         shareButton = UIButton()
         shareButton.translatesAutoresizingMaskIntoConstraints = false
-        shareButton.imageView?.contentMode = .ScaleAspectFit
-        shareButton.setImage(UIImage(named: "share"), forState: .Normal)
+        shareButton.imageView?.contentMode = .scaleAspectFit
+        shareButton.setImage(UIImage(named: "share"), for: UIControlState())
         shareButton.contentEdgeInsets = UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0)
         
         highlightLine = UIView()
         highlightLine.translatesAutoresizingMaskIntoConstraints = false
-        highlightLine.backgroundColor = UIColor.lightGrayColor()
+        highlightLine.backgroundColor = UIColor.lightGray
         
         super.init(frame: frame)
         
-        backgroundColor = UIColor.whiteColor()
+        backgroundColor = UIColor.white
         
-        shareButton.addTarget(self, action: "shareTapped", forControlEvents: .TouchUpInside)
+        shareButton.addTarget(self, action: #selector(UserProfileCollectionViewCell.shareTapped), for: .touchUpInside)
         
         addSubview(titleLabel)
         addSubview(dateLabel)
@@ -86,5 +86,5 @@ class UserProfileCollectionViewCell: UICollectionViewCell {
 }
 
 protocol UserProfileCellDelegate: class {
-    func shareTapped(title: String, author: String, text: String, id: String, date: String)
+    func shareTapped(_ title: String, author: String, text: String, id: String, date: String)
 }

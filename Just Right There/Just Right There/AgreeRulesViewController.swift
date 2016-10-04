@@ -30,32 +30,32 @@ class AgreeRulesViewController: UIViewController {
         
         agreeButton = UIButton()
         agreeButton.translatesAutoresizingMaskIntoConstraints = false
-        agreeButton.setTitle("Agree", forState: .Normal)
-        agreeButton.setTitleColor(WhiteColor, forState: .Normal)
+        agreeButton.setTitle("Agree", for: UIControlState())
+        agreeButton.setTitleColor(WhiteColor, for: UIControlState())
         agreeButton.titleLabel?.font = UIFont(name: "OpenSans", size: 16.0)
         
         cancelButton = UIButton()
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
-        cancelButton.setTitle("Cancel", forState: .Normal)
-        cancelButton.setTitleColor(WhiteColor, forState: .Normal)
+        cancelButton.setTitle("Cancel", for: UIControlState())
+        cancelButton.setTitleColor(WhiteColor, for: UIControlState())
         cancelButton.titleLabel?.font = UIFont(name: "OpenSans", size: 16.0)
         
         titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont(name: "Roboto", size: 20.0)
-        titleLabel.textColor = UIColor.whiteColor()
-        titleLabel.textAlignment = .Center
+        titleLabel.textColor = UIColor.white
+        titleLabel.textAlignment = .center
         titleLabel.text = "Rules"
         
         textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.font = UIFont.systemFontOfSize(19.0)
+        textView.font = UIFont.systemFont(ofSize: 19.0)
         textView.text = rules
         
         super.init(nibName: nil, bundle: nil)
         
-        agreeButton.addTarget(self, action: "agreeButtonSelected", forControlEvents: .TouchUpInside)
-        cancelButton.addTarget(self, action: "cancelButtonSelected", forControlEvents: .TouchUpInside)
+        agreeButton.addTarget(self, action: #selector(AgreeRulesViewController.agreeButtonSelected), for: .touchUpInside)
+        cancelButton.addTarget(self, action: #selector(AgreeRulesViewController.cancelButtonSelected), for: .touchUpInside)
         
         headerView.addSubview(agreeButton)
         headerView.addSubview(cancelButton)
@@ -70,7 +70,7 @@ class AgreeRulesViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
     
@@ -84,12 +84,12 @@ class AgreeRulesViewController: UIViewController {
     }
     
     func agreeButtonSelected() {
-        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "agreed")
-        dismissViewControllerAnimated(true, completion: nil)
+        UserDefaults.standard.set(true, forKey: "agreed")
+        dismiss(animated: true, completion: nil)
     }
     
     func cancelButtonSelected() {
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     func setupLayout() {
@@ -98,20 +98,28 @@ class AgreeRulesViewController: UIViewController {
             headerView.al_left == view.al_left,
             headerView.al_right == view.al_right,
             headerView.al_height == 65,
-            
+        ])
+        
+        view.addConstraints([
             agreeButton.al_right == view.al_right - 15,
             agreeButton.al_centerY == headerView.al_centerY + 2,
             agreeButton.al_width == 55,
-            agreeButton.al_height == 35,
-            
+            agreeButton.al_height == 35
+        ])
+        
+        view.addConstraints([
             cancelButton.al_left == view.al_left + 15,
             cancelButton.al_centerY == headerView.al_centerY + 2,
             cancelButton.al_width == 55,
-            cancelButton.al_height == 35,
-            
+            cancelButton.al_height == 35
+        ])
+        
+        view.addConstraints([
             titleLabel.al_centerX == headerView.al_centerX,
-            titleLabel.al_centerY == headerView.al_centerY,
-            
+            titleLabel.al_centerY == headerView.al_centerY
+        ])
+        
+        view.addConstraints([
             textView.al_left == view.al_left + 20,
             textView.al_bottom == view.al_bottom,
             textView.al_right == view.al_right - 20,

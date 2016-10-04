@@ -20,7 +20,7 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
                 starLabel.text = "\(dream.upvotes - dream.downvotes)"
                 
                 let paragraphStyle = NSMutableParagraphStyle()
-                paragraphStyle.lineBreakMode = .ByTruncatingTail
+                paragraphStyle.lineBreakMode = .byTruncatingTail
                 paragraphStyle.lineHeightMultiple = 20.0
                 paragraphStyle.maximumLineHeight = 20.0
                 paragraphStyle.minimumLineHeight = 20.0
@@ -58,9 +58,9 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
     }
     var imageViewWidthConstraint: NSLayoutConstraint?
     var titleHeightConstraint: NSLayoutConstraint?
-    var upvoteButton: SpringButton
-    var downvoteButton: SpringButton
-    var starLabel: SpringLabel
+    var upvoteButton: UIButton
+    var downvoteButton: UIButton
+    var starLabel: UILabel
     var titleText: String {
         set(value) {
             self.dreamTitleLabel.text = value
@@ -83,23 +83,23 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
         dreamTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         dreamTitleLabel.font = UIFont(name: "Montserrat-Regular", size: 16.0)
         dreamTitleLabel.numberOfLines = 2
-        dreamTitleLabel.textColor = UIColor.whiteColor()
+        dreamTitleLabel.textColor = UIColor.white
         
         authorLabel = UILabel()
         authorLabel.translatesAutoresizingMaskIntoConstraints = false
         authorLabel.font = UIFont(name: "Montserrat-Regular", size: 12.0)
-        authorLabel.textColor = UIColor.whiteColor()
+        authorLabel.textColor = UIColor.white
         
         dateLabel = UILabel()
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         dateLabel.font = UIFont(name: "Courier", size: 12.0)
-        dateLabel.textColor = UIColor.whiteColor().colorWithAlphaComponent(0.54)
+        dateLabel.textColor = UIColor.white.withAlphaComponent(0.54)
         
         previewLabel = UILabel()
         previewLabel.translatesAutoresizingMaskIntoConstraints = false
         previewLabel.font = UIFont(name: "Courier", size: 16.0)
         previewLabel.numberOfLines = 4
-        previewLabel.textColor = UIColor.whiteColor().colorWithAlphaComponent(0.74)
+        previewLabel.textColor = UIColor.white.withAlphaComponent(0.74)
         
         imageView = UIButton()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -107,34 +107,28 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
         imageView.clipsToBounds = true
         imageView.backgroundColor = UIColor.primaryPurple()
         imageView.contentEdgeInsets = UIEdgeInsetsMake(7.0, 7.0, 7.0, 7.0)
-        imageView.userInteractionEnabled = false
+        imageView.isUserInteractionEnabled = false
         
-        upvoteButton = SpringButton()
+        upvoteButton = UIButton()
         upvoteButton.translatesAutoresizingMaskIntoConstraints = false
-        upvoteButton.setImage(UIImage(named: "upvote"), forState: .Normal)
-        upvoteButton.setImage(UIImage(named: "upvote-highlighted"), forState: .Selected)
-        upvoteButton.animation = "pop"
+        upvoteButton.setImage(UIImage(named: "upvote"), for: UIControlState())
+        upvoteButton.setImage(UIImage(named: "upvote-highlighted"), for: .selected)
         
-        downvoteButton = SpringButton()
+        downvoteButton = UIButton()
         downvoteButton.translatesAutoresizingMaskIntoConstraints = false
-        downvoteButton.setImage(UIImage(named: "downvote"), forState: .Normal)
-        downvoteButton.setImage(UIImage(named: "downvote-highlighted"), forState: .Selected)
-        downvoteButton.animation = "pop"
+        downvoteButton.setImage(UIImage(named: "downvote"), for: UIControlState())
+        downvoteButton.setImage(UIImage(named: "downvote-highlighted"), for: .selected)
         
-        starLabel = SpringLabel()
+        starLabel = UILabel()
         starLabel.translatesAutoresizingMaskIntoConstraints = false
         starLabel.textColor = UIColor.flatGrey()
-        starLabel.textAlignment = .Center
-        starLabel.animation = "squeeze"
-        starLabel.duration = 0.5
+        starLabel.textAlignment = .center
         starLabel.text = "\(stars)"
         
-        starLabel = SpringLabel()
+        starLabel = UILabel()
         starLabel.translatesAutoresizingMaskIntoConstraints = false
-        starLabel.textColor = UIColor.whiteColor()
-        starLabel.textAlignment = .Center
-        starLabel.animation = "squeeze"
-        starLabel.duration = 0.5
+        starLabel.textColor = UIColor.white
+        starLabel.textAlignment = .center
         
         if let upvotes = dream?.upvotes, let downvotes = dream?.downvotes {
             karma = upvotes - downvotes
@@ -144,8 +138,8 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
         
         backgroundColor = UIColor(red: 34.0/255.0, green: 35.0/255.0, blue: 38.0/255.0, alpha: 1.0)
         layer.cornerRadius = 2.0
-        upvoteButton.addTarget(self, action: #selector(HomeFeedImageCollectionViewCell.upvoteTapped), forControlEvents: .TouchUpInside)
-        downvoteButton.addTarget(self, action: #selector(HomeFeedImageCollectionViewCell.downvoteTapped), forControlEvents: .TouchUpInside)
+        upvoteButton.addTarget(self, action: #selector(HomeFeedImageCollectionViewCell.upvoteTapped), for: .touchUpInside)
+        downvoteButton.addTarget(self, action: #selector(HomeFeedImageCollectionViewCell.downvoteTapped), for: .touchUpInside)
         
         addSubview(dreamTitleLabel)
         addSubview(authorLabel)
@@ -164,29 +158,27 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
     }
     
     func upvoteTapped() {
-        if upvoteButton.selected {
-            upvoteButton.selected = false
+        if upvoteButton.isSelected {
+            upvoteButton.isSelected = false
             
-            if let username = NSUserDefaults.standardUserDefaults().stringForKey("username"),
+            if let username = UserDefaults.standard.string(forKey: "username"),
                 let id = id,
                 let upvotes = dream?.upvotes,
                 let downvotes = dream?.downvotes {
                 starLabel.text = "\(karma - 1)"
-                starLabel.animate()
                 
                 FIRDatabase.database().reference().child("feed/\(id)/upvotes").setValue(upvotes - 1)
                 FIRDatabase.database().reference().child("feed/\(id)/downvotes").setValue(downvotes)
                 FIRDatabase.database().reference().child("/users/\(username)/starred/\(id)").removeValue()
             }
         } else {
-            upvoteButton.selected = true
-            downvoteButton.selected = false
+            upvoteButton.isSelected = true
+            downvoteButton.isSelected = false
             
-            if let username = NSUserDefaults.standardUserDefaults().stringForKey("username"),
+            if let username = UserDefaults.standard.string(forKey: "username"),
                 let id = id {
                 if !starredIds.contains(id) {
                     starLabel.text = "\(self.karma + 1)"
-                    starLabel.animate()
                     
                     if let title = dreamTitleLabel.text,
                         let author = authorLabel.text,
@@ -208,7 +200,7 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
                             "date":"\(date)",
                             "upvotes":upvotes + 1,
                             "downvotes":downvotes
-                        ]
+                        ] as [String : Any]
                         
                         FIRDatabase.database().reference().child("feed/\(id)/upvotes").setValue(upvotes + 1)
                         FIRDatabase.database().reference().child("feed/\(id)/downvotes").setValue(downvotes)
@@ -221,16 +213,15 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
     }
     
     func downvoteTapped() {
-        if downvoteButton.selected {
-            downvoteButton.selected = false
+        if downvoteButton.isSelected {
+            downvoteButton.isSelected = false
             
-            if let username = NSUserDefaults.standardUserDefaults().stringForKey("username"),
+            if let username = UserDefaults.standard.string(forKey: "username"),
                 let id = id,
                 let upvotes = dream?.upvotes,
                 let downvotes = dream?.upvotes {
-                upvoteButton.selected = false
+                upvoteButton.isSelected = false
                 starLabel.text = "\(karma + 1)"
-                starLabel.animate()
                 
                 FIRDatabase.database().reference().child("feed/\(id)/downvotes").setValue(downvotes - 1)
                 FIRDatabase.database().reference().child("feed/\(id)/upvotes").setValue(upvotes)
@@ -238,16 +229,15 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
                 FIRDatabase.database().reference().child("/users/\(username)/downvotes/\(id)").removeValue()
             }
         } else {
-            downvoteButton.selected = true
-            upvoteButton.selected = false
+            downvoteButton.isSelected = true
+            upvoteButton.isSelected = false
             
-            if let username = NSUserDefaults.standardUserDefaults().stringForKey("username"),
+            if let username = UserDefaults.standard.string(forKey: "username"),
                 let id = id,
                 let downvotes = dream?.downvotes,
                 let upvotes = dream?.upvotes {
-                upvoteButton.selected = false
+                upvoteButton.isSelected = false
                 starLabel.text = "\(karma - 1)"
-                starLabel.animate()
                 
                 if let title = dreamTitleLabel.text,
                     let author = authorLabel.text,
@@ -261,7 +251,7 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
                         "date":"\(date)",
                         "upvotes":upvotes,
                         "downvotes":downvotes
-                    ]
+                    ] as [String : Any]
                     
                     FIRDatabase.database().reference().child("feed/\(id)/downvotes").setValue(downvotes + 1)
                     FIRDatabase.database().reference().child("feed/\(id)/upvotes").setValue(upvotes)
@@ -280,23 +270,31 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
             dreamTitleLabel.al_left == imageView.al_left,
             dreamTitleLabel.al_top == al_top + 5,
             dreamTitleLabel.al_right == al_right - 5,
-            titleHeightConstraint!,
-            
+            titleHeightConstraint!
+        ])
+        
+        addConstraints([
             authorLabel.al_left == imageView.al_right + 5,
             authorLabel.al_bottom == imageView.al_centerY,
             authorLabel.al_right == al_right - 5,
-            authorLabel.al_top == imageView.al_top,
-            
+            authorLabel.al_top == imageView.al_top
+        ])
+        
+        addConstraints([
             dateLabel.al_left == imageView.al_right + 5,
             dateLabel.al_top == imageView.al_centerY - 6,
             dateLabel.al_right == al_right - 5,
-            dateLabel.al_bottom == imageView.al_bottom - 2,
-            
+            dateLabel.al_bottom == imageView.al_bottom - 2
+        ])
+        
+        addConstraints([
             previewLabel.al_right == al_right - 18,
             previewLabel.al_bottom == al_bottom - 20,
             previewLabel.al_left == imageView.al_left,
-            previewLabel.al_top ==  imageView.al_bottom,
-            
+            previewLabel.al_top ==  imageView.al_bottom
+        ])
+        
+        addConstraints([
             imageViewWidthConstraint!,
             imageView.al_left == al_left + 18,
             imageView.al_height == 40,
@@ -307,16 +305,19 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
             downvoteButton.al_right == al_right - 18,
             downvoteButton.al_centerY == authorLabel.al_bottom,
             downvoteButton.al_height == 24,
-            downvoteButton.al_width == 24,
-            
+            downvoteButton.al_width == 24
+        ])
+        
+        addConstraints([
             upvoteButton.al_right == downvoteButton.al_left - 12,
             upvoteButton.al_centerY == downvoteButton.al_centerY,
             upvoteButton.al_height == 24,
-            upvoteButton.al_width == 24,
-            
+            upvoteButton.al_width == 24
+        ])
+        
+        addConstraints([
             starLabel.al_centerY == upvoteButton.al_centerY,
-            starLabel.al_right == upvoteButton.al_left - 12,
-            //starLabel.al_width == 35
+            starLabel.al_right == upvoteButton.al_left - 12
         ])
     }
 }

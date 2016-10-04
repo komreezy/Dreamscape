@@ -10,17 +10,17 @@ import UIKit
 
 class ErrorDropView: UILabel {
     enum ErrorType {
-        case Username
-        case Password
-        case Invalid
+        case username
+        case password
+        case invalid
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         textColor = WhiteColor
-        textAlignment = .Center
-        font = UIFont.systemFontOfSize(12.0)
+        textAlignment = .center
+        font = UIFont.systemFont(ofSize: 12.0)
         backgroundColor = UIColor.flatRed()
     }
 
@@ -28,10 +28,10 @@ class ErrorDropView: UILabel {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setErrorText(type: ErrorType) {
-        if type == .Username {
+    func setErrorText(_ type: ErrorType) {
+        if type == .username {
             text = "Please enter a valid username of more than 3 characters"
-        } else if type == .Password {
+        } else if type == .password {
             text = "Please enter a valid password of more than 5 characters"
         } else {
             text = "Username already in use"

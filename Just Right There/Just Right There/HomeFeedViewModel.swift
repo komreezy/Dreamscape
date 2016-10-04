@@ -26,12 +26,12 @@ class HomeFeedViewModel: NSObject {
     }
     
     func requestData() {
-        FIRDatabase.database().reference().child("/feed").queryOrderedByChild("stars").observeEventType(.Value, withBlock: { snapshot in
+        FIRDatabase.database().reference().child("/feed").queryOrdered(byChild: "stars").observe(.value, with: { snapshot in
             if let feedsData = snapshot.value as? [String:[String:AnyObject]] {
                 self.dreamDictionary.removeAll()
                 for (id, data) in feedsData {
                     if let title = data["title"] as? String,
-                        let author = data["author"] as? String where author != "by Test test ",
+                        let author = data["author"] as? String , author != "by Test test ",
                         let text = data["text"] as? String,
                         let date = data["date"] as? String {
                         
@@ -63,7 +63,7 @@ class HomeFeedViewModel: NSObject {
         }
         
         var starredTemp: [Dream] = []
-        FIRDatabase.database().reference().child("/users/\(username)/starred").observeEventType(.Value, withBlock: { snapshot in
+        FIRDatabase.database().reference().child("/users/\(username)/starred").observe(.value, with: { snapshot in
             if let starredData = snapshot.value as? [String:[String:AnyObject]] {
                 starredIds.removeAll()
                 self.starred.removeAll()
@@ -92,10 +92,10 @@ class HomeFeedViewModel: NSObject {
                     }
                 }
                 // check for duplicates
-                for var i = 0; i < starredTemp.count; i++ {
-                    for var j = 0; j < starredTemp.count; j++ {
+                for i in 0 ..< starredTemp.count {
+                    for j in 0 ..< starredTemp.count {
                         if starredTemp[i].id == starredTemp[j].id && i != j {
-                            starredTemp.removeAtIndex(j)
+                            starredTemp.remove(at: j)
                         }
                     }
                 }
@@ -109,9 +109,9 @@ class HomeFeedViewModel: NSObject {
     }
     
     func requestDownvotesData() {
-        if let username = NSUserDefaults.standardUserDefaults().stringForKey("username") {
+        if let username = UserDefaults.standard.string(forKey: "username") {
             var downvotesTemp: [Dream] = []
-            FIRDatabase.database().reference().child("/users/\(username)/downvotes").observeEventType(.Value, withBlock: { snapshot in
+            FIRDatabase.database().reference().child("/users/\(username)/downvotes").observe(.value, with: { snapshot in
                 if let downvoteData = snapshot.value as? [String:[String:AnyObject]] {
                     downvoteIds.removeAll()
                     self.downvotes.removeAll()
@@ -163,7 +163,7 @@ class HomeFeedViewModel: NSObject {
         delegate?.dataDidLoad()
     }
     
-    func quicksort(array: [Dream]) -> [Dream] {
+    func quicksort(_ array: [Dream]) -> [Dream] {
         guard array.count > 1 else { return array }
         
         let pivot = array[array.count / 2]

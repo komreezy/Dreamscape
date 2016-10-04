@@ -19,7 +19,7 @@ class UserSettingButton: UIButton {
         
         borderView = UIView()
         borderView.translatesAutoresizingMaskIntoConstraints = false
-        borderView.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.11)
+        borderView.backgroundColor = UIColor.white.withAlphaComponent(0.11)
         
         arrowImageView = UIImageView()
         arrowImageView.translatesAutoresizingMaskIntoConstraints = false

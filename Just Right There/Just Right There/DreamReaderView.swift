@@ -27,28 +27,28 @@ class DreamReaderView: UIView, UITextViewDelegate {
         dreamTitle = UILabel()
         dreamTitle.translatesAutoresizingMaskIntoConstraints = false
         dreamTitle.font = UIFont(name: "HelveticaNeue", size: 18.0)
-        dreamTitle.textColor = UIColor.whiteColor()
-        dreamTitle.textAlignment = .Center
+        dreamTitle.textColor = UIColor.white
+        dreamTitle.textAlignment = .center
         dreamTitle.text = currentTitle
         
         authorLabel = UILabel()
         authorLabel.translatesAutoresizingMaskIntoConstraints = false
         authorLabel.font = UIFont(name: "HelveticaNeue", size: 14.0)
-        authorLabel.textColor = UIColor.whiteColor()
-        dreamTitle.textAlignment = .Center
+        authorLabel.textColor = UIColor.white
+        dreamTitle.textAlignment = .center
         authorLabel.text = "by \(currentAuthor)"
         
         dreamTextView = UITextView()
         dreamTextView.translatesAutoresizingMaskIntoConstraints = false
-        dreamTextView.backgroundColor = UIColor.whiteColor()
+        dreamTextView.backgroundColor = UIColor.white
         dreamTextView.font = UIFont(name: "HelveticaNeue", size: 14.0)
-        dreamTextView.editable = false
+        dreamTextView.isEditable = false
         dreamTextView.showsVerticalScrollIndicator = false
         dreamTextView.text = currentText
         
         super.init(frame: frame)
         
-        backgroundColor = UIColor.whiteColor()
+        backgroundColor = UIColor.white
         
         dreamTextView.delegate = self
         

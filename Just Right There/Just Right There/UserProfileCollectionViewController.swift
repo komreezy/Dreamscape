@@ -21,8 +21,8 @@ class UserProfileCollectionViewController: UICollectionViewController,
     DZNEmptyDataSetDelegate {
     
     enum UserState {
-        case Journal
-        case Starred
+        case journal
+        case starred
     }
     
     var viewModel: UserProfileViewModel
@@ -33,7 +33,7 @@ class UserProfileCollectionViewController: UICollectionViewController,
     init(userViewModel: UserProfileViewModel) {
         viewModel = userViewModel
         
-        state = .Journal
+        state = .journal
         
         super.init(collectionViewLayout: UserProfileCollectionViewController.provideCollectionViewLayout())
         
@@ -49,16 +49,16 @@ class UserProfileCollectionViewController: UICollectionViewController,
     }
     
     class func provideCollectionViewLayout() -> UICollectionViewLayout {
-        let screenWidth = UIScreen.mainScreen().bounds.size.width
+        let screenWidth = UIScreen.main.bounds.size.width
         let flowLayout = CSStickyHeaderFlowLayout()
-        flowLayout.parallaxHeaderMinimumReferenceSize = CGSizeMake(screenWidth, 100)
-        flowLayout.parallaxHeaderReferenceSize = CGSizeMake(screenWidth, 335.5)
+        flowLayout.parallaxHeaderMinimumReferenceSize = CGSize(width: screenWidth, height: 100)
+        flowLayout.parallaxHeaderReferenceSize = CGSize(width: screenWidth, height: 335.5)
         flowLayout.parallaxHeaderAlwaysOnTop = true
         flowLayout.disableStickyHeaders = false
         flowLayout.minimumLineSpacing = 7.0
         flowLayout.minimumInteritemSpacing = 7.0
         flowLayout.sectionInset = UIEdgeInsetsMake(10.0, 0.0, 50.0, 0.0)
-        flowLayout.itemSize = CGSizeMake(screenWidth - 24.0, 192)
+        flowLayout.itemSize = CGSize(width: screenWidth - 24.0, height: 192)
         return flowLayout
     }
     
@@ -70,16 +70,16 @@ class UserProfileCollectionViewController: UICollectionViewController,
             collectionView.emptyDataSetDelegate = self
             collectionView.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
             collectionView.showsVerticalScrollIndicator = false
-            collectionView.registerClass(UserProfileHeaderView.self, forSupplementaryViewOfKind: CSStickyHeaderParallaxHeader, withReuseIdentifier: "profile-header")
+            collectionView.register(UserProfileHeaderView.self, forSupplementaryViewOfKind: CSStickyHeaderParallaxHeader, withReuseIdentifier: "profile-header")
             //collectionView.registerClass(UserProfileCollectionViewCell.self, forCellWithReuseIdentifier: userProfileReuseIdentifier)
-            collectionView.registerClass(HomeFeedImageCollectionViewCell.self, forCellWithReuseIdentifier: userProfileReuseIdentifier)
+            collectionView.register(HomeFeedImageCollectionViewCell.self, forCellWithReuseIdentifier: userProfileReuseIdentifier)
         }
         
         headerDelegate?.numberOfItemsInSection(viewModel.journals.count, starred: viewModel.starred.count)
         collectionView?.reloadData()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         if let collectionView = collectionView {
             viewModel.getUsername()
             viewModel.requestJournalData()
@@ -93,10 +93,10 @@ class UserProfileCollectionViewController: UICollectionViewController,
             headerView?.nameLabel.text = username
             headerDelegate = headerView
             headerDelegate?.numberOfItemsInSection(viewModel.journals.count, starred: viewModel.starred.count)
-            if let picture = NSUserDefaults.standardUserDefaults().stringForKey("picture") {
-                headerView?.profileImageView.setImage(UIImage(named: "\(picture)"), forState: .Normal)
+            if let picture = UserDefaults.standard.string(forKey: "picture") {
+                headerView?.profileImageView.setImage(UIImage(named: "\(picture)"), for: UIControlState())
             } else {
-                headerView?.profileImageView.setImage(UIImage(named: "alien-head"), forState: .Normal)
+                headerView?.profileImageView.setImage(UIImage(named: "alien-head"), for: UIControlState())
             }
         }
         
@@ -107,31 +107,31 @@ class UserProfileCollectionViewController: UICollectionViewController,
         super.didReceiveMemoryWarning()
     }
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return false
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
     }
     
     // MARK: DZNEmptyDataSet
-    func imageForEmptyDataSet(scrollView: UIScrollView!) -> UIImage! {
+    func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
         return UIImage(named: "snooze")
     }
     
-    func verticalOffsetForEmptyDataSet(scrollView: UIScrollView!) -> CGFloat {
+    func verticalOffset(forEmptyDataSet scrollView: UIScrollView!) -> CGFloat {
         return view.frame.size.height * 0.25
     }
     
-    func titleForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
-        if state == .Journal {
+    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        if state == .journal {
             let title = "No Dreams yet"
             let myMutableString = NSMutableAttributedString(
                 string: title,
                 attributes: [NSFontAttributeName:UIFont(
                     name: "Montserrat",
-                    size: 16.0)!, NSForegroundColorAttributeName: UIColor.whiteColor()])
+                    size: 16.0)!, NSForegroundColorAttributeName: UIColor.white])
             return myMutableString
         } else {
             let title = "No Upvotes yet"
@@ -139,19 +139,19 @@ class UserProfileCollectionViewController: UICollectionViewController,
                 string: title,
                 attributes: [NSFontAttributeName:UIFont(
                     name: "Montserrat",
-                    size: 16.0)!, NSForegroundColorAttributeName: UIColor.whiteColor()])
+                    size: 16.0)!, NSForegroundColorAttributeName: UIColor.white])
             return myMutableString
         }
     }
     
-    func descriptionForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
-        if state == .Journal {
+    func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        if state == .journal {
             let description = "You can add a new dream by tapping on the + button at the bottom of your screen."
             let myMutableString = NSMutableAttributedString(
                 string: description,
                 attributes: [NSFontAttributeName:UIFont(
                     name: "Courier",
-                    size: 14.0)!, NSForegroundColorAttributeName: UIColor.whiteColor().colorWithAlphaComponent(0.74)])
+                    size: 14.0)!, NSForegroundColorAttributeName: UIColor.white.withAlphaComponent(0.74)])
             return myMutableString
         } else {
             let description = "You can upvote dreams that you like while reading on the home screen, and they'll be saved here."
@@ -159,81 +159,81 @@ class UserProfileCollectionViewController: UICollectionViewController,
                 string: description,
                 attributes: [NSFontAttributeName:UIFont(
                     name: "Courier",
-                    size: 14.0)!, NSForegroundColorAttributeName: UIColor.whiteColor().colorWithAlphaComponent(0.74)])
+                    size: 14.0)!, NSForegroundColorAttributeName: UIColor.white.withAlphaComponent(0.74)])
             return myMutableString
         }
     }
     
     // MARK: UICollectionViewDataSource
     
-    override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
     
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let numJournals = viewModel.journals.count
         let numStarred = viewModel.starred.count
         headerDelegate?.numberOfItemsInSection(numJournals, starred: numStarred)
-        if state == .Journal {
+        if state == .journal {
             return numJournals
         } else {
             return numStarred
         }
     }
     
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(userProfileReuseIdentifier, forIndexPath: indexPath) as?HomeFeedImageCollectionViewCell
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: userProfileReuseIdentifier, for: indexPath) as?HomeFeedImageCollectionViewCell
         
-        if state == .Journal {
-            cell?.dream = viewModel.journals[indexPath.row]
+        if state == .journal {
+            cell?.dream = viewModel.journals[(indexPath as NSIndexPath).row]
             
-            let id = viewModel.journals[indexPath.row].id
+            let id = viewModel.journals[(indexPath as NSIndexPath).row].id
             if starredIds.contains(id) {
-                cell?.upvoteButton.selected = true
+                cell?.upvoteButton.isSelected = true
             } else {
-                cell?.upvoteButton.selected = false
+                cell?.upvoteButton.isSelected = false
             }
             
             if downvoteIds.contains(id) {
-                cell?.downvoteButton.selected = true
+                cell?.downvoteButton.isSelected = true
             } else {
-                cell?.downvoteButton.selected = false
+                cell?.downvoteButton.isSelected = false
             }
         } else {
-            cell?.dream = viewModel.starred[indexPath.row]
+            cell?.dream = viewModel.starred[(indexPath as NSIndexPath).row]
             
-            let id = viewModel.starred[indexPath.row].id
+            let id = viewModel.starred[(indexPath as NSIndexPath).row].id
             if starredIds.contains(id) {
-                cell?.upvoteButton.selected = true
+                cell?.upvoteButton.isSelected = true
             } else {
-                cell?.upvoteButton.selected = false
+                cell?.upvoteButton.isSelected = false
             }
             
             if downvoteIds.contains(id) {
-                cell?.downvoteButton.selected = true
+                cell?.downvoteButton.isSelected = true
             } else {
-                cell?.downvoteButton.selected = false
+                cell?.downvoteButton.isSelected = false
             }
         }
         
         return cell!
     }
     
-    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if state == .Journal {
-            let vc = UserDreamViewController(title: viewModel.journals[indexPath.row].title, author: viewModel.journals[indexPath.row].author, text: viewModel.journals[indexPath.row].text, id: viewModel.journals[indexPath.row].id)
-            presentViewController(vc, animated: true, completion: nil)
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if state == .journal {
+            let vc = UserDreamViewController(title: viewModel.journals[(indexPath as NSIndexPath).row].title, author: viewModel.journals[(indexPath as NSIndexPath).row].author, text: viewModel.journals[(indexPath as NSIndexPath).row].text, id: viewModel.journals[(indexPath as NSIndexPath).row].id)
+            present(vc, animated: true, completion: nil)
         } else {
-            let vc = UserDreamViewController(title: viewModel.starred[indexPath.row].title, author: viewModel.starred[indexPath.row].author, text: viewModel.starred[indexPath.row].text, id: viewModel.starred[indexPath.row].id)
-            presentViewController(vc, animated: true, completion: nil)
+            let vc = UserDreamViewController(title: viewModel.starred[(indexPath as NSIndexPath).row].title, author: viewModel.starred[(indexPath as NSIndexPath).row].author, text: viewModel.starred[(indexPath as NSIndexPath).row].text, id: viewModel.starred[(indexPath as NSIndexPath).row].id)
+            present(vc, animated: true, completion: nil)
         }
-        collectionView.deselectItemAtIndexPath(indexPath, animated: true)
+        collectionView.deselectItem(at: indexPath, animated: true)
     }
     
-    override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == CSStickyHeaderParallaxHeader {
-            let cell = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "profile-header", forIndexPath: indexPath) as! UserProfileHeaderView
+            let cell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "profile-header", for: indexPath) as! UserProfileHeaderView
             
             if headerView == nil {
                 headerView = cell
@@ -250,7 +250,7 @@ class UserProfileCollectionViewController: UICollectionViewController,
     
     func presentProfileImagePicker() {
         let pickerVC = ProfileIconPickerView()
-        presentViewController(pickerVC, animated: true, completion: nil)
+        present(pickerVC, animated: true, completion: nil)
     }
     
     // Header delegate
@@ -259,33 +259,33 @@ class UserProfileCollectionViewController: UICollectionViewController,
     }
     
     func journalTabSelected() {
-        state = .Journal
+        state = .journal
         collectionView?.reloadData()
     }
     
     func starredTabSelected() {
-        state = .Starred
+        state = .starred
         collectionView?.reloadData()
     }
     
     func settingsSelected() {
         let settingsVC = UserSettingViewController()
-        presentViewController(settingsVC, animated: true, completion: nil)
+        present(settingsVC, animated: true, completion: nil)
     }
     
-    func shareTapped(title: String, author: String, text: String, id: String, date: String) {
+    func shareTapped(_ title: String, author: String, text: String, id: String, date: String) {
         viewModel.shareTitle = title
         viewModel.shareAuthor = author
         viewModel.shareText = text
         viewModel.shareId = id
         viewModel.shareDate = date
         
-        if state == .Journal {
+        if state == .journal {
             let actionSheet = UIActionSheet(title: "Share to", delegate: self, cancelButtonTitle: "cancel", destructiveButtonTitle: nil, otherButtonTitles: "Dreamscape", "Twitter", "Facebook")
-            actionSheet.showInView(view)
+            actionSheet.show(in: view)
         } else {
             let actionSheet = UIActionSheet(title: "Share to", delegate: self, cancelButtonTitle: "cancel", destructiveButtonTitle: nil,otherButtonTitles: "Twitter", "Facebook")
-            actionSheet.showInView(view)
+            actionSheet.show(in: view)
         }
     }
     
@@ -295,34 +295,34 @@ class UserProfileCollectionViewController: UICollectionViewController,
     }
     
     // MARK: UIActionSheetDelegate
-    func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
-        if state == .Journal {
+    func actionSheet(_ actionSheet: UIActionSheet, clickedButtonAt buttonIndex: Int) {
+        if state == .journal {
             switch buttonIndex {
             case 0:
                 print(")")
             case 1:
-                let dreamDictionary = ["title":viewModel.shareTitle, "author":viewModel.shareAuthor, "text":viewModel.shareText, "date":viewModel.shareDate, "upvotes":0, "downvotes":0]
+                let dreamDictionary = ["title":viewModel.shareTitle, "author":viewModel.shareAuthor, "text":viewModel.shareText, "date":viewModel.shareDate, "upvotes":0, "downvotes":0] as [String : Any]
                 
                 FIRDatabase.database().reference().child("/feed").child("\(viewModel.shareId)").setValue(dreamDictionary)
             case 2:
-                if SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter){
+                if SLComposeViewController.isAvailable(forServiceType: SLServiceTypeTwitter){
                     let twitterSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
                     twitterSheet.setInitialText("\(viewModel.shareTitle) by \(viewModel.shareAuthor)\n\n\(viewModel.shareText)")
-                    self.presentViewController(twitterSheet, animated: true, completion: nil)
+                    self.present(twitterSheet, animated: true, completion: nil)
                 } else {
-                    let alert = UIAlertController(title: "Accounts", message: "Please login to a Twitter account to share.", preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    let alert = UIAlertController(title: "Accounts", message: "Please login to a Twitter account to share.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
                 }
             case 3:
-                if SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook){
+                if SLComposeViewController.isAvailable(forServiceType: SLServiceTypeFacebook){
                     let twitterSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
                     twitterSheet.setInitialText("\(viewModel.shareTitle) by \(viewModel.shareAuthor)\n\n\(viewModel.shareText)")
-                    self.presentViewController(twitterSheet, animated: true, completion: nil)
+                    self.present(twitterSheet, animated: true, completion: nil)
                 } else {
-                    let alert = UIAlertController(title: "Accounts", message: "Please login to a Facebook account to share.", preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    let alert = UIAlertController(title: "Accounts", message: "Please login to a Facebook account to share.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
                 }
             default:
                 break
@@ -332,24 +332,24 @@ class UserProfileCollectionViewController: UICollectionViewController,
             case 0:
                 print(")")
             case 1:
-                if SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter){
+                if SLComposeViewController.isAvailable(forServiceType: SLServiceTypeTwitter){
                     let twitterSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
                     twitterSheet.setInitialText("Share on Twitter")
-                    self.presentViewController(twitterSheet, animated: true, completion: nil)
+                    self.present(twitterSheet, animated: true, completion: nil)
                 } else {
-                    let alert = UIAlertController(title: "Accounts", message: "Please login to a Twitter account to share.", preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    let alert = UIAlertController(title: "Accounts", message: "Please login to a Twitter account to share.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
                 }
             case 2:
-                if SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook){
+                if SLComposeViewController.isAvailable(forServiceType: SLServiceTypeFacebook){
                     let twitterSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
                     twitterSheet.setInitialText("Share on Facebook")
-                    self.presentViewController(twitterSheet, animated: true, completion: nil)
+                    self.present(twitterSheet, animated: true, completion: nil)
                 } else {
-                    let alert = UIAlertController(title: "Accounts", message: "Please login to a Facebook account to share.", preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    let alert = UIAlertController(title: "Accounts", message: "Please login to a Facebook account to share.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
                 }
             default:
                 break
@@ -359,5 +359,5 @@ class UserProfileCollectionViewController: UICollectionViewController,
 }
 
 protocol UserProfileDelegate: class {
-    func numberOfItemsInSection(journals: Int, starred: Int)
+    func numberOfItemsInSection(_ journals: Int, starred: Int)
 }

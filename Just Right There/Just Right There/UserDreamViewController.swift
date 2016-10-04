@@ -28,8 +28,8 @@ class UserDreamViewController: UIViewController, UITextViewDelegate, MFMailCompo
     var currentState: DreamState
     
     enum DreamState {
-        case Delete
-        case Save
+        case delete
+        case save
     }
     
     init(title: String, author: String, text: String, id: String) {
@@ -44,50 +44,50 @@ class UserDreamViewController: UIViewController, UITextViewDelegate, MFMailCompo
         
         dismissButton = UIButton()
         dismissButton.translatesAutoresizingMaskIntoConstraints = false
-        dismissButton.setImage(UIImage(named: "close"), forState: .Normal)
+        dismissButton.setImage(UIImage(named: "close"), for: UIControlState())
         dismissButton.contentEdgeInsets = UIEdgeInsetsMake(11.0, 11.0, 11.0, 11.0)
         
         dreamTitle = UILabel()
         dreamTitle.translatesAutoresizingMaskIntoConstraints = false
         dreamTitle.font = UIFont(name: "Roboto", size: 20.0)
-        dreamTitle.textColor = UIColor.whiteColor()
-        dreamTitle.textAlignment = .Center
+        dreamTitle.textColor = UIColor.white
+        dreamTitle.textAlignment = .center
         dreamTitle.text = currentTitle
         
         authorLabel = UILabel()
         authorLabel.translatesAutoresizingMaskIntoConstraints = false
         authorLabel.font = UIFont(name: "OpenSans", size: 14.0)
-        authorLabel.textColor = UIColor.whiteColor()
-        dreamTitle.textAlignment = .Center
+        authorLabel.textColor = UIColor.white
+        dreamTitle.textAlignment = .center
         authorLabel.text = "by \(currentAuthor)"
         
         dreamTextView = UITextView()
         dreamTextView.translatesAutoresizingMaskIntoConstraints = false
-        dreamTextView.backgroundColor = UIColor.whiteColor()
+        dreamTextView.backgroundColor = UIColor.white
         dreamTextView.font = UIFont(name: "OpenSans", size: 17.0)
         dreamTextView.showsVerticalScrollIndicator = false
         dreamTextView.text = currentText
         
         reportFlag = UIButton()
         reportFlag.translatesAutoresizingMaskIntoConstraints = false
-        reportFlag.setImage(UIImage(named: "flag"), forState: .Normal)
+        reportFlag.setImage(UIImage(named: "flag"), for: UIControlState())
         reportFlag.contentEdgeInsets = UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0)
         
         saveButton = UIButton()
         saveButton.translatesAutoresizingMaskIntoConstraints = false
-        saveButton.setTitle("Delete", forState: .Normal)
-        saveButton.setTitleColor(WhiteColor, forState: .Normal)
+        saveButton.setTitle("Delete", for: UIControlState())
+        saveButton.setTitleColor(WhiteColor, for: UIControlState())
         saveButton.titleLabel?.font = UIFont(name: "OpenSans", size: 16.0)
         
-        currentState = .Delete
+        currentState = .delete
         
         super.init(nibName: nil, bundle: nil)
         
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.white
         
-        dismissButton.addTarget(self, action: #selector(DreamViewController.dismissViewController), forControlEvents: .TouchUpInside)
-        reportFlag.addTarget(self, action: #selector(DreamViewController.flagTapped), forControlEvents: .TouchUpInside)
-        saveButton.addTarget(self, action: #selector(DreamViewController.saveTapped), forControlEvents: .TouchUpInside)
+        dismissButton.addTarget(self, action: #selector(DreamViewController.dismissViewController), for: .touchUpInside)
+        reportFlag.addTarget(self, action: #selector(DreamViewController.flagTapped), for: .touchUpInside)
+        saveButton.addTarget(self, action: #selector(DreamViewController.saveTapped), for: .touchUpInside)
         dreamTextView.delegate = self
         
         headerView.addSubview(dreamTitle)
@@ -108,19 +108,19 @@ class UserDreamViewController: UIViewController, UITextViewDelegate, MFMailCompo
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let username = NSUserDefaults.standardUserDefaults().stringForKey("username") {
+        if let username = UserDefaults.standard.string(forKey: "username") {
             if currentAuthor == username {
-                dreamTextView.editable = true
+                dreamTextView.isEditable = true
                 
-                reportFlag.userInteractionEnabled = false
+                reportFlag.isUserInteractionEnabled = false
                 reportFlag.alpha = 0
             } else {
-                dreamTextView.editable = false
+                dreamTextView.isEditable = false
                 
-                reportFlag.userInteractionEnabled = true
+                reportFlag.isUserInteractionEnabled = true
                 reportFlag.alpha = 1
                 
-                saveButton.userInteractionEnabled = false
+                saveButton.isUserInteractionEnabled = false
                 saveButton.alpha = 0
             }
         }
@@ -132,11 +132,11 @@ class UserDreamViewController: UIViewController, UITextViewDelegate, MFMailCompo
     }
     
     func dismissViewController() {
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
     }
     
     func flagTapped() {
@@ -145,44 +145,44 @@ class UserDreamViewController: UIViewController, UITextViewDelegate, MFMailCompo
         if MFMailComposeViewController.canSendMail() {
             launchEmail(self)
         } else {
-            let alert = UIAlertController(title: "Unable To Report", message: "Please set up mail client before reporting.", preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
+            let alert = UIAlertController(title: "Unable To Report", message: "Please set up mail client before reporting.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
     }
     
-    func textViewDidBeginEditing(textView: UITextView) {
-        currentState = .Save
-        saveButton.setTitle("Save", forState: .Normal)
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        currentState = .save
+        saveButton.setTitle("Save", for: UIControlState())
     }
     
-    func textViewDidEndEditing(textView: UITextView) {
-        currentState = .Delete
-        saveButton.setTitle("Delete", forState: .Normal)
+    func textViewDidEndEditing(_ textView: UITextView) {
+        currentState = .delete
+        saveButton.setTitle("Delete", for: UIControlState())
     }
     
     func saveTapped() {
-        if currentState == .Save {
+        if currentState == .save {
             if dreamTextView.text?.isEmpty == false {
-                if let username = NSUserDefaults.standardUserDefaults().stringForKey("username") {
+                if let username = UserDefaults.standard.string(forKey: "username") {
                     let userRef = FIRDatabase.database().reference().child("/users/\(username)/journals/\(currentId)/text")
                     userRef.setValue(dreamTextView.text)
                 }
             }
         } else {
-            if let username = NSUserDefaults.standardUserDefaults().stringForKey("username") {
+            if let username = UserDefaults.standard.string(forKey: "username") {
                 let userRef = FIRDatabase.database().reference().child("/users/\(username)/journals/\(currentId)")
                 userRef.removeValue()
                 FIRDatabase.database().reference().child("/feed/\(currentId)").removeValue()
             }
             
-            NSUserDefaults.standardUserDefaults().setObject(nil, forKey: "journals")
+            UserDefaults.standard.set(nil, forKey: "journals")
         }
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     // MARK: MFMailComposeViewControllerDelegate - (Does not work in Simulator)
-    func launchEmail(sender: AnyObject) {
+    func launchEmail(_ sender: AnyObject) {
         let emailTitle = "Reason For Report"
         let messageBody = ""
         let toRecipents = ["dreamscape9817234@gmail.com"]
@@ -193,25 +193,25 @@ class UserDreamViewController: UIViewController, UITextViewDelegate, MFMailCompo
         mc.setMessageBody(messageBody, isHTML: false)
         mc.setToRecipients(toRecipents)
         
-        mc.modalTransitionStyle = .CoverVertical
-        presentViewController(mc, animated: true, completion: nil)
+        mc.modalTransitionStyle = .coverVertical
+        present(mc, animated: true, completion: nil)
     }
     
     
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         switch result.rawValue {
-        case MFMailComposeResultCancelled.rawValue:
+        case MFMailComposeResult.cancelled.rawValue:
             print("Mail cancelled")
-        case MFMailComposeResultSaved.rawValue:
+        case MFMailComposeResult.saved.rawValue:
             print("Mail saved")
-        case MFMailComposeResultSent.rawValue:
+        case MFMailComposeResult.sent.rawValue:
             print("Mail sent")
-        case MFMailComposeResultFailed.rawValue:
+        case MFMailComposeResult.failed.rawValue:
             print("Mail sent failure: \(error!.localizedDescription)")
         default:
             break
         }
-        controller.dismissViewControllerAnimated(true, completion: nil)
+        controller.dismiss(animated: true, completion: nil)
     }
     
     func setupLayout() {
@@ -219,31 +219,43 @@ class UserDreamViewController: UIViewController, UITextViewDelegate, MFMailCompo
             headerView.al_top == view.al_top,
             headerView.al_left == view.al_left,
             headerView.al_right == view.al_right,
-            headerView.al_height == 105,
-            
+            headerView.al_height == 105
+        ])
+        
+        view.addConstraints([
             dismissButton.al_left == headerView.al_left + 5,
             dismissButton.al_centerY == dreamTitle.al_centerY,
             dismissButton.al_height == 35,
-            dismissButton.al_width == 35,
-            
+            dismissButton.al_width == 35
+        ])
+        
+        view.addConstraints([
             dreamTitle.al_centerX == headerView.al_centerX,
             dreamTitle.al_centerY == headerView.al_centerY - 7,
             dreamTitle.al_left == dismissButton.al_right,
-            dreamTitle.al_right == reportFlag.al_left,
-            
+            dreamTitle.al_right == reportFlag.al_left
+        ])
+        
+        view.addConstraints([
             authorLabel.al_centerX == dreamTitle.al_centerX,
-            authorLabel.al_top == dreamTitle.al_bottom + 4,
-            
+            authorLabel.al_top == dreamTitle.al_bottom + 4
+        ])
+        
+        view.addConstraints([
             dreamTextView.al_left == view.al_left + 20,
             dreamTextView.al_bottom == view.al_bottom,
             dreamTextView.al_right == view.al_right - 20,
-            dreamTextView.al_top == headerView.al_bottom,
-            
+            dreamTextView.al_top == headerView.al_bottom
+        ])
+        
+        view.addConstraints([
             reportFlag.al_right == view.al_right - 12,
             reportFlag.al_centerY == headerView.al_centerY - 3,
             reportFlag.al_width == 27,
-            reportFlag.al_height == 31.5,
-            
+            reportFlag.al_height == 31.5
+        ])
+        
+        view.addConstraints([
             saveButton.al_right == view.al_right - 15,
             saveButton.al_centerY == headerView.al_centerY - 5,
             saveButton.al_width == 55,

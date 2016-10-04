@@ -30,43 +30,43 @@ public struct ALLayoutItem {
     // rdar://17412596, OpenRadar: http://www.openradar.me/radar?id=5275533159956480
     
     /// Builds a constraint by relating the item to another item.
-    public func relateTo(right: ALLayoutItem, relation: NSLayoutRelation) -> NSLayoutConstraint {
+    public func relateTo(_ right: ALLayoutItem, relation: NSLayoutRelation) -> NSLayoutConstraint {
         return NSLayoutConstraint(item: view, attribute: attribute, relatedBy: relation, toItem: right.view, attribute: right.attribute, multiplier: right.multiplier, constant: right.constant)
     }
     
     /// Builds a constraint by relating the item to a constant value.
-    public func relateToConstant(right: CGFloat, relation: NSLayoutRelation) -> NSLayoutConstraint {
-        return NSLayoutConstraint(item: view, attribute: attribute, relatedBy: relation, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1.0, constant: right)
+    public func relateToConstant(_ right: CGFloat, relation: NSLayoutRelation) -> NSLayoutConstraint {
+        return NSLayoutConstraint(item: view, attribute: attribute, relatedBy: relation, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1.0, constant: right)
     }
     
     /// Equivalent to NSLayoutRelation.Equal
-    public func equalTo(right: ALLayoutItem) -> NSLayoutConstraint {
-        return relateTo(right, relation: .Equal)
+    public func equalTo(_ right: ALLayoutItem) -> NSLayoutConstraint {
+        return relateTo(right, relation: .equal)
     }
     
     /// Equivalent to NSLayoutRelation.Equal
-    public func equalToConstant(right: CGFloat) -> NSLayoutConstraint {
-        return relateToConstant(right, relation: .Equal)
+    public func equalToConstant(_ right: CGFloat) -> NSLayoutConstraint {
+        return relateToConstant(right, relation: .equal)
     }
     
     /// Equivalent to NSLayoutRelation.GreaterThanOrEqual
-    public func greaterThanOrEqualTo(right: ALLayoutItem) -> NSLayoutConstraint {
-        return relateTo(right, relation: .GreaterThanOrEqual)
+    public func greaterThanOrEqualTo(_ right: ALLayoutItem) -> NSLayoutConstraint {
+        return relateTo(right, relation: .greaterThanOrEqual)
     }
     
     /// Equivalent to NSLayoutRelation.GreaterThanOrEqual
-    public func greaterThanOrEqualToConstant(right: CGFloat) -> NSLayoutConstraint {
-        return relateToConstant(right, relation: .GreaterThanOrEqual)
+    public func greaterThanOrEqualToConstant(_ right: CGFloat) -> NSLayoutConstraint {
+        return relateToConstant(right, relation: .greaterThanOrEqual)
     }
     
     /// Equivalent to NSLayoutRelation.LessThanOrEqual
-    public func lessThanOrEqualTo(right: ALLayoutItem) -> NSLayoutConstraint {
-        return relateTo(right, relation: .LessThanOrEqual)
+    public func lessThanOrEqualTo(_ right: ALLayoutItem) -> NSLayoutConstraint {
+        return relateTo(right, relation: .lessThanOrEqual)
     }
     
     /// Equivalent to NSLayoutRelation.LessThanOrEqual
-    public func lessThanOrEqualToConstant(right: CGFloat) -> NSLayoutConstraint {
-        return relateToConstant(right, relation: .LessThanOrEqual)
+    public func lessThanOrEqualToConstant(_ right: CGFloat) -> NSLayoutConstraint {
+        return relateToConstant(right, relation: .lessThanOrEqual)
     }
 }
 
@@ -121,62 +121,62 @@ public func <= (left: ALLayoutItem, right: CGFloat) -> NSLayoutConstraint {
 }
 
 public extension ALView {
-    func al_operand(attribute: NSLayoutAttribute) -> ALLayoutItem {
+    func al_operand(_ attribute: NSLayoutAttribute) -> ALLayoutItem {
         return ALLayoutItem(view: self, attribute: attribute)
     }
     
     /// Equivalent to NSLayoutAttribute.Left
     var al_left: ALLayoutItem {
-        return al_operand(.Left)
+        return al_operand(.left)
     }
     
     /// Equivalent to NSLayoutAttribute.Right
     var al_right: ALLayoutItem {
-        return al_operand(.Right)
+        return al_operand(.right)
     }
     
     /// Equivalent to NSLayoutAttribute.Top
     var al_top: ALLayoutItem {
-        return al_operand(.Top)
+        return al_operand(.top)
     }
     
     /// Equivalent to NSLayoutAttribute.Bottom
     var al_bottom: ALLayoutItem {
-        return al_operand(.Bottom)
+        return al_operand(.bottom)
     }
     
     /// Equivalent to NSLayoutAttribute.Leading
     var al_leading: ALLayoutItem {
-        return al_operand(.Leading)
+        return al_operand(.leading)
     }
     
     /// Equivalent to NSLayoutAttribute.Trailing
     var al_trailing: ALLayoutItem {
-        return al_operand(.Trailing)
+        return al_operand(.trailing)
     }
     
     /// Equivalent to NSLayoutAttribute.Width
     var al_width: ALLayoutItem {
-        return al_operand(.Width)
+        return al_operand(.width)
     }
     
     /// Equivalent to NSLayoutAttribute.Height
     var al_height: ALLayoutItem {
-        return al_operand(.Height)
+        return al_operand(.height)
     }
     
     /// Equivalent to NSLayoutAttribute.CenterX
     var al_centerX: ALLayoutItem {
-        return al_operand(.CenterX)
+        return al_operand(.centerX)
     }
     
     /// Equivalent to NSLayoutAttribute.CenterY
     var al_centerY: ALLayoutItem {
-        return al_operand(.CenterY)
+        return al_operand(.centerY)
     }
     
     /// Equivalent to NSLayoutAttribute.Baseline
     var al_baseline: ALLayoutItem {
-        return al_operand(.Baseline)
+        return al_operand(.lastBaseline)
     }
 }
