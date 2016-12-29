@@ -156,7 +156,34 @@ class AuthenticationViewController: UIViewController, UITextFieldDelegate {
                                     
                                     print("sign in")
                                     self.delegate?.didSignUpSuccessfully()
+                                    return
                                 }
+                        })
+                    }
+                })
+                
+                FIRDatabase.database().reference().child("users/\(username)").observeSingleEvent(of: .value,
+                                                                                                 with: { snapshot in
+                    if snapshot.value != nil {
+                        if username.characters.count >= 3 && password.characters.count >= 5 {
+                            if let userData = snapshot.value as? [String:AnyObject] {
+                                if let snapPass = userData["password"]! as? String {
+                                    if snapPass == password {
+                                        self.userDefaults.set(true, forKey: "user")
+                                        self.userDefaults.setValue("\(username)", forKey: "username")
+                                        
+                                        FIRDatabase.database().reference().child("users/\(username)/email").setValue(email)
+                                        self.dismiss(animated: true, completion: nil)
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        self.errorView.setErrorText(.username)
+                        self.showError()
+                        
+                        delay(delay: 3.0, closure: {
+                            self.hideError()
                         })
                     }
                 })

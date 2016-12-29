@@ -32,13 +32,11 @@ class ProfileIconView: UIView {
     }
     
     func setupLayout() {
-        let constraints: [NSLayoutConstraint] = [
+        addConstraints([
             tabBarIconImageView.al_centerY == al_centerY,
             tabBarIconImageView.al_centerX == al_centerX,
             tabBarIconImageView.al_height == 150,
             tabBarIconImageView.al_width == 150
-        ]
-        
-        addConstraints(constraints)
+        ])
     }
 }

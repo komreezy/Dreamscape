@@ -9,7 +9,6 @@
 import UIKit
 
 class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
-    
     var collapseNameLabel: UILabel
     var profileImageView: UIButton
     var nameLabel: UILabel
@@ -23,7 +22,6 @@ class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
     var illustrationView: UIImageView
     var nameLabelHeightConstraint: NSLayoutConstraint?
     var nameLabelHorizontalConstraint: NSLayoutConstraint?
-    
     var tabContainerView: UIView
     var settingsButton: UIButton
     var favoritesTabButton: UIButton
@@ -31,7 +29,6 @@ class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
     var highlightBarView: UIView
     var leftHighlightBarPositionConstraint: NSLayoutConstraint?
     var offsetValue: CGFloat
-    
     var userDefaults: UserDefaults
     weak var delegate: UserProfileHeaderDelegate?
     
@@ -82,15 +79,13 @@ class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
         
         journalsLabel = UILabel()
         journalsLabel.translatesAutoresizingMaskIntoConstraints = false
-        journalsLabel.font = UIFont(name: "OpenSans", size: 13.0)
         journalsLabel.textAlignment = .center
-        journalsLabel.text = "Journals"
+        journalsLabel.setTextWith(UIFont(name: "Montserrat", size: 13.0), letterSpacing: 0.5, color: UIColor.white.withAlphaComponent(0.54), text: "Journals")
         
         starredLabel = UILabel()
         starredLabel.translatesAutoresizingMaskIntoConstraints = false
-        starredLabel.font = UIFont(name: "OpenSans", size: 13.0)
         starredLabel.textAlignment = .center
-        starredLabel.text = "Starred"
+        starredLabel.setTextWith(UIFont(name: "Montserrat", size: 13.0), letterSpacing: 0.5, color: UIColor.white.withAlphaComponent(0.54), text: "Starred")
         
         karmaLabel = UILabel()
         karmaLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -101,14 +96,16 @@ class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
         
         journalsNumberLabel = UILabel()
         journalsNumberLabel.translatesAutoresizingMaskIntoConstraints = false
-        journalsNumberLabel.font = UIFont(name: "Roboto-Bold", size: 13.0)
+        journalsNumberLabel.font = UIFont(name: "Courier-Bold", size: 13.0)
         journalsNumberLabel.textAlignment = .center
+        journalsNumberLabel.textColor = UIColor.white.withAlphaComponent(0.54)
         journalsNumberLabel.text = "5"
         
         starredNumberLabel = UILabel()
         starredNumberLabel.translatesAutoresizingMaskIntoConstraints = false
-        starredNumberLabel.font = UIFont(name: "Roboto-Bold", size: 13.0)
+        starredNumberLabel.font = UIFont(name: "Courier-Bold", size: 13.0)
         starredNumberLabel.textAlignment = .center
+        starredNumberLabel.textColor = UIColor.white.withAlphaComponent(0.54)
         starredNumberLabel.text = "17"
         
         tabContainerView = UIView()
@@ -152,11 +149,14 @@ class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
         addSubview(collapseNameLabel)
         addSubview(profileImageView)
         addSubview(nameLabel)
-        addSubview(karmaLabel)
+        addSubview(journalsLabel)
+        addSubview(journalsNumberLabel)
+        addSubview(starredLabel)
+        addSubview(starredNumberLabel)
         addSubview(settingsButton)
         addSubview(backgroundImage)
-        
         addSubview(tabContainerView)
+        
         tabContainerView.addSubview(favoritesTabButton)
         tabContainerView.addSubview(recentsTabButton)
         tabContainerView.addSubview(highlightBarView)
@@ -236,8 +236,23 @@ class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
         ])
         
         addConstraints([
-            karmaLabel.al_centerX == al_centerX,
-            karmaLabel.al_top == nameLabel.al_bottom + 7
+            journalsLabel.al_top == nameLabel.al_bottom + 5,
+            journalsLabel.al_right == journalsNumberLabel.al_left - 5
+        ])
+        
+        addConstraints([
+            journalsNumberLabel.al_right == nameLabel.al_centerX - 4,
+            journalsNumberLabel.al_bottom == journalsLabel.al_bottom
+        ])
+        
+        addConstraints([
+            starredLabel.al_bottom == journalsLabel.al_bottom,
+            starredLabel.al_left == nameLabel.al_centerX + 6
+        ])
+        
+        addConstraints([
+            starredNumberLabel.al_left == starredLabel.al_right + 5,
+            starredNumberLabel.al_bottom == journalsLabel.al_bottom
         ])
         
         addConstraints([

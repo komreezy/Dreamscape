@@ -195,7 +195,10 @@ class SettingsViewController: UIViewController,
                 }
                 
             case .logout:
-                let actionSheet = UIActionSheet(title: "Are you sure you want to logout?", delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: "Logout")
+                let actionSheet = UIActionSheet(title: "Are you sure you want to logout?",
+                                                delegate: self,
+                                                cancelButtonTitle: "Cancel",
+                                                destructiveButtonTitle: "Logout")
                 actionSheet.show(in: view)
             }
         }
@@ -318,7 +321,7 @@ class SettingsViewController: UIViewController,
             UserDefaults.standard.set(nil, forKey: "journals")
         }
         
-        let signInVC = SignupViewController()
+        let signInVC = LandingPageViewController()
         present(signInVC, animated: true, completion: nil)
     }
     

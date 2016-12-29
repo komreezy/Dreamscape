@@ -21,9 +21,7 @@ class FavoriteAlertView: UIView {
         super.init(frame: frame)
         
         backgroundColor = UIColor.white
-        
         addSubview(favoriteLabel)
-        
         setupLayout()
     }
 

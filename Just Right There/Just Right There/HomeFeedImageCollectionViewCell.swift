@@ -60,6 +60,7 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
     var titleHeightConstraint: NSLayoutConstraint?
     var upvoteButton: UIButton
     var downvoteButton: UIButton
+    var optionsButton: UIButton
     var starLabel: UILabel
     var titleText: String {
         set(value) {
@@ -108,16 +109,26 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
         imageView.backgroundColor = UIColor.primaryPurple()
         imageView.contentEdgeInsets = UIEdgeInsetsMake(7.0, 7.0, 7.0, 7.0)
         imageView.isUserInteractionEnabled = false
+        if let picture = UserDefaults.standard.string(forKey: "picture") {
+            imageView.setImage(UIImage(named: "\(picture)"), for: .normal)
+        } else {
+            imageView.setImage(UIImage(named: "alien-head"), for: .normal)
+        }
         
         upvoteButton = UIButton()
         upvoteButton.translatesAutoresizingMaskIntoConstraints = false
-        upvoteButton.setImage(UIImage(named: "upvote"), for: UIControlState())
+        upvoteButton.setImage(UIImage(named: "upvote"), for: .normal)
         upvoteButton.setImage(UIImage(named: "upvote-highlighted"), for: .selected)
         
         downvoteButton = UIButton()
         downvoteButton.translatesAutoresizingMaskIntoConstraints = false
-        downvoteButton.setImage(UIImage(named: "downvote"), for: UIControlState())
+        downvoteButton.setImage(UIImage(named: "downvote"), for: .normal)
         downvoteButton.setImage(UIImage(named: "downvote-highlighted"), for: .selected)
+        
+        optionsButton = UIButton()
+        optionsButton.translatesAutoresizingMaskIntoConstraints = false
+        optionsButton.imageEdgeInsets = UIEdgeInsetsMake(8.5, 10.5, 8.5, 6.5)
+        optionsButton.setImage(UIImage(named: "more"), for: .normal)
         
         starLabel = UILabel()
         starLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -138,8 +149,10 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
         
         backgroundColor = UIColor(red: 34.0/255.0, green: 35.0/255.0, blue: 38.0/255.0, alpha: 1.0)
         layer.cornerRadius = 2.0
+        
         upvoteButton.addTarget(self, action: #selector(HomeFeedImageCollectionViewCell.upvoteTapped), for: .touchUpInside)
         downvoteButton.addTarget(self, action: #selector(HomeFeedImageCollectionViewCell.downvoteTapped), for: .touchUpInside)
+        optionsButton.addTarget(self, action: #selector(HomeFeedImageCollectionViewCell.displayOptions), for: .touchUpInside)
         
         addSubview(dreamTitleLabel)
         addSubview(authorLabel)
@@ -149,6 +162,7 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
         addSubview(upvoteButton)
         addSubview(downvoteButton)
         addSubview(starLabel)
+        addSubview(optionsButton)
         
         setupLayout()
     }
@@ -262,6 +276,17 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    func displayOptions() {
+        if let title = dreamTitleLabel.text,
+            let author = authorLabel.text,
+            let text = previewLabel.text,
+            let date = dateLabel.text,
+            let id = dream?.id {
+            
+            delegate?.shareTapped(title, author: author, text: text, id: id, date: date)
+        }
+    }
+    
     func setupLayout() {
         imageViewWidthConstraint = imageView.al_width == 40
         titleHeightConstraint = dreamTitleLabel.al_height == 30
@@ -274,14 +299,14 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
         ])
         
         addConstraints([
-            authorLabel.al_left == imageView.al_right + 5,
+            authorLabel.al_left == imageView.al_right + 12,
             authorLabel.al_bottom == imageView.al_centerY,
             authorLabel.al_right == al_right - 5,
             authorLabel.al_top == imageView.al_top
         ])
         
         addConstraints([
-            dateLabel.al_left == imageView.al_right + 5,
+            dateLabel.al_left == authorLabel.al_left,
             dateLabel.al_top == imageView.al_centerY - 6,
             dateLabel.al_right == al_right - 5,
             dateLabel.al_bottom == imageView.al_bottom - 2
@@ -298,7 +323,7 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
             imageViewWidthConstraint!,
             imageView.al_left == al_left + 18,
             imageView.al_height == 40,
-            imageView.al_top == dreamTitleLabel.al_bottom
+            imageView.al_top == dreamTitleLabel.al_bottom + 5
         ])
         
         addConstraints([
@@ -319,9 +344,15 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
             starLabel.al_centerY == upvoteButton.al_centerY,
             starLabel.al_right == upvoteButton.al_left - 12
         ])
+        
+        addConstraints([
+            optionsButton.al_right == al_right - 15,
+            optionsButton.al_top == al_top + 10
+        ])
     }
 }
 
 protocol HomeFeedCellDelegate: class {
     func starTapped()
+    func shareTapped(_ title: String, author: String, text: String, id: String, date: String)
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		690159111DA41E15005AD3CD /* UserProfileKarmaCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690159101DA41E15005AD3CD /* UserProfileKarmaCollectionViewCell.swift */; };
 		690CB8461BDCD4E600857130 /* FavoriteAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690CB8451BDCD4E600857130 /* FavoriteAlertView.swift */; };
 		690DA7071D9DAF4B0092CC6B /* DreamInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690DA7061D9DAF4B0092CC6B /* DreamInputAccessoryView.swift */; };
 		690DA70C1D9DB8CF0092CC6B /* UILabel+AttributedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690DA70B1D9DB8CF0092CC6B /* UILabel+AttributedText.swift */; };
@@ -64,6 +65,10 @@
 		69CF5E781C34C24D007DB822 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CF5E771C34C24D007DB822 /* Constants.swift */; };
 		69D031761BDB0AE800B31CF5 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D031751BDB0AE800B31CF5 /* TabBarController.swift */; };
 		69D031781BDB0B9500B31CF5 /* UserProfileCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D031771BDB0B9500B31CF5 /* UserProfileCollectionViewController.swift */; };
+		69D4F5731DA4770D00A68341 /* DeviceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D4F5721DA4770D00A68341 /* DeviceList.swift */; };
+		69D4F5751DA4AA2900A68341 /* DreamReaderHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D4F5741DA4AA2900A68341 /* DreamReaderHeaderView.swift */; };
+		69D4F5771DA4ADC900A68341 /* DreamReaderUserHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D4F5761DA4ADC900A68341 /* DreamReaderUserHeaderView.swift */; };
+		69E1F48B1DD3B59E000D8A61 /* DreamReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E1F48A1DD3B59E000D8A61 /* DreamReaderViewController.swift */; };
 		69EC98761D9EBF0E00AE0C6C /* UserSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EC98751D9EBF0E00AE0C6C /* UserSettingViewController.swift */; };
 		69F0281B1C7E3DE500970439 /* ProfileIconPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F0281A1C7E3DE500970439 /* ProfileIconPickerView.swift */; };
 		69F0282B1C7E44B100970439 /* ProfileIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F0282A1C7E44B100970439 /* ProfileIconView.swift */; };
@@ -159,6 +164,7 @@
 
 /* Begin PBXFileReference section */
 		2667FAEE898BE576D45D92C2 /* Pods-Dreamscape.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dreamscape.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dreamscape/Pods-Dreamscape.debug.xcconfig"; sourceTree = "<group>"; };
+		690159101DA41E15005AD3CD /* UserProfileKarmaCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileKarmaCollectionViewCell.swift; sourceTree = "<group>"; };
 		690CB8451BDCD4E600857130 /* FavoriteAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteAlertView.swift; sourceTree = "<group>"; };
 		690DA7061D9DAF4B0092CC6B /* DreamInputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DreamInputAccessoryView.swift; sourceTree = "<group>"; };
 		690DA70B1D9DB8CF0092CC6B /* UILabel+AttributedText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+AttributedText.swift"; sourceTree = "<group>"; };
@@ -453,6 +459,10 @@
 		69CF5E771C34C24D007DB822 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		69D031751BDB0AE800B31CF5 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		69D031771BDB0B9500B31CF5 /* UserProfileCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileCollectionViewController.swift; sourceTree = "<group>"; };
+		69D4F5721DA4770D00A68341 /* DeviceList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceList.swift; sourceTree = "<group>"; };
+		69D4F5741DA4AA2900A68341 /* DreamReaderHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DreamReaderHeaderView.swift; sourceTree = "<group>"; };
+		69D4F5761DA4ADC900A68341 /* DreamReaderUserHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DreamReaderUserHeaderView.swift; sourceTree = "<group>"; };
+		69E1F48A1DD3B59E000D8A61 /* DreamReaderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DreamReaderViewController.swift; sourceTree = "<group>"; };
 		69EC98751D9EBF0E00AE0C6C /* UserSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingViewController.swift; sourceTree = "<group>"; };
 		69F0281A1C7E3DE500970439 /* ProfileIconPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileIconPickerView.swift; sourceTree = "<group>"; };
 		69F0282A1C7E44B100970439 /* ProfileIconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileIconView.swift; sourceTree = "<group>"; };
@@ -910,6 +920,7 @@
 				6957C9CD1C03E7CB00434F79 /* SignupViewController.swift */,
 				691256511C7F79F50089C30B /* SettingsWebViewController.swift */,
 				69711D9C1BDB24D0009F70DB /* DreamViewController.swift */,
+				69E1F48A1DD3B59E000D8A61 /* DreamReaderViewController.swift */,
 				6912564C1C7F77230089C30B /* SettingsViewController.swift */,
 				69EC98751D9EBF0E00AE0C6C /* UserSettingViewController.swift */,
 				69D031751BDB0AE800B31CF5 /* TabBarController.swift */,
@@ -921,8 +932,8 @@
 		69271CE21BA148560074CBF6 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				69B33F051B8D5BE000DEF7FB /* AppDelegate.swift */,
 				690DA70B1D9DB8CF0092CC6B /* UILabel+AttributedText.swift */,
+				69D4F5721DA4770D00A68341 /* DeviceList.swift */,
 				69CF5E771C34C24D007DB822 /* Constants.swift */,
 				698116571DA3603A007D94B8 /* UIColor+HEXString.h */,
 				698116581DA3603A007D94B8 /* UIColor+HEXString.m */,
@@ -936,6 +947,7 @@
 			children = (
 				695132001BDBD35D00852941 /* DreamReaderView.swift */,
 				6951320B1BDC0C1D00852941 /* HomeFeedImageCollectionViewCell.swift */,
+				690159101DA41E15005AD3CD /* UserProfileKarmaCollectionViewCell.swift */,
 				696DC5B81DA2B7A4003CE026 /* AuthenticationView.swift */,
 				69A779501D9EC270003B2B69 /* UserSettingButton.swift */,
 				699948D11D9EBF5600A84B9A /* UserSettingView.swift */,
@@ -950,6 +962,8 @@
 				69838CE81C57FD1B00EE0E8F /* ErrorDropView.swift */,
 				69F0281A1C7E3DE500970439 /* ProfileIconPickerView.swift */,
 				69F0282A1C7E44B100970439 /* ProfileIconView.swift */,
+				69D4F5741DA4AA2900A68341 /* DreamReaderHeaderView.swift */,
+				69D4F5761DA4ADC900A68341 /* DreamReaderUserHeaderView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -959,7 +973,6 @@
 			children = (
 				695131F01BDBA8DD00852941 /* UserProfileViewModel.swift */,
 				695131F21BDBA91700852941 /* HomeFeedViewModel.swift */,
-				695131F41BDBACA600852941 /* Dream.swift */,
 			);
 			name = "View Models";
 			sourceTree = "<group>";
@@ -1031,6 +1044,8 @@
 		69B33F021B8D5BE000DEF7FB /* Just Right There */ = {
 			isa = PBXGroup;
 			children = (
+				69B33F051B8D5BE000DEF7FB /* AppDelegate.swift */,
+				69D824ED1E15BEE2001A4354 /* Models */,
 				69271CE21BA148560074CBF6 /* Managers */,
 				695131EC1BDBA8BA00852941 /* View Models */,
 				69271CE31BA148690074CBF6 /* Views */,
@@ -1079,6 +1094,14 @@
 				69B33F1A1B8D5BE000DEF7FB /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		69D824ED1E15BEE2001A4354 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				695131F41BDBACA600852941 /* Dream.swift */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 		A2835B548963414084C04F92 /* Pods */ = {
@@ -1146,6 +1169,7 @@
 						CreatedOnToolsVersion = 6.4;
 						DevelopmentTeam = G23SDK69HF;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
 					};
 					69B33F141B8D5BE000DEF7FB = {
 						CreatedOnToolsVersion = 6.4;
@@ -1369,6 +1393,8 @@
 				69A779511D9EC270003B2B69 /* UserSettingButton.swift in Sources */,
 				699948D21D9EBF5600A84B9A /* UserSettingView.swift in Sources */,
 				690DA7071D9DAF4B0092CC6B /* DreamInputAccessoryView.swift in Sources */,
+				69D4F5771DA4ADC900A68341 /* DreamReaderUserHeaderView.swift in Sources */,
+				690159111DA41E15005AD3CD /* UserProfileKarmaCollectionViewCell.swift in Sources */,
 				696DC5B91DA2B7A4003CE026 /* AuthenticationView.swift in Sources */,
 				698BB2DA1C90C71B00819FDF /* AgreeRulesViewController.swift in Sources */,
 				690DA70C1D9DB8CF0092CC6B /* UILabel+AttributedText.swift in Sources */,
@@ -1386,10 +1412,12 @@
 				6912563A1C7F766F0089C30B /* AppSettingsView.swift in Sources */,
 				69CF5E781C34C24D007DB822 /* Constants.swift in Sources */,
 				6951320A1BDBEB7B00852941 /* NewDreamViewController.swift in Sources */,
+				69D4F5731DA4770D00A68341 /* DeviceList.swift in Sources */,
 				69711D8D1BDB1326009F70DB /* HomeFeedCollectionViewController.swift in Sources */,
 				691256521C7F79F50089C30B /* SettingsWebViewController.swift in Sources */,
 				694D6F7F1D938587006EC600 /* UserDreamViewController.swift in Sources */,
 				69711D961BDB1C58009F70DB /* UserProfileHeaderView.swift in Sources */,
+				69D4F5751DA4AA2900A68341 /* DreamReaderHeaderView.swift in Sources */,
 				691256491C7F76B20089C30B /* UserProfileSettingsSectionHeaderView.swift in Sources */,
 				69711D921BDB190C009F70DB /* UserProfileCollectionViewCell.swift in Sources */,
 				695131F31BDBA91700852941 /* HomeFeedViewModel.swift in Sources */,
@@ -1399,6 +1427,7 @@
 				6976E0491DA20DA1003CB935 /* LandingPageViewController.swift in Sources */,
 				69F0281B1C7E3DE500970439 /* ProfileIconPickerView.swift in Sources */,
 				696DC5BB1DA2BA8F003CE026 /* AuthenticationViewController.swift in Sources */,
+				69E1F48B1DD3B59E000D8A61 /* DreamReaderViewController.swift in Sources */,
 				6912564D1C7F77230089C30B /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1604,10 +1633,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = G23SDK69HF;
 				INFOPLIST_FILE = "Just Right There/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dreamscape.komran;
+				PRODUCT_BUNDLE_IDENTIFIER = com.komran;
 				PRODUCT_NAME = Dreamscape;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Just Right There/Just Right There-Bridging-Header.h";
@@ -1625,10 +1655,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = G23SDK69HF;
 				INFOPLIST_FILE = "Just Right There/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dreamscape.komran;
+				PRODUCT_BUNDLE_IDENTIFIER = com.komran;
 				PRODUCT_NAME = Dreamscape;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Just Right There/Just Right There-Bridging-Header.h";

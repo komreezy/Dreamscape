@@ -1,18 +1,20 @@
 //
-//  DreamViewController.swift
+//  DreamReaderViewController.swift
 //  Dreamscape
 //
-//  Created by Komran Ghahremani on 10/23/15.
-//  Copyright © 2015 Komran Ghahremani. All rights reserved.
+//  Created by Komran Ghahremani on 11/9/16.
+//  Copyright © 2016 Komran Ghahremani. All rights reserved.
 //
 
 import UIKit
 import MessageUI
 import FirebaseDatabase
 
-class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeViewControllerDelegate {
+class DreamReaderViewController: UIViewController, UIScrollViewDelegate, MFMailComposeViewControllerDelegate {
+    var scrollView: UIScrollView
     var headerView: DreamReaderHeaderView
-    var dreamTextView: UITextView
+    var textView: UITextView
+    let screenWidth = UIScreen.main.bounds.width
     var dream: Dream
     
     var currentTitle: String
@@ -41,10 +43,12 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
         currentText = dream.text
         currentId = dream.id
         
+        scrollView = UIScrollView()
+        
         headerView = DreamReaderHeaderView()
-        headerView.translatesAutoresizingMaskIntoConstraints = false
-        headerView.dreamTitle.text = currentTitle
-        headerView.profileView.authorLabel.text = currentAuthor
+        headerView.frame = CGRect(x: 0, y: 0, width: screenWidth, height: 200)
+        headerView.dreamTitle.text = dream.title
+        headerView.profileView.authorLabel.text = dream.author
         headerView.profileView.dateLabel.text = dream.date
         headerView.starLabel.text = "\(dream.upvotes - dream.downvotes)"
         
@@ -59,13 +63,18 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
             NSForegroundColorAttributeName: UIColor.white.withAlphaComponent(0.74)
         ]
         
-        dreamTextView = UITextView()
-        dreamTextView.translatesAutoresizingMaskIntoConstraints = false
-        dreamTextView.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
-        dreamTextView.showsVerticalScrollIndicator = false
-        dreamTextView.isScrollEnabled = true
-        dreamTextView.attributedText = NSAttributedString(string: currentText, attributes: attributes)
-        dreamTextView.contentInset = UIEdgeInsetsMake(12.0, 0.0, 12.0, 0.0)
+        textView = UITextView()
+        textView.attributedText = NSAttributedString(string: dream.text, attributes: attributes)
+        textView.textColor = .white
+        textView.isUserInteractionEnabled = false
+        //textView.frame.origin = CGPoint(x: 0, y: 200)
+        textView.sizeThatFits(CGSize(width: screenWidth, height: CGFloat.greatestFiniteMagnitude))
+        let newSize = textView.sizeThatFits(CGSize(width: screenWidth, height: CGFloat.greatestFiniteMagnitude))
+        textView.frame = CGRect(x: 12, y: 200, width: screenWidth - 24.0, height: newSize.height + 12.0)
+        textView.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
+        textView.showsVerticalScrollIndicator = false
+        textView.isScrollEnabled = false
+        textView.contentInset = UIEdgeInsetsMake(12.0, 12.0, 12.0, 12.0)
         
         currentState = .delete
         karma = dream.upvotes - dream.downvotes
@@ -74,18 +83,20 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
         
         view.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
         
-        headerView.upvoteButton.addTarget(self, action: #selector(DreamViewController.upvoteTapped), for: .touchUpInside)
-        headerView.downvoteButton.addTarget(self, action: #selector(DreamViewController.downvoteTapped), for: .touchUpInside)
-        dreamTextView.delegate = self
-        
-        view.addSubview(dreamTextView)
-        view.addSubview(headerView)
-        
-        setupLayout()
+        scrollView.addSubview(headerView)
+        scrollView.addSubview(textView)
+        view.addSubview(scrollView)
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLayoutSubviews() {
+        scrollView.delegate = self
+        scrollView.frame = view.frame
+        scrollView.contentSize = CGSize(width: screenWidth, height: headerView.bounds.height + textView.bounds.height)
+        scrollView.frame.origin = CGPoint(x: 0, y: 0)
     }
     
     override func viewDidLoad() {
@@ -93,9 +104,9 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
 
         if let username = UserDefaults.standard.string(forKey: "username") {
             if currentAuthor == username {
-                dreamTextView.isEditable = true
+                textView.isEditable = true
             } else {
-                dreamTextView.isEditable = false
+                textView.isEditable = false
             }
         }
         
@@ -151,7 +162,7 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
             if let username = UserDefaults.standard.string(forKey: "username"),
                 let id = id {
                 headerView.starLabel.text = "\(karma - 1)"
-    
+                
                 FIRDatabase.database().reference().child("feed/\(id)/upvotes").setValue(dream.upvotes - 1)
                 FIRDatabase.database().reference().child("/users/\(username)/starred/\(id)").removeValue()
             }
@@ -166,7 +177,7 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
                     
                     if let title = headerView.dreamTitle.text,
                         let author = headerView.profileView.authorLabel.text,
-                        let text = dreamTextView.text,
+                        let text = textView.text,
                         let date = headerView.profileView.dateLabel.text {
                         
                         let dreamDictionary = [
@@ -209,7 +220,7 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
                 
                 if let title = headerView.dreamTitle.text,
                     let author = headerView.profileView.authorLabel.text,
-                    let text = dreamTextView.text,
+                    let text = textView.text,
                     let date = headerView.profileView.dateLabel.text {
                     
                     let dreamDictionary = [
@@ -230,9 +241,9 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
     
     func saveTapped() {
         if currentState == .save {
-            if dreamTextView.text?.isEmpty == false {
+            if textView.text?.isEmpty == false {
                 if let username = UserDefaults.standard.string(forKey: "username") {
-                    FIRDatabase.database().reference().child("/users/\(username)/journals/\(currentId)/text").setValue(dreamTextView.text)
+                    FIRDatabase.database().reference().child("/users/\(username)/journals/\(currentId)/text").setValue(textView.text)
                 }
             }
         } else {
@@ -325,21 +336,5 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
         } else if index == 13 || index == 26 {
             headerView.profileView.profileImageView.setImage(UIImage(named: "saturn"), for: .normal)
         }
-    }
-    
-    func setupLayout() {
-        view.addConstraints([
-            headerView.al_top == view.al_top,
-            headerView.al_left == view.al_left,
-            headerView.al_right == view.al_right,
-            headerView.al_height == UIScreen.main.bounds.height * 0.25
-        ])
-        
-        view.addConstraints([
-            dreamTextView.al_left == view.al_left + 20,
-            dreamTextView.al_bottom == view.al_bottom,
-            dreamTextView.al_right == view.al_right - 20,
-            dreamTextView.al_top == headerView.al_bottom
-        ])
     }
 }

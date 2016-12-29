@@ -17,9 +17,14 @@ class HomeFeedViewModel: NSObject {
     var downvotes: [Dream] = []
     weak var delegate: HomeFeedViewModelDelegate?
     
+    var shareTitle = ""
+    var shareAuthor = ""
+    var shareText = ""
+    var shareId = ""
+    var shareDate = ""
+    
     override init() {
         super.init()
-        
         requestData()
         requestStarredData()
         requestDownvotesData()
@@ -139,15 +144,6 @@ class HomeFeedViewModel: NSObject {
                             self.downvotes = downvotesTemp
                         }
                     }
-                    //                // check for duplicates
-                    //                for var i = 0; i < downvotesTemp.count; i++ {
-                    //                    for var j = 0; j < downvotesTemp.count; j++ {
-                    //                        if downvotesTemp[i].id == downvotesTemp[j].id && i != j {
-                    //                            downvotesTemp.removeAtIndex(j)
-                    //                        }
-                    //                    }
-                    //                }
-                    
                     self.downvotes = downvotesTemp
                     self.delegate?.dataDidLoad()
                 } else {

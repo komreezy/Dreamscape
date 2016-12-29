@@ -11,7 +11,10 @@ import FirebaseDatabase
 
 var saveText: String = ""
 
-class NewDreamViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate, ComposeAccessoryViewDelegate {
+class NewDreamViewController: UIViewController,
+UITextFieldDelegate,
+UITextViewDelegate,
+ComposeAccessoryViewDelegate {
 
     enum TabState {
         case share
@@ -53,11 +56,10 @@ class NewDreamViewController: UIViewController, UITextFieldDelegate, UITextViewD
         textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = UIFont(name: "Courier", size: 16.0)
-        textView.text = " What did you dream about?..."
+        textView.text = "What did you dream about?..."
         textView.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
         textView.textColor = UIColor.white.withAlphaComponent(0.54)
         textView.isSelectable = true
-        textView.contentInset = UIEdgeInsetsMake(18.0, 6.0, 0.0, 24.0)
         textView.inputAccessoryView = composeAccessoryView
         
         shareLabel = UILabel()
@@ -170,8 +172,12 @@ class NewDreamViewController: UIViewController, UITextFieldDelegate, UITextViewD
             // coolio
         } else {
             // show tip
-            let alert = UIAlertController(title: "Important!!!", message: "Before you press the done button on your dream, make sure you select the correct tab to \"Share\" it or just \"Keep\" it in your journal!", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
+            let alert = UIAlertController(title: "Important!!!",
+                                          message: "Before you press the done button on your dream, make sure you select the correct tab to \"Share\" it or just \"Keep\" it in your journal!",
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay",
+                                          style: UIAlertActionStyle.default,
+                                          handler: nil))
             self.present(alert, animated: true, completion: nil)
             UserDefaults.standard.set(true, forKey: "newdreamtooltip")
         }
@@ -203,8 +209,8 @@ class NewDreamViewController: UIViewController, UITextFieldDelegate, UITextViewD
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == " What did you dream about?..." {
-            textView.text = " "
+        if textView.text == "What did you dream about?..." {
+            textView.text = ""
         }
         
         if let keyboardHeight = keyboardHeight {
@@ -217,8 +223,8 @@ class NewDreamViewController: UIViewController, UITextFieldDelegate, UITextViewD
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text == " " {
-            textView.text = " What did you dream about?..."
+        if textView.text == "" {
+            textView.text = "What did you dream about?..."
         } else {
             saveText = textView.text
         }
@@ -231,7 +237,7 @@ class NewDreamViewController: UIViewController, UITextFieldDelegate, UITextViewD
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        if textView.text.characters.count > 1 && textView.text != " What did you dream about?..." && dreamTitleLabel.text?.isEmpty == false {
+        if textView.text.characters.count > 1 && textView.text != "What did you dream about?..." && dreamTitleLabel.text != "" {
             self.inputDelegate?.updateDoneButton("highlighted")
         } else {
             self.inputDelegate?.updateDoneButton("disabled")
@@ -273,11 +279,10 @@ class NewDreamViewController: UIViewController, UITextFieldDelegate, UITextViewD
     }
     
     func sendTapped() {
-        if dreamTitleLabel.text?.isEmpty == false && textView.text != " What did you dream about?..." && textView.text != " " {
+        if dreamTitleLabel.text?.isEmpty == false && textView.text != "What did you dream about?..." && textView.text != "z" {
             if state == .keep {
-                if let username = UserDefaults.standard.string(forKey: "username") {
+                if let username = UserDefaults.standard.string(forKey: "username"), let now = nowString {
                     let text = String(textView.text.characters.dropFirst())
-                    let now = nowString
                     let dreamDictionary = [
                         "title":dreamTitleLabel.text!,
                         "author":"\(username)",
@@ -321,17 +326,29 @@ class NewDreamViewController: UIViewController, UITextFieldDelegate, UITextViewD
             delegate?.shouldLeaveNewDreamViewController(2)
         } else if dreamTitleLabel.text?.isEmpty == true {
             if state == .keep {
-                    let alert = UIAlertController(title: "Don't Forget A Title!", message: "Before you save that dream of yours, make sure you give it name.", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
+                    let alert = UIAlertController(title: "Don't Forget A Title!",
+                                                  message: "Before you save that dream of yours, make sure you give it name.",
+                                                  preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Okay",
+                                                  style: UIAlertActionStyle.default,
+                                                  handler: nil))
                     self.present(alert, animated: true, completion: nil)
             } else {
-                let alert = UIAlertController(title: "Don't Forget A Title!", message: "Before you share that masterpiece, give your work a title.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
+                let alert = UIAlertController(title: "Don't Forget A Title!",
+                                              message: "Before you share that masterpiece, give your work a title.",
+                                              preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Okay",
+                                              style: UIAlertActionStyle.default,
+                                              handler: nil))
                 self.present(alert, animated: true, completion: nil)
             }
-        } else if textView.text == " What did you dream about?..." || textView.text == " " {
-            let alert = UIAlertController(title: "Whoops!", message: "No dream to upload. Type your dream in the text view below.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
+        } else if textView.text == "What did you dream about?..." || textView.text == "" {
+            let alert = UIAlertController(title: "Whoops!",
+                                          message: "No dream to upload. Type your dream in the text view below.",
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay",
+                                          style: UIAlertActionStyle.default,
+                                          handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
     }
@@ -353,10 +370,10 @@ class NewDreamViewController: UIViewController, UITextFieldDelegate, UITextViewD
         textViewBottomConstraint = textView.al_bottom == view.al_bottom
         
         view.addConstraints([
-            textView.al_top == textViewSeparatorView.al_bottom,
+            textView.al_top == textViewSeparatorView.al_bottom + 15,
             textViewBottomConstraint!,
-            textView.al_left == view.al_left + 5,
-            textView.al_right == view.al_right - 5,
+            textView.al_left == view.al_left + 21,
+            textView.al_right == view.al_right - 21,
             
             dreamTitleLabel.al_top == dateLabel.al_bottom + 27,
             dreamTitleLabel.al_left == view.al_left + 24,

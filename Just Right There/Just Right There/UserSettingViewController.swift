@@ -28,6 +28,11 @@ class UserSettingViewController: UIViewController, UIActionSheetDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        userSettingView.shareButton.addTarget(self, action: #selector(UserSettingViewController.shareButtonTapped), for: .touchUpInside)
+        userSettingView.feedBackButton.addTarget(self, action: #selector(UserSettingViewController.feedbackButtonTapped), for: .touchUpInside)
+        userSettingView.rateAppButton.addTarget(self, action: #selector(UserSettingViewController.rateAppButton), for: .touchUpInside)
+        userSettingView.supportButton.addTarget(self, action: #selector(UserSettingViewController.supportButtonTapped), for: .touchUpInside)
+        userSettingView.policyButton.addTarget(self, action: #selector(UserSettingViewController.policyButtonTapped), for: .touchUpInside)
         userSettingView.cancelButton.addTarget(self, action: #selector(UserSettingViewController.closeUserProfile), for: .touchUpInside)
         userSettingView.signOutButton.addTarget(self, action: #selector(UserSettingViewController.logout), for: .touchUpInside)
     }
@@ -56,6 +61,31 @@ class UserSettingViewController: UIViewController, UIActionSheetDelegate {
     
     func closeUserProfile() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    func shareButtonTapped() {
+        pushNewAboutViewController("https://appsto.re/us/OVx4ab.i", title: "Share")
+    }
+    
+    func feedbackButtonTapped() {
+       pushNewAboutViewController("https://getdreamscape.wordpress.com/2016/02/26/icon-credit/", title: "Icons")
+    }
+    
+    func rateAppButton() {
+        pushNewAboutViewController("https://appsto.re/us/OVx4ab.i", title: "Rate")
+    }
+    
+    func supportButtonTapped() {
+        pushNewAboutViewController("https://getdreamscape.wordpress.com/2016/03/19/faq/", title: "Support")
+    }
+    
+    func policyButtonTapped() {
+        pushNewAboutViewController("https://getdreamscape.wordpress.com/2016/02/25/terms-privacy-policy/", title: "Policy")
+    }
+    
+    func pushNewAboutViewController(_ url: String, title: String) {
+        let vc = SettingsWebViewController(title: title, website: url)
+        present(vc, animated: true, completion: nil)
     }
     
     func setupLayout() {

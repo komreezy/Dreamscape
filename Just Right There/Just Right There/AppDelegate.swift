@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate,
@@ -32,6 +33,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
             window.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
             window.rootViewController = mainController
             window.makeKeyAndVisible()
+        }
+        
+        if #available(iOS 10.0, *) {
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert]) { (granted, error) in
+                if granted == true{
+                    print("Granted")
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
+                if let error = error as? NSError {
+                    print("Error: \(error.description)")
+                }
+            }
+        } else {
+            
         }
         
         return true

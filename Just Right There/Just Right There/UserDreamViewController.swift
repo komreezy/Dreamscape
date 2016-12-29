@@ -40,7 +40,7 @@ class UserDreamViewController: UIViewController, UITextViewDelegate, MFMailCompo
         
         headerView = UIView()
         headerView.translatesAutoresizingMaskIntoConstraints = false
-        headerView.backgroundColor = UIColor.navyColor()
+        headerView.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
         
         dismissButton = UIButton()
         dismissButton.translatesAutoresizingMaskIntoConstraints = false
@@ -49,24 +49,27 @@ class UserDreamViewController: UIViewController, UITextViewDelegate, MFMailCompo
         
         dreamTitle = UILabel()
         dreamTitle.translatesAutoresizingMaskIntoConstraints = false
-        dreamTitle.font = UIFont(name: "Roboto", size: 20.0)
+        dreamTitle.font = UIFont(name: "Montserrat-Regular", size: 20.0)
         dreamTitle.textColor = UIColor.white
         dreamTitle.textAlignment = .center
         dreamTitle.text = currentTitle
         
         authorLabel = UILabel()
         authorLabel.translatesAutoresizingMaskIntoConstraints = false
-        authorLabel.font = UIFont(name: "OpenSans", size: 14.0)
+        authorLabel.font = UIFont(name: "Courier", size: 14.0)
         authorLabel.textColor = UIColor.white
         dreamTitle.textAlignment = .center
-        authorLabel.text = "by \(currentAuthor)"
+        authorLabel.text = "edit mode"
         
         dreamTextView = UITextView()
         dreamTextView.translatesAutoresizingMaskIntoConstraints = false
         dreamTextView.backgroundColor = UIColor.white
-        dreamTextView.font = UIFont(name: "OpenSans", size: 17.0)
+        dreamTextView.font = UIFont(name: "Courier", size: 17.0)
         dreamTextView.showsVerticalScrollIndicator = false
         dreamTextView.text = currentText
+        dreamTextView.textColor = UIColor.white
+        dreamTextView.backgroundColor = UIColor(fromHexString: "#222326")
+        dreamTextView.contentInset = UIEdgeInsetsMake(10.0, 0.0, 0.0, 0.0)
         
         reportFlag = UIButton()
         reportFlag.translatesAutoresizingMaskIntoConstraints = false
@@ -83,7 +86,7 @@ class UserDreamViewController: UIViewController, UITextViewDelegate, MFMailCompo
         
         super.init(nibName: nil, bundle: nil)
         
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = UIColor(fromHexString: "#222326")
         
         dismissButton.addTarget(self, action: #selector(DreamViewController.dismissViewController), for: .touchUpInside)
         reportFlag.addTarget(self, action: #selector(DreamViewController.flagTapped), for: .touchUpInside)
@@ -219,12 +222,12 @@ class UserDreamViewController: UIViewController, UITextViewDelegate, MFMailCompo
             headerView.al_top == view.al_top,
             headerView.al_left == view.al_left,
             headerView.al_right == view.al_right,
-            headerView.al_height == 105
+            headerView.al_height == 110
         ])
         
         view.addConstraints([
             dismissButton.al_left == headerView.al_left + 5,
-            dismissButton.al_centerY == dreamTitle.al_centerY,
+            dismissButton.al_centerY == dreamTitle.al_bottom,
             dismissButton.al_height == 35,
             dismissButton.al_width == 35
         ])
@@ -238,7 +241,7 @@ class UserDreamViewController: UIViewController, UITextViewDelegate, MFMailCompo
         
         view.addConstraints([
             authorLabel.al_centerX == dreamTitle.al_centerX,
-            authorLabel.al_top == dreamTitle.al_bottom + 4
+            authorLabel.al_top == dreamTitle.al_bottom + 5
         ])
         
         view.addConstraints([
@@ -257,7 +260,7 @@ class UserDreamViewController: UIViewController, UITextViewDelegate, MFMailCompo
         
         view.addConstraints([
             saveButton.al_right == view.al_right - 15,
-            saveButton.al_centerY == headerView.al_centerY - 5,
+            saveButton.al_centerY == dreamTitle.al_bottom,
             saveButton.al_width == 55,
             saveButton.al_height == 35
         ])

@@ -7,13 +7,17 @@
 //
 
 import UIKit
+import Social
+import MessageUI
 
 private let homeFeedReuseIdentifier = "homeFeedCell"
 
 class HomeFeedCollectionViewController: UICollectionViewController,
 HomeFeedViewModelDelegate,
 HomeFeedCellDelegate,
-UserProfileViewModelDelegate {
+UserProfileViewModelDelegate,
+UIActionSheetDelegate,
+MFMailComposeViewControllerDelegate {
 
     var viewModel: HomeFeedViewModel
     var userDefaults: UserDefaults
@@ -72,7 +76,11 @@ UserProfileViewModelDelegate {
         
         navigationItem.titleView = logoImageView
         
-        let loadingTimer = Timer.scheduledTimer(timeInterval: 4.0, target: self, selector: #selector(HomeFeedCollectionViewController.loadingTimeout), userInfo: nil, repeats: false)
+        let loadingTimer = Timer.scheduledTimer(timeInterval: 4.0,
+                                                target: self,
+                                                selector: #selector(HomeFeedCollectionViewController.loadingTimeout),
+                                                userInfo: nil,
+                                                repeats: false)
     }
 
     override func didReceiveMemoryWarning() {
@@ -89,7 +97,6 @@ UserProfileViewModelDelegate {
             let vc = ContainerNavigationController(rootViewController: LandingPageViewController())
             vc.isNavigationBarHidden = true
             vc.navigationBar.barTintColor = UIColor(red: 34.0/255.0, green: 35.0/255.0, blue: 38.0/255.0, alpha: 1.0)
-            //let vc = LandingPageViewController()
             present(vc, animated: true, completion: nil)
         }
         
@@ -176,7 +183,7 @@ UserProfileViewModelDelegate {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: false)
         
-        let dreamViewController = DreamViewController(dream: viewModel.dreamDictionary[(indexPath as NSIndexPath).row])
+        let dreamViewController = DreamReaderViewController(dream: viewModel.dreamDictionary[(indexPath as NSIndexPath).row])
         navigationController?.pushViewController(dreamViewController, animated: true)
     }
     
@@ -214,6 +221,100 @@ UserProfileViewModelDelegate {
             collectionView.reloadData()
         }
     }
+    
+    func shareTapped(_ title: String, author: String, text: String, id: String, date: String) {
+        viewModel.shareTitle = title
+        viewModel.shareAuthor = author
+        viewModel.shareText = text
+        viewModel.shareId = id
+        viewModel.shareDate = date
+        
+        let actionSheet = UIActionSheet(title: "Options", delegate: self, cancelButtonTitle: "cancel", destructiveButtonTitle: nil, otherButtonTitles: "Share to Twitter", "Share to Facebook", "Report")
+        actionSheet.show(in: view)
+    }
+    
+    // MARK: MFMailComposeViewControllerDelegate - (Does not work in Simulator)
+    func launchEmail(_ sender: AnyObject) {
+        let emailTitle = "Reason For Report"
+        let messageBody = ""
+        let toRecipents = ["dreamscape9817234@gmail.com"]
+        let mc: MFMailComposeViewController = MFMailComposeViewController()
+        
+        mc.mailComposeDelegate = self
+        mc.setSubject(emailTitle)
+        mc.setMessageBody(messageBody, isHTML: false)
+        mc.setToRecipients(toRecipents)
+        
+        mc.modalTransitionStyle = .coverVertical
+        present(mc, animated: true, completion: nil)
+    }
+    
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        switch result.rawValue {
+        case MFMailComposeResult.cancelled.rawValue:
+            print("Mail cancelled")
+        case MFMailComposeResult.saved.rawValue:
+            print("Mail saved")
+        case MFMailComposeResult.sent.rawValue:
+            print("Mail sent")
+        case MFMailComposeResult.failed.rawValue:
+            print("Mail sent failure: \(error!.localizedDescription)")
+        default:
+            break
+        }
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    // MARK: UIActionSheetDelegate
+    func actionSheet(_ actionSheet: UIActionSheet, clickedButtonAt buttonIndex: Int) {
+        switch buttonIndex {
+        case 0:
+            print(")")
+        case 1:
+            if SLComposeViewController.isAvailable(forServiceType: SLServiceTypeTwitter){
+                let twitterSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+                twitterSheet.setInitialText("\(viewModel.shareTitle) by \(viewModel.shareAuthor)\n\n\(viewModel.shareText)")
+                self.present(twitterSheet, animated: true, completion: nil)
+            } else {
+                let alert = UIAlertController(title: "Accounts",
+                                              message: "Please login to a Twitter account to share.",
+                                              preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "OK",
+                                              style: UIAlertActionStyle.default,
+                                              handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
+        case 2:
+            if SLComposeViewController.isAvailable(forServiceType: SLServiceTypeFacebook){
+                let twitterSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
+                twitterSheet.setInitialText("\(viewModel.shareTitle) by \(viewModel.shareAuthor)\n\n\(viewModel.shareText)")
+                self.present(twitterSheet, animated: true, completion: nil)
+            } else {
+                let alert = UIAlertController(title: "Accounts",
+                                              message: "Please login to a Facebook account to share.",
+                                              preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "OK",
+                                              style: UIAlertActionStyle.default,
+                                              handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
+        case 3:
+            if MFMailComposeViewController.canSendMail() {
+                launchEmail(self)
+            } else {
+                let alert = UIAlertController(title: "Unable To Report",
+                                              message: "Please set up mail client before reporting.",
+                                              preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Okay",
+                                              style: UIAlertActionStyle.default,
+                                              handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
+        default:
+            break
+        }
+    }
 }
 
 extension String {
@@ -226,9 +327,10 @@ extension String {
         let end = characters.index(start, offsetBy: r.upperBound - r.lowerBound)
         return self[(start ... end)]
     }
-//    subscript (r: Range<Int>) -> String {
-//        let start = characters.index(startIndex, offsetBy: r.lowerBound)
-//        let end = <#T##String.CharacterView corresponding to `start`##String.CharacterView#>.index(start, offsetBy: r.upperBound - r.lowerBound)
-//        return self[(start ..< end)]
-//    }
+    
+    subscript (r: Range<Int>) -> String {
+        let start = characters.index(startIndex, offsetBy: r.lowerBound)
+        let end = characters.index(start, offsetBy: r.upperBound - r.lowerBound)
+        return self[(start ..< end)]
+    }
 }

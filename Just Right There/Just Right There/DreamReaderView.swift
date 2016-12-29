@@ -9,12 +9,10 @@
 import UIKit
 
 class DreamReaderView: UIView, UITextViewDelegate {
-    
     var headerView: UIView
     var dreamTitle: UILabel
     var authorLabel: UILabel
     var dreamTextView: UITextView
-    
     var currentTitle: String?
     var currentAuthor: String?
     var currentText: String?
@@ -49,7 +47,6 @@ class DreamReaderView: UIView, UITextViewDelegate {
         super.init(frame: frame)
         
         backgroundColor = UIColor.white
-        
         dreamTextView.delegate = self
         
         headerView.addSubview(dreamTitle)

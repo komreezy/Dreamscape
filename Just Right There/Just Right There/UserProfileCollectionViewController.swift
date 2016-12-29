@@ -71,8 +71,7 @@ class UserProfileCollectionViewController: UICollectionViewController,
             collectionView.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
             collectionView.showsVerticalScrollIndicator = false
             collectionView.register(UserProfileHeaderView.self, forSupplementaryViewOfKind: CSStickyHeaderParallaxHeader, withReuseIdentifier: "profile-header")
-            //collectionView.registerClass(UserProfileCollectionViewCell.self, forCellWithReuseIdentifier: userProfileReuseIdentifier)
-            collectionView.register(HomeFeedImageCollectionViewCell.self, forCellWithReuseIdentifier: userProfileReuseIdentifier)
+            collectionView.register(UserProfileKarmaCollectionViewCell.self, forCellWithReuseIdentifier: userProfileReuseIdentifier)
         }
         
         headerDelegate?.numberOfItemsInSection(viewModel.journals.count, starred: viewModel.starred.count)
@@ -117,6 +116,12 @@ class UserProfileCollectionViewController: UICollectionViewController,
     
     // MARK: DZNEmptyDataSet
     func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
+        if UIDevice.current.modelName == "iPhone SE",
+            UIDevice.current.modelName == "iPhone 5",
+            UIDevice.current.modelName == "iPhone 5s",
+            UIDevice.current.modelName == "iPhone 5c" {
+            return UIImage()
+        }
         return UIImage(named: "snooze")
     }
     
@@ -183,8 +188,9 @@ class UserProfileCollectionViewController: UICollectionViewController,
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: userProfileReuseIdentifier, for: indexPath) as?HomeFeedImageCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: userProfileReuseIdentifier, for: indexPath) as?UserProfileKarmaCollectionViewCell
         
+        cell?.userProfileDelegate = self
         if state == .journal {
             cell?.dream = viewModel.journals[(indexPath as NSIndexPath).row]
             

@@ -177,7 +177,6 @@ class ProfileIconPickerView: UIViewController, UIScrollViewDelegate {
     
     func selectTapped() {
         if let username = UserDefaults.standard.string(forKey: "username") {
-            //let userRef = rootRef.childByAppendingPath("/users/\(username)/picture")
             var pictureString = ""
             
             if currentPage == 0 {

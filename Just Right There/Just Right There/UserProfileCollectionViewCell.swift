@@ -44,7 +44,6 @@ class UserProfileCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         
         backgroundColor = UIColor.white
-        
         shareButton.addTarget(self, action: #selector(UserProfileCollectionViewCell.shareTapped), for: .touchUpInside)
         
         addSubview(titleLabel)
@@ -67,16 +66,22 @@ class UserProfileCollectionViewCell: UICollectionViewCell {
         addConstraints([
             titleLabel.al_left == al_left + 10,
             titleLabel.al_bottom == al_centerY,
-            titleLabel.al_right == shareButton.al_left - 10,
-            
+            titleLabel.al_right == shareButton.al_left - 10
+        ])
+        
+        addConstraints([
             dateLabel.al_left == titleLabel.al_left,
-            dateLabel.al_top == al_centerY,
-            
+            dateLabel.al_top == al_centerY
+        ])
+        
+        addConstraints([
             highlightLine.al_bottom == al_bottom,
             highlightLine.al_left == al_left,
             highlightLine.al_right == al_right,
-            highlightLine.al_height == 0.5,
-            
+            highlightLine.al_height == 0.5
+        ])
+        
+        addConstraints([
             shareButton.al_right == al_right - 10,
             shareButton.al_centerY == al_centerY,
             shareButton.al_height == 30,

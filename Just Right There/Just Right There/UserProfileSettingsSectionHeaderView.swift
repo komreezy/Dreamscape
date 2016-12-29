@@ -19,9 +19,7 @@ class UserProfileSettingsSectionHeaderView: UIView {
         super.init(frame: frame)
         
         backgroundColor = WhiteColor
-        
         addSubview(titleLabel)
-        
         setupLayout()
     }
     
