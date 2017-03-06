@@ -58,6 +58,8 @@
 		69A8CEBA1C10B49B00AC4EC4 /* Morningtype Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69A8CEB81C10B49B00AC4EC4 /* Morningtype Light.ttf */; };
 		69A8CEBB1C10B49B00AC4EC4 /* Morningtype.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69A8CEB91C10B49B00AC4EC4 /* Morningtype.ttf */; };
 		69A8CECA1C10B57A00AC4EC4 /* coolvetica rg.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69A8CEC91C10B57A00AC4EC4 /* coolvetica rg.ttf */; };
+		69A97D5B1E648EAD00365403 /* AlarmSetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A97D5A1E648EAD00365403 /* AlarmSetView.swift */; };
+		69A97D5F1E64A74600365403 /* AlarmSetContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A97D5E1E64A74600365403 /* AlarmSetContainerView.swift */; };
 		69B33F061B8D5BE000DEF7FB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B33F051B8D5BE000DEF7FB /* AppDelegate.swift */; };
 		69B33F0D1B8D5BE000DEF7FB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 69B33F0C1B8D5BE000DEF7FB /* Images.xcassets */; };
 		69B33F101B8D5BE000DEF7FB /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69B33F0E1B8D5BE000DEF7FB /* LaunchScreen.xib */; };
@@ -72,7 +74,7 @@
 		69EC98761D9EBF0E00AE0C6C /* UserSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EC98751D9EBF0E00AE0C6C /* UserSettingViewController.swift */; };
 		69F0281B1C7E3DE500970439 /* ProfileIconPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F0281A1C7E3DE500970439 /* ProfileIconPickerView.swift */; };
 		69F0282B1C7E44B100970439 /* ProfileIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F0282A1C7E44B100970439 /* ProfileIconView.swift */; };
-		9030E8B2D72A64A6D5F7DFC9 /* libPods-Dreamscape.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C5D4BA7DCC366358C60D424D /* libPods-Dreamscape.a */; };
+		88CFD37494A04663B79E9821 /* libPods-Dreamscape.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DADD98DBB3A8EEA2CB9D4FE /* libPods-Dreamscape.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -164,6 +166,7 @@
 
 /* Begin PBXFileReference section */
 		2667FAEE898BE576D45D92C2 /* Pods-Dreamscape.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dreamscape.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dreamscape/Pods-Dreamscape.debug.xcconfig"; sourceTree = "<group>"; };
+		2DADD98DBB3A8EEA2CB9D4FE /* libPods-Dreamscape.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Dreamscape.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		690159101DA41E15005AD3CD /* UserProfileKarmaCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileKarmaCollectionViewCell.swift; sourceTree = "<group>"; };
 		690CB8451BDCD4E600857130 /* FavoriteAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteAlertView.swift; sourceTree = "<group>"; };
 		690DA7061D9DAF4B0092CC6B /* DreamInputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DreamInputAccessoryView.swift; sourceTree = "<group>"; };
@@ -448,6 +451,8 @@
 		69A8CEB81C10B49B00AC4EC4 /* Morningtype Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Morningtype Light.ttf"; sourceTree = "<group>"; };
 		69A8CEB91C10B49B00AC4EC4 /* Morningtype.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Morningtype.ttf; sourceTree = "<group>"; };
 		69A8CEC91C10B57A00AC4EC4 /* coolvetica rg.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "coolvetica rg.ttf"; sourceTree = "<group>"; };
+		69A97D5A1E648EAD00365403 /* AlarmSetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmSetView.swift; sourceTree = "<group>"; };
+		69A97D5E1E64A74600365403 /* AlarmSetContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmSetContainerView.swift; sourceTree = "<group>"; };
 		69B33F001B8D5BE000DEF7FB /* Dreamscape.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dreamscape.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69B33F041B8D5BE000DEF7FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		69B33F051B8D5BE000DEF7FB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -467,7 +472,6 @@
 		69F0281A1C7E3DE500970439 /* ProfileIconPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileIconPickerView.swift; sourceTree = "<group>"; };
 		69F0282A1C7E44B100970439 /* ProfileIconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileIconView.swift; sourceTree = "<group>"; };
 		C1E66AD84528804F123B3744 /* Pods-Dreamscape.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dreamscape.release.xcconfig"; path = "Pods/Target Support Files/Pods-Dreamscape/Pods-Dreamscape.release.xcconfig"; sourceTree = "<group>"; };
-		C5D4BA7DCC366358C60D424D /* libPods-Dreamscape.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Dreamscape.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -475,7 +479,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9030E8B2D72A64A6D5F7DFC9 /* libPods-Dreamscape.a in Frameworks */,
+				88CFD37494A04663B79E9821 /* libPods-Dreamscape.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -494,7 +498,7 @@
 			children = (
 				691F88191BDCAF6300CD1B3B /* SpeechKit.framework */,
 				691F86F81BDCAF4A00CD1B3B /* ATTPlatformSDKiOS */,
-				C5D4BA7DCC366358C60D424D /* libPods-Dreamscape.a */,
+				2DADD98DBB3A8EEA2CB9D4FE /* libPods-Dreamscape.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -964,6 +968,8 @@
 				69F0282A1C7E44B100970439 /* ProfileIconView.swift */,
 				69D4F5741DA4AA2900A68341 /* DreamReaderHeaderView.swift */,
 				69D4F5761DA4ADC900A68341 /* DreamReaderUserHeaderView.swift */,
+				69A97D5A1E648EAD00365403 /* AlarmSetView.swift */,
+				69A97D5E1E64A74600365403 /* AlarmSetContainerView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1359,7 +1365,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		8E04EBA68C5A726783634D8C /* [CP] Embed Pods Frameworks */ = {
@@ -1401,6 +1407,7 @@
 				6912564B1C7F76E10089C30B /* SettingsCloseView.swift in Sources */,
 				6981165B1DA3683A007D94B8 /* delay.swift in Sources */,
 				690CB8461BDCD4E600857130 /* FavoriteAlertView.swift in Sources */,
+				69A97D5B1E648EAD00365403 /* AlarmSetView.swift in Sources */,
 				69711D9D1BDB24D0009F70DB /* DreamViewController.swift in Sources */,
 				69D031761BDB0AE800B31CF5 /* TabBarController.swift in Sources */,
 				698116591DA3603A007D94B8 /* UIColor+HEXString.m in Sources */,
@@ -1419,6 +1426,7 @@
 				69711D961BDB1C58009F70DB /* UserProfileHeaderView.swift in Sources */,
 				69D4F5751DA4AA2900A68341 /* DreamReaderHeaderView.swift in Sources */,
 				691256491C7F76B20089C30B /* UserProfileSettingsSectionHeaderView.swift in Sources */,
+				69A97D5F1E64A74600365403 /* AlarmSetContainerView.swift in Sources */,
 				69711D921BDB190C009F70DB /* UserProfileCollectionViewCell.swift in Sources */,
 				695131F31BDBA91700852941 /* HomeFeedViewModel.swift in Sources */,
 				69B33F061B8D5BE000DEF7FB /* AppDelegate.swift in Sources */,

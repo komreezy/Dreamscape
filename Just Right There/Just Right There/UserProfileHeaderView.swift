@@ -24,6 +24,7 @@ class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
     var nameLabelHorizontalConstraint: NSLayoutConstraint?
     var tabContainerView: UIView
     var settingsButton: UIButton
+    var alarmButton: UIButton
     var favoritesTabButton: UIButton
     var recentsTabButton: UIButton
     var highlightBarView: UIView
@@ -76,6 +77,11 @@ class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
         settingsButton.translatesAutoresizingMaskIntoConstraints = false
         settingsButton.setImage(UIImage(named: "settingsDiamond"), for: UIControlState())
         settingsButton.contentEdgeInsets = UIEdgeInsetsMake(0.0, 10.0, 10.0, 0.0)
+        
+        alarmButton = UIButton()
+        alarmButton.translatesAutoresizingMaskIntoConstraints = false
+        alarmButton.setImage(UIImage(named: "alarm"), for: UIControlState())
+        alarmButton.contentEdgeInsets = UIEdgeInsetsMake(0.0, 10.0, 10.0, 0.0)
         
         journalsLabel = UILabel()
         journalsLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -144,6 +150,7 @@ class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
         favoritesTabButton.addTarget(self, action: #selector(UserProfileHeaderView.journalTabTapped), for: .touchUpInside)
         recentsTabButton.addTarget(self, action: #selector(UserProfileHeaderView.starredTabTapped), for: .touchUpInside)
         settingsButton.addTarget(self, action: #selector(UserProfileHeaderView.settingsTapped), for: .touchUpInside)
+        alarmButton.addTarget(self, action: #selector(UserProfileHeaderView.alarmTapped), for: .touchUpInside)
         
         addSubview(illustrationView)
         addSubview(collapseNameLabel)
@@ -154,6 +161,7 @@ class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
         addSubview(starredLabel)
         addSubview(starredNumberLabel)
         addSubview(settingsButton)
+        addSubview(alarmButton)
         addSubview(backgroundImage)
         addSubview(tabContainerView)
         
@@ -233,6 +241,13 @@ class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
             settingsButton.al_top == al_top + 30,
             settingsButton.al_height == 30,
             settingsButton.al_width == 30
+        ])
+        
+        addConstraints([
+            alarmButton.al_left == al_left + 10,
+            alarmButton.al_top == al_top + 30,
+            alarmButton.al_height == 30,
+            alarmButton.al_width == 30
         ])
         
         addConstraints([
@@ -321,6 +336,10 @@ class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
         delegate?.settingsSelected()
     }
     
+    func alarmTapped() {
+        delegate?.alarmSelected()
+    }
+    
     func numberOfItemsInSection(_ journals: Int, starred: Int) {
         journalsNumberLabel.text = "\(journals)"
         starredNumberLabel.text = "\(starred)"
@@ -332,4 +351,5 @@ protocol UserProfileHeaderDelegate: class {
     func journalTabSelected()
     func starredTabSelected()
     func settingsSelected()
+    func alarmSelected()
 }

@@ -25,6 +25,7 @@ class UserProfileCollectionViewController: UICollectionViewController,
         case starred
     }
     
+    var setView: AlarmSetContainerView
     var viewModel: UserProfileViewModel
     var headerView: UserProfileHeaderView?
     var state: UserState
@@ -32,16 +33,22 @@ class UserProfileCollectionViewController: UICollectionViewController,
     
     init(userViewModel: UserProfileViewModel) {
         viewModel = userViewModel
-        
         state = .journal
+        
+        setView = AlarmSetContainerView()
+        setView.isHidden = true
         
         super.init(collectionViewLayout: UserProfileCollectionViewController.provideCollectionViewLayout())
         
         view.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
+        setView.setView.timePicker.addTarget(self, action: #selector(UserProfileCollectionViewController.timeChanged), for: .valueChanged)
+        setView.setView.confirmButton.addTarget(self, action: #selector(UserProfileCollectionViewController.confirmAlarm), for: .touchUpInside)
         
         viewModel.getUsername()
         viewModel.requestJournalData()
         viewModel.requestStarredData()
+        
+        view.addSubview(setView)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -114,6 +121,16 @@ class UserProfileCollectionViewController: UICollectionViewController,
         return .lightContent
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        setView.frame = view.frame
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+        super.touchesBegan(touches, with: event)
+    }
+    
     // MARK: DZNEmptyDataSet
     func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
         if UIDevice.current.modelName == "iPhone SE",
@@ -174,7 +191,6 @@ class UserProfileCollectionViewController: UICollectionViewController,
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
-    
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let numJournals = viewModel.journals.count
@@ -275,8 +291,38 @@ class UserProfileCollectionViewController: UICollectionViewController,
     }
     
     func settingsSelected() {
-        let settingsVC = UserSettingViewController()
+        let settingsVC = SettingsViewController()
         present(settingsVC, animated: true, completion: nil)
+    }
+    
+    func alarmSelected() {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.setView.isHidden = false
+        })
+    }
+    
+    func timeChanged() {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "hh:mm a"
+        let time = formatter.string(from: setView.setView.timePicker.date)
+        setView.setView.dateTextField.text = time
+    }
+    
+    func confirmAlarm() {
+        UIApplication.shared.cancelAllLocalNotifications()
+        setView.setView.dateTextField.resignFirstResponder()
+        
+        let notification = UILocalNotification()
+        notification.alertBody = "Don't forget to record your dream!"
+        notification.alertAction = "open"
+        notification.repeatInterval = .day
+        notification.fireDate = setView.setView.timePicker.date
+        
+        UIApplication.shared.scheduleLocalNotification(notification)
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            self.setView.isHidden = true
+        })
     }
     
     func shareTapped(_ title: String, author: String, text: String, id: String, date: String) {

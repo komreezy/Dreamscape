@@ -67,9 +67,10 @@ class DreamReaderViewController: UIViewController, UIScrollViewDelegate, MFMailC
         textView.attributedText = NSAttributedString(string: dream.text, attributes: attributes)
         textView.textColor = .white
         textView.isUserInteractionEnabled = false
-        //textView.frame.origin = CGPoint(x: 0, y: 200)
         textView.sizeThatFits(CGSize(width: screenWidth, height: CGFloat.greatestFiniteMagnitude))
+        
         let newSize = textView.sizeThatFits(CGSize(width: screenWidth, height: CGFloat.greatestFiniteMagnitude))
+        
         textView.frame = CGRect(x: 12, y: 200, width: screenWidth - 24.0, height: newSize.height + 12.0)
         textView.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
         textView.showsVerticalScrollIndicator = false

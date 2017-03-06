@@ -11,7 +11,6 @@ import MessageUI
 import FirebaseDatabase
 
 class UserDreamViewController: UIViewController, UITextViewDelegate, MFMailComposeViewControllerDelegate {
-    
     var headerView: UIView
     var dismissButton: UIButton
     var dreamTitle: UILabel
