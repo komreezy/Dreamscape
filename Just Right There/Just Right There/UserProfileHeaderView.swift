@@ -81,7 +81,7 @@ class UserProfileHeaderView: UICollectionReusableView, UserProfileDelegate {
         alarmButton = UIButton()
         alarmButton.translatesAutoresizingMaskIntoConstraints = false
         alarmButton.setImage(UIImage(named: "alarm"), for: UIControlState())
-        alarmButton.contentEdgeInsets = UIEdgeInsetsMake(0.0, 10.0, 10.0, 0.0)
+        alarmButton.contentEdgeInsets = UIEdgeInsetsMake(0.5, 10.5, 10.5, 0.5)
         
         journalsLabel = UILabel()
         journalsLabel.translatesAutoresizingMaskIntoConstraints = false

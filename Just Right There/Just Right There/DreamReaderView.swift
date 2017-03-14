@@ -43,6 +43,7 @@ class DreamReaderView: UIView, UITextViewDelegate {
         dreamTextView.isEditable = false
         dreamTextView.showsVerticalScrollIndicator = false
         dreamTextView.text = currentText
+        dreamTextView.isUserInteractionEnabled = true
         
         super.init(frame: frame)
         

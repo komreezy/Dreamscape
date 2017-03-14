@@ -8,13 +8,15 @@
 
 import UIKit
 import FirebaseDatabase
+import Speech
 
 var saveText: String = ""
 
 class NewDreamViewController: UIViewController,
 UITextFieldDelegate,
 UITextViewDelegate,
-ComposeAccessoryViewDelegate {
+ComposeAccessoryViewDelegate,
+SFSpeechRecognizerDelegate {
 
     enum TabState {
         case share
@@ -46,6 +48,9 @@ ComposeAccessoryViewDelegate {
     var keyboardHeight: CGFloat?
     weak var delegate: NewDreamViewControllerAnimatable?
     weak var inputDelegate: DoneButtonAdjustable?
+    
+    var firstBubble: CircleView
+    var secondBubble: CircleView
     
     init() {
         state = .keep
@@ -109,11 +114,20 @@ ComposeAccessoryViewDelegate {
         dateFormatter.timeStyle = .full
         dateFormatter.dateFormat = "MMMM d, yyyy"
         
+        firstBubble = CircleView()
+        firstBubble.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        
+        secondBubble = CircleView()
+        secondBubble.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        
         super.init(nibName: nil, bundle: nil)
         
         view.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
         composeAccessoryView.delegate = self
         inputDelegate = composeAccessoryView
+        
+        firstBubble.center = view.center
+        secondBubble.center = view.center
         
         shareTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(NewDreamViewController.shareTapped))
         keepTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(NewDreamViewController.keepTapped))
@@ -127,6 +141,8 @@ ComposeAccessoryViewDelegate {
         view.addSubview(dateLabel)
         view.addSubview(textView)
         view.addSubview(textViewSeparatorView)
+        view.addSubview(firstBubble)
+        view.addSubview(secondBubble)
         
         setupLayout()
     }
@@ -162,6 +178,13 @@ ComposeAccessoryViewDelegate {
         
         navigationItem.leftBarButtonItem = cancelBarButton
         navigationItem.titleView = logoImageView
+        
+        if #available(iOS 10.0, *) {
+            _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true, block: { _ in
+                //self.firstBubble.circlePulseAinmation(100.0, duration: 2.0, completionBlock: {})
+                //self.secondBubble.circlePulseAinmation(50.0, duration: 2.0, completionBlock: {})
+            })
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -278,6 +301,82 @@ ComposeAccessoryViewDelegate {
         
     }
     
+    func startRecording() {
+        if #available(iOS 10.0, *) {
+            let recognizer = SFSpeechRecognizer(locale: Locale.init(identifier: "en-US"))
+            var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
+            var recognitionTask: SFSpeechRecognitionTask?
+            let audioEngine = AVAudioEngine()
+            
+            SFSpeechRecognizer.requestAuthorization { authStatus in }
+            
+            if audioEngine.isRunning {
+                audioEngine.stop()
+                recognitionRequest?.endAudio()
+            } else {
+                if recognitionTask != nil {
+                    recognitionTask?.cancel()
+                    recognitionTask = nil
+                }
+                
+                let audioSession = AVAudioSession.sharedInstance()
+                do {
+                    try audioSession.setCategory(AVAudioSessionCategoryRecord)
+                    try audioSession.setMode(AVAudioSessionModeMeasurement)
+                    try audioSession.setActive(true, with: .notifyOthersOnDeactivation)
+                } catch {
+                    print("audio settings fail")
+                }
+                
+                recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
+                
+                guard let inputNode = audioEngine.inputNode else {
+                    return
+                }
+                
+                guard let recognitionRequest = recognitionRequest else {
+                    return
+                }
+                
+                recognitionRequest.shouldReportPartialResults = true
+                
+                recognitionTask = recognizer?.recognitionTask(with: recognitionRequest, resultHandler: { (result, error) in
+                    var isFinal = true
+                    
+                    if result != nil {
+                        self.textView.text = result?.bestTranscription.formattedString
+                        isFinal = (result?.isFinal)!
+                    }
+                    
+                    if error != nil || isFinal {
+                        audioEngine.stop()
+                        inputNode.removeTap(onBus: 0)
+                        
+                        //recognitionRequest = nil
+                        recognitionTask = nil
+                    }
+                })
+                
+                let recordingFormat = inputNode.outputFormat(forBus: 0)
+                inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat, block: { (buffer, when) in
+                    recognitionRequest.append(buffer)
+                })
+                
+                audioEngine.prepare()
+                
+                do {
+                    try audioEngine.start()
+                } catch {
+                    print("audio engine failed")
+                }
+                
+                textView.text = "Say Something, I'm Listening"
+            }
+        } else {
+            // Fallback on earlier versions
+        }
+    }
+
     func sendTapped() {
         if dreamTitleLabel.text?.isEmpty == false && textView.text != "What did you dream about?..." && textView.text != "z" {
             if state == .keep {

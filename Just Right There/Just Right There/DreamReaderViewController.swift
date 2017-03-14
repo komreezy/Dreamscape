@@ -76,6 +76,7 @@ class DreamReaderViewController: UIViewController, UIScrollViewDelegate, MFMailC
         textView.showsVerticalScrollIndicator = false
         textView.isScrollEnabled = false
         textView.contentInset = UIEdgeInsetsMake(12.0, 12.0, 12.0, 12.0)
+        textView.isUserInteractionEnabled = true
         
         currentState = .delete
         karma = dream.upvotes - dream.downvotes

@@ -36,7 +36,9 @@ class AlarmSetContainerView: UIView {
     }
     
     func closeView() {
-        isHidden = true
+        UIView.animate(withDuration: 0.3, animations: {
+            self.alpha = 0
+        })
         setView.dateTextField.resignFirstResponder()
     }
     

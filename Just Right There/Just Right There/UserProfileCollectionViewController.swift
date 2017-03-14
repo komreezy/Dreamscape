@@ -36,7 +36,7 @@ class UserProfileCollectionViewController: UICollectionViewController,
         state = .journal
         
         setView = AlarmSetContainerView()
-        setView.isHidden = true
+        setView.alpha = 0
         
         super.init(collectionViewLayout: UserProfileCollectionViewController.provideCollectionViewLayout())
         
@@ -297,7 +297,7 @@ class UserProfileCollectionViewController: UICollectionViewController,
     
     func alarmSelected() {
         UIView.animate(withDuration: 0.3, animations: {
-            self.setView.isHidden = false
+            self.setView.alpha = 1
         })
     }
     

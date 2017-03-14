@@ -66,6 +66,7 @@ class DreamViewController: UIViewController, UITextViewDelegate, MFMailComposeVi
         dreamTextView.isScrollEnabled = true
         dreamTextView.attributedText = NSAttributedString(string: currentText, attributes: attributes)
         dreamTextView.contentInset = UIEdgeInsetsMake(12.0, 0.0, 12.0, 0.0)
+        dreamTextView.isUserInteractionEnabled = true
         
         currentState = .delete
         karma = dream.upvotes - dream.downvotes
