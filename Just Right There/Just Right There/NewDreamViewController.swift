@@ -129,6 +129,7 @@ SFSpeechRecognizerDelegate {
         firstBubble.center = view.center
         secondBubble.center = view.center
         
+        dreamTitleLabel.addTarget(self, action: #selector(NewDreamViewController.updateButton), for: .editingChanged)
         shareTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(NewDreamViewController.shareTapped))
         keepTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(NewDreamViewController.keepTapped))
         shareLabel.addGestureRecognizer(shareTapRecognizer!)
@@ -154,7 +155,10 @@ SFSpeechRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(NewDreamViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(NewDreamViewController.keyboardWillShow(_:)),
+                                               name: NSNotification.Name.UIKeyboardWillShow,
+                                               object: nil)
         
         now = Date()
         nowString = dateFormatter.string(from: now!)
@@ -219,6 +223,14 @@ SFSpeechRecognizerDelegate {
         return true
     }
     
+    func updateButton() {
+        if dreamTitleLabel.text != "Add Title" && textView.text != "What did you dream about?..." && dreamTitleLabel.text != "" {
+            self.inputDelegate?.updateDoneButton("highlighted")
+        } else {
+            self.inputDelegate?.updateDoneButton("disabled")
+        }
+    }
+    
     // MARK: UITextFieldDelegate
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         resignFirstResponder()
@@ -260,7 +272,7 @@ SFSpeechRecognizerDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        if textView.text.characters.count > 1 && textView.text != "What did you dream about?..." && dreamTitleLabel.text != "" {
+        if textView.text != "What did you dream about?..." && dreamTitleLabel.text != "" {
             self.inputDelegate?.updateDoneButton("highlighted")
         } else {
             self.inputDelegate?.updateDoneButton("disabled")
@@ -351,8 +363,6 @@ SFSpeechRecognizerDelegate {
                     if error != nil || isFinal {
                         audioEngine.stop()
                         inputNode.removeTap(onBus: 0)
-                        
-                        //recognitionRequest = nil
                         recognitionTask = nil
                     }
                 })

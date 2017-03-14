@@ -32,7 +32,6 @@ class UserProfileViewModel: NSObject {
     
     override init() {
         userDefaults = UserDefaults.standard
-        
         reachable = Reachability()
         
         super.init()
@@ -90,10 +89,8 @@ class UserProfileViewModel: NSObject {
                     }
                     
                     if self.journals[self.journals.count - 1].author != "" {
-                        //NSUserDefaults.standardUserDefaults().setObject(self.journals, forKey: "journals")
                         self.delegate?.dataDidLoad()
                     }
-                    
                 } else {
                     print("Feed Data not received")
                 }
@@ -142,17 +139,23 @@ class UserProfileViewModel: NSObject {
                         let text = data["text"] as? String,
                         let date = data["date"] as? String {
                         
+                        print("Author: \(author)")
+                        var authorFormatted: NSString = author as NSString
+                        if author.contains("by ") {
+                            authorFormatted = authorFormatted.substring(from: 3) as NSString
+                        }
+                        
                         if let upvotes = data["upvotes"] as? Int,
                             let downvotes = data["downvotes"] as? Int {
-                            let dream = Dream(title: title, author: author, text: text, date: date, id: id, upvotes: upvotes, downvotes: downvotes)
+                            let dream = Dream(title: title, author: authorFormatted as String, text: text, date: date, id: id, upvotes: upvotes, downvotes: downvotes)
                             starredIds.append(id)
                             starredTemp.append(dream)
                         } else if let stars = data["stars"] as? Int {
-                            let dream = Dream(title: title, author: author, text: text, date: date, id: id, upvotes: stars, downvotes: 0)
+                            let dream = Dream(title: title, author: authorFormatted as String, text: text, date: date, id: id, upvotes: stars, downvotes: 0)
                             starredIds.append(id)
                             starredTemp.append(dream)
                         } else {
-                            let dream = Dream(title: title, author: author, text: text, date: date, id: id, upvotes: 0, downvotes: 0)
+                            let dream = Dream(title: title, author: authorFormatted as String, text: text, date: date, id: id, upvotes: 0, downvotes: 0)
                             starredIds.append(id)
                             starredTemp.append(dream)
                         }

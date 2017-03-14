@@ -204,7 +204,7 @@ class UserProfileCollectionViewController: UICollectionViewController,
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: userProfileReuseIdentifier, for: indexPath) as?UserProfileKarmaCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: userProfileReuseIdentifier, for: indexPath) as? UserProfileKarmaCollectionViewCell
         
         cell?.userProfileDelegate = self
         if state == .journal {
