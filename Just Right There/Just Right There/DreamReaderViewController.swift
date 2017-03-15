@@ -80,6 +80,8 @@ class DreamReaderViewController: UIViewController, UIScrollViewDelegate, MFMailC
         super.init(nibName: nil, bundle: nil)
         
         view.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
+        headerView.upvoteButton.addTarget(self, action: #selector(DreamReaderViewController.upvoteTapped), for: .touchUpInside)
+        headerView.downvoteButton.addTarget(self, action: #selector(DreamReaderViewController.downvoteTapped), for: .touchUpInside)
         
         scrollView.addSubview(headerView)
         scrollView.addSubview(textView)
@@ -157,20 +159,18 @@ class DreamReaderViewController: UIViewController, UIScrollViewDelegate, MFMailC
         if headerView.upvoteButton.isSelected {
             headerView.upvoteButton.isSelected = false
             
-            if let username = UserDefaults.standard.string(forKey: "username"),
-                let id = id {
+            if let username = UserDefaults.standard.string(forKey: "username") {
                 headerView.starLabel.text = "\(karma - 1)"
                 
-                FIRDatabase.database().reference().child("feed/\(id)/upvotes").setValue(dream.upvotes - 1)
-                FIRDatabase.database().reference().child("/users/\(username)/starred/\(id)").removeValue()
+                FIRDatabase.database().reference().child("feed/\(currentId)/upvotes").setValue(dream.upvotes - 1)
+                FIRDatabase.database().reference().child("/users/\(username)/starred/\(currentId)").removeValue()
             }
         } else {
             headerView.upvoteButton.isSelected = true
             headerView.downvoteButton.isSelected = false
             
-            if let username = UserDefaults.standard.string(forKey: "username"),
-                let id = id {
-                if !starredIds.contains(id) {
+            if let username = UserDefaults.standard.string(forKey: "username") {
+                if !starredIds.contains(currentId) {
                     headerView.starLabel.text = "\(self.karma + 1)"
                     
                     if let title = headerView.dreamTitle.text,
@@ -183,12 +183,12 @@ class DreamReaderViewController: UIViewController, UIScrollViewDelegate, MFMailC
                             "author":author,
                             "text":text,
                             "date":"\(date)",
-                            "upvotes":"\(dream.upvotes + 1)",
-                            "downvote":"\(dream.downvotes)"
-                        ]
+                            "upvotes": dream.upvotes + 1,
+                            "downvotes": dream.downvotes
+                        ] as [String : Any]
                         
-                        FIRDatabase.database().reference().child("feed/\(id)/upvotes").setValue(dream.upvotes + 1)
-                        FIRDatabase.database().reference().child("/users/\(username)/starred/\(id)").setValue(dreamDictionary)
+                        FIRDatabase.database().reference().child("feed/\(currentId)/upvotes").setValue(dream.upvotes + 1)
+                        FIRDatabase.database().reference().child("/users/\(username)/starred/\(currentId)").setValue(dreamDictionary)
                     }
                 }
             }

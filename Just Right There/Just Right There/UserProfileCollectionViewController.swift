@@ -291,7 +291,7 @@ class UserProfileCollectionViewController: UICollectionViewController,
     }
     
     func settingsSelected() {
-        let settingsVC = SettingsViewController()
+        let settingsVC = UserSettingViewController()
         present(settingsVC, animated: true, completion: nil)
     }
     

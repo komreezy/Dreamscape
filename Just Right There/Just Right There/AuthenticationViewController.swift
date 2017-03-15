@@ -167,7 +167,7 @@ class AuthenticationViewController: UIViewController, UITextFieldDelegate {
                     if snapshot.value != nil {
                         if username.characters.count >= 3 && password.characters.count >= 5 {
                             if let userData = snapshot.value as? [String:AnyObject] {
-                                if let snapPass = userData["password"]! as? String {
+                                if let snapPass = userData["password"] as? String {
                                     if snapPass == password {
                                         self.userDefaults.set(true, forKey: "user")
                                         self.userDefaults.setValue("\(username)", forKey: "username")

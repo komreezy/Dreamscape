@@ -9,6 +9,8 @@
 import UIKit
 import Firebase
 import FirebaseAuth
+import FirebaseDatabase
+
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
@@ -19,7 +21,6 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
     return false
   }
 }
-
 
 class SignupViewController: UIViewController, UITextFieldDelegate {
     var logoImageView: UIImageView
@@ -170,7 +171,6 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
         enterButton.addTarget(self, action: #selector(SignupViewController.enterButtonTapped), for: .touchUpInside)
         goBackButton.addTarget(self, action: #selector(SignupViewController.goBackButtonTapped), for: .touchUpInside)
         
-        //view.addSubview(emailTextField)
         view.addSubview(usernameTextField)
         view.addSubview(passwordTextField)
         view.addSubview(enterButton)
@@ -323,7 +323,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
                 // create Firebase user with email
                 FIRAuth.auth()?.createUser(withEmail: "titty@gmail.com", password: password) { (user, error) in
                     if error != nil {
-                        print(error?.localizedDescription)
+                        print(error?.localizedDescription ?? "login error")
                     }
                     
                     print("createdUser")
@@ -338,100 +338,50 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
         } else {
             if let username = usernameTextField.text,
                 let password = passwordTextField.text {
+                
                 // Sign in with email firebase
-                FIRAuth.auth()?.signIn(withEmail: "tity2@gmail.com", password: password, completion: { (user, error) in
+                FIRAuth.auth()?.signIn(withEmail: username, password: password, completion: { (user, error) in
                     if error != nil {
-                        print(error?.localizedDescription)
+                        print(error?.localizedDescription ?? "login error")
+                        
+                        // failed to sign in with Firebase
+                        if let username = self.usernameTextField.text, let password = self.passwordTextField.text {
+                            FIRDatabase.database().reference().child("users/\(username)").observe(.value, with: { snapshot in
+                                if snapshot.value != nil {
+                                    if (self.usernameTextField.text?.characters.count)! >= 3 && (self.passwordTextField.text?.characters.count)! >= 5 {
+                                        if let userData = snapshot.value as? [String:AnyObject] {
+                                            if let snapPass = userData["password"]! as? String {
+                                                if snapPass == password {
+                                                    self.userDefaults.set(true, forKey: "user")
+                                                    self.userDefaults.setValue("\(username)", forKey: "username")
+                                                    self.userDefaults.setValue("\(self.passwordTextField.text)", forKey: "password")
+                                                    
+                                                    self.dismiss(animated: true, completion: nil)
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    self.errorView.setErrorText(.username)
+                                    self.showError()
+                                    self.delay(3.0, closure: {
+                                        self.hideError()
+                                    })
+                                }
+                            })
+                        }
+                        
+                        self.userDefaults.set(true, forKey: "user")
+                        self.userDefaults.setValue("\(username)", forKey: "username")
+                        self.userDefaults.setValue("\(self.passwordTextField.text)", forKey: "password")
                     }
-                    
-                    self.userDefaults.set(true, forKey: "user")
-                    self.userDefaults.setValue("\(username)", forKey: "username")
-                    self.userDefaults.setValue("\(self.passwordTextField.text)", forKey: "password")
-                    
-                    print("sign in")
                 })
+                
                 dismiss(animated: true, completion: nil)
             }
         }
         userDefaults.synchronize()
     }
-    
-//    func enterButtonTapped() {
-//        if state == .Signup {
-//            if passwordTextField.text?.characters.count < 5 && usernameTextField.text?.characters.count < 3 {
-//                errorView.setErrorText(.Username)
-//                showError()
-//                delay(3.0, closure: {
-//                    self.hideError()
-//                })
-//            } else if usernameTextField.text?.characters.count < 3 {
-//                errorView.setErrorText(.Username)
-//                showError()
-//                delay(3.0, closure: {
-//                    self.hideError()
-//                })
-//            } else if passwordTextField.text?.characters.count < 5 {
-//                errorView.setErrorText(.Password)
-//                showError()
-//                delay(3.0, closure: {
-//                    self.hideError()
-//                })
-//            }
-//            
-//            if let username = usernameTextField.text {
-//                let userRef = rootRef.childByAppendingPath("users/\(username)")
-//                userRef.observeEventType(.Value, withBlock: { snapshot in
-//                    if !snapshot.exists() {
-//                        let dreamDictionary = ["password":self.passwordTextField.text!]
-//                        let userRef = rootRef.childByAppendingPath("users/\(username)")
-//                        userRef.setValue(dreamDictionary)
-//                        self.userDefaults.setBool(true, forKey: "user")
-//                        self.userDefaults.setValue("\(username)", forKey: "username")
-//                        self.userDefaults.setValue("\(self.passwordTextField.text)", forKey: "password")
-//                        
-//                        self.dismissViewControllerAnimated(true, completion: nil)
-//                    } else {
-//                        self.errorView.setErrorText(.Invalid)
-//                        self.showError()
-//                        self.delay(3.0, closure: {
-//                            self.hideError()
-//                        })
-//                    }
-//                    
-//                    self.userDefaults.synchronize()
-//                })
-//            }
-//        } else {
-//            if let username = usernameTextField.text, let password = passwordTextField.text {
-//                let userRef = rootRef.childByAppendingPath("users/\(username)")
-//                userRef.observeEventType(.Value, withBlock: { snapshot in
-//                    if snapshot.value != nil {
-//                        if self.usernameTextField.text?.characters.count >= 3 && self.passwordTextField.text?.characters.count >= 5 {
-//                            if let userData = snapshot.value as? [String:AnyObject] {
-//                                if let snapPass = userData["password"]! as? String {
-//                                    if snapPass == password {
-//                                        self.userDefaults.setBool(true, forKey: "user")
-//                                        self.userDefaults.setValue("\(username)", forKey: "username")
-//                                        self.userDefaults.setValue("\(self.passwordTextField.text)", forKey: "password")
-//                                        
-//                                        self.dismissViewControllerAnimated(true, completion: nil)
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    } else {
-//                        self.errorView.setErrorText(.Username)
-//                        self.showError()
-//                        self.delay(3.0, closure: {
-//                            self.hideError()
-//                        })
-//                    }
-//                })
-//            }
-//        }
-//        
-//        userDefaults.synchronize()
-//    }
     
     func hideError() {
         errorViewConstraint?.constant = 0

@@ -139,7 +139,6 @@ class UserProfileViewModel: NSObject {
                         let text = data["text"] as? String,
                         let date = data["date"] as? String {
                         
-                        print("Author: \(author)")
                         var authorFormatted: NSString = author as NSString
                         if author.contains("by ") {
                             authorFormatted = authorFormatted.substring(from: 3) as NSString
