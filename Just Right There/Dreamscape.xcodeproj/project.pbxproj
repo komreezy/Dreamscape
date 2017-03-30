@@ -34,6 +34,7 @@
 		6951320A1BDBEB7B00852941 /* NewDreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695132091BDBEB7B00852941 /* NewDreamViewController.swift */; };
 		6951320C1BDC0C1D00852941 /* HomeFeedImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6951320B1BDC0C1D00852941 /* HomeFeedImageCollectionViewCell.swift */; };
 		6957C9CE1C03E7CB00434F79 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6957C9CD1C03E7CB00434F79 /* SignupViewController.swift */; };
+		6968C6BE1E8CCB0200B6A7C0 /* NewDreamVersionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6968C6BD1E8CCB0200B6A7C0 /* NewDreamVersionViewController.swift */; };
 		696DC5B91DA2B7A4003CE026 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696DC5B81DA2B7A4003CE026 /* AuthenticationView.swift */; };
 		696DC5BB1DA2BA8F003CE026 /* AuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696DC5BA1DA2BA8F003CE026 /* AuthenticationViewController.swift */; };
 		69711D8D1BDB1326009F70DB /* HomeFeedCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69711D8C1BDB1326009F70DB /* HomeFeedCollectionViewController.swift */; };
@@ -424,6 +425,7 @@
 		695132091BDBEB7B00852941 /* NewDreamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewDreamViewController.swift; sourceTree = "<group>"; };
 		6951320B1BDC0C1D00852941 /* HomeFeedImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeFeedImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		6957C9CD1C03E7CB00434F79 /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
+		6968C6BD1E8CCB0200B6A7C0 /* NewDreamVersionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewDreamVersionViewController.swift; sourceTree = "<group>"; };
 		696DC5B81DA2B7A4003CE026 /* AuthenticationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
 		696DC5BA1DA2BA8F003CE026 /* AuthenticationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationViewController.swift; sourceTree = "<group>"; };
 		69711D8C1BDB1326009F70DB /* HomeFeedCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeFeedCollectionViewController.swift; sourceTree = "<group>"; };
@@ -925,6 +927,7 @@
 				696DC5BA1DA2BA8F003CE026 /* AuthenticationViewController.swift */,
 				698BB2D91C90C71B00819FDF /* AgreeRulesViewController.swift */,
 				695132091BDBEB7B00852941 /* NewDreamViewController.swift */,
+				6968C6BD1E8CCB0200B6A7C0 /* NewDreamVersionViewController.swift */,
 				69DC4FAB1E6E5FDC0021C188 /* SpeechTranscriptionViewController.swift */,
 				6957C9CD1C03E7CB00434F79 /* SignupViewController.swift */,
 				691256511C7F79F50089C30B /* SettingsWebViewController.swift */,
@@ -1422,6 +1425,7 @@
 				695132011BDBD35D00852941 /* DreamReaderView.swift in Sources */,
 				6951320C1BDC0C1D00852941 /* HomeFeedImageCollectionViewCell.swift in Sources */,
 				69DC4FAC1E6E5FDC0021C188 /* SpeechTranscriptionViewController.swift in Sources */,
+				6968C6BE1E8CCB0200B6A7C0 /* NewDreamVersionViewController.swift in Sources */,
 				695131F51BDBACA600852941 /* Dream.swift in Sources */,
 				6912563A1C7F766F0089C30B /* AppSettingsView.swift in Sources */,
 				69CF5E781C34C24D007DB822 /* Constants.swift in Sources */,

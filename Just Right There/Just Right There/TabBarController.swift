@@ -8,7 +8,6 @@
 
 import UIKit
 
-@available(iOS 10.0, *)
 class TabBarController: UITabBarController,
     UITabBarControllerDelegate,
     NewDreamViewControllerAnimatable {
@@ -21,7 +20,7 @@ class TabBarController: UITabBarController,
     var profileImageBlue: UIImage
     var profileImageGrey: UIImage
     var homeViewController: HomeFeedCollectionViewController
-    var addDreamViewController: NewDreamViewController
+    var addDreamViewController: NewDreamVersionViewController
     var userProfileViewController: UserProfileCollectionViewController
     
     init() {
@@ -53,8 +52,13 @@ class TabBarController: UITabBarController,
         homeViewController.tabBarItem = UITabBarItem(title: "", image: homeImageGrey, selectedImage: homeImageBlue)
         homeViewController.tabBarItem.imageInsets = UIEdgeInsetsMake(5.0, 25.0, -5.0, -25.0)
         
-        addDreamViewController = NewDreamViewController()
-        addDreamViewController.tabBarItem = UITabBarItem(title: "", image: addImageGrey.withRenderingMode(.alwaysOriginal), selectedImage: addImageBlue)
+        if #available(iOS 10.0, *) {
+            addDreamViewController = NewDreamViewController()
+            addDreamViewController.tabBarItem = UITabBarItem(title: "", image: addImageGrey.withRenderingMode(.alwaysOriginal), selectedImage: addImageBlue)
+        } else {
+            addDreamViewController = NewDreamVersionViewController()
+            addDreamViewController.tabBarItem = UITabBarItem(title: "", image: addImageGrey.withRenderingMode(.alwaysOriginal), selectedImage: addImageBlue)
+        }
         
         userViewModel.delegate = homeViewController
         userProfileViewController = UserProfileCollectionViewController(userViewModel: userViewModel)

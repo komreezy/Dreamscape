@@ -195,7 +195,8 @@ MFMailComposeViewControllerDelegate {
                 let addDreamViewController = NewDreamViewController()
                 present(addDreamViewController, animated: true, completion: nil)
             } else {
-                // Fallback on earlier versions
+                let addDreamViewController = NewDreamVersionViewController()
+                present(addDreamViewController, animated: true, completion: nil)
             }
         } else {
             let agreeViewController = AgreeRulesViewController()
