@@ -12,6 +12,7 @@ import Speech
 
 var saveText: String = ""
 
+@available(iOS 10.0, *)
 class NewDreamViewController: UIViewController,
 UITextFieldDelegate,
 UITextViewDelegate,
@@ -29,6 +30,8 @@ SFSpeechRecognizerDelegate {
     var keepLabel: UILabel
     var dreamTitleLabel: UITextField
     var dateLabel: UILabel
+    var recordingLabel: UILabel
+    var redDot: UIView
     var borderLine: UIView
     var highlightLine: UIView
     var textViewSeparatorView: UIView
@@ -51,6 +54,17 @@ SFSpeechRecognizerDelegate {
     
     var firstBubble: CircleView
     var secondBubble: CircleView
+    var thirdBubble: CircleView
+    var recording = false
+    var audioEngine = AVAudioEngine()
+    var timer: Timer?
+    
+    let recognizer = SFSpeechRecognizer(locale: Locale.init(identifier: "en-US"))
+    var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
+    var recognitionTask: SFSpeechRecognitionTask?
+    var savedText = ""
+    var currentRecording = ""
+    var saved = false
     
     init() {
         state = .keep
@@ -120,18 +134,36 @@ SFSpeechRecognizerDelegate {
         secondBubble = CircleView()
         secondBubble.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
         
+        thirdBubble = CircleView()
+        thirdBubble.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        
+        recordingLabel = UILabel()
+        recordingLabel.translatesAutoresizingMaskIntoConstraints = false
+        recordingLabel.text = "recording".uppercased()
+        recordingLabel.font = UIFont(name: "Montserrat", size: 26.0)
+        recordingLabel.textColor = .white
+        recordingLabel.textAlignment = .center
+        recordingLabel.alpha = 0
+        
+        redDot = UIView()
+        redDot.translatesAutoresizingMaskIntoConstraints = false
+        redDot.backgroundColor = .red
+        redDot.layer.cornerRadius = 9.0
+        redDot.alpha = 0
+        
         super.init(nibName: nil, bundle: nil)
         
         view.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
         composeAccessoryView.delegate = self
         inputDelegate = composeAccessoryView
         
-        firstBubble.center = view.center
-        secondBubble.center = view.center
+        firstBubble.center = CGPoint(x: view.center.x + 25.0, y: view.center.y)
+        secondBubble.center = CGPoint(x: view.center.x + 25.0, y: view.center.y)
+        thirdBubble.center = CGPoint(x: view.center.x + 25.0, y: view.center.y)
         
-        dreamTitleLabel.addTarget(self, action: #selector(NewDreamViewController.updateButton), for: .editingChanged)
         shareTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(NewDreamViewController.shareTapped))
         keepTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(NewDreamViewController.keepTapped))
+        dreamTitleLabel.addTarget(self, action: #selector(NewDreamViewController.updateButton), for: .editingChanged)
         shareLabel.addGestureRecognizer(shareTapRecognizer!)
         keepLabel.addGestureRecognizer(keepTapRecognizer!)
         
@@ -142,8 +174,11 @@ SFSpeechRecognizerDelegate {
         view.addSubview(dateLabel)
         view.addSubview(textView)
         view.addSubview(textViewSeparatorView)
+        view.addSubview(thirdBubble)
         view.addSubview(firstBubble)
         view.addSubview(secondBubble)
+        view.addSubview(recordingLabel)
+        view.addSubview(redDot)
         
         setupLayout()
     }
@@ -178,17 +213,22 @@ SFSpeechRecognizerDelegate {
         cancelButton.titleLabel?.font = UIFont(name: "Montserrat-Regular", size: 13.0)
         cancelButton.addTarget(self, action: #selector(NewDreamViewController.cancelTapped), for: .touchUpInside)
         
+        let recordButton = UIButton()
+        recordButton.frame = CGRect(x: 0, y: 0, width: 50, height: 25)
+        recordButton.setTitle("Record", for: UIControlState())
+        recordButton.setTitleColor(UIColor.white, for: UIControlState())
+        recordButton.titleLabel?.font = UIFont(name: "Montserrat-Regular", size: 13.0)
+        recordButton.addTarget(self, action: #selector(NewDreamViewController.startRecording), for: .touchUpInside)
+        
         let cancelBarButton = UIBarButtonItem(customView: cancelButton)
+        let recordBarButton = UIBarButtonItem(customView: recordButton)
         
         navigationItem.leftBarButtonItem = cancelBarButton
+        navigationItem.rightBarButtonItem = recordBarButton
         navigationItem.titleView = logoImageView
         
-        if #available(iOS 10.0, *) {
-            _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true, block: { _ in
-                //self.firstBubble.circlePulseAinmation(100.0, duration: 2.0, completionBlock: {})
-                //self.secondBubble.circlePulseAinmation(50.0, duration: 2.0, completionBlock: {})
-            })
-        }
+        recognizer?.delegate = self
+        SFSpeechRecognizer.requestAuthorization { authStatus in }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -315,23 +355,49 @@ SFSpeechRecognizerDelegate {
     
     func startRecording() {
         if #available(iOS 10.0, *) {
-            let recognizer = SFSpeechRecognizer(locale: Locale.init(identifier: "en-US"))
-            var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
-            var recognitionTask: SFSpeechRecognitionTask?
-            let audioEngine = AVAudioEngine()
-            
-            SFSpeechRecognizer.requestAuthorization { authStatus in }
-            
             if audioEngine.isRunning {
+                timer?.invalidate()
+                
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.recordingLabel.alpha = 0
+                    self.redDot.alpha = 0
+                })
+                
+                let item = self.navigationItem.rightBarButtonItem
+                let button = item!.customView as! UIButton
+                button.setTitle("Record", for:.normal)
+                
                 audioEngine.stop()
+                audioEngine.inputNode?.removeTap(onBus: 0)
                 recognitionRequest?.endAudio()
+                
+                savedText = savedText + currentRecording + " "
+                saved = true
             } else {
+                saved = false
+                
+                let item = self.navigationItem.rightBarButtonItem
+                let button = item!.customView as! UIButton
+                button.setTitle("Stop", for:.normal)
+                
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.recordingLabel.alpha = 1
+                    self.redDot.alpha = 1
+                })
+                
+                timer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true, block: { _ in
+                    self.firstBubble.resizeCircleWithPulseAinmation(100.0, duration: 1.0)
+                    self.secondBubble.resizeCircleWithPulseAinmation(50.0, duration: 0.7)
+                    self.thirdBubble.resizeCircleWithPulseAinmation(250.0, duration: 2.0)
+                })
+                
                 if recognitionTask != nil {
                     recognitionTask?.cancel()
                     recognitionTask = nil
                 }
                 
                 let audioSession = AVAudioSession.sharedInstance()
+                
                 do {
                     try audioSession.setCategory(AVAudioSessionCategoryRecord)
                     try audioSession.setMode(AVAudioSessionModeMeasurement)
@@ -346,30 +412,29 @@ SFSpeechRecognizerDelegate {
                     return
                 }
                 
-                guard let recognitionRequest = recognitionRequest else {
-                    return
-                }
+                recognitionRequest?.shouldReportPartialResults = true
                 
-                recognitionRequest.shouldReportPartialResults = true
-                
-                recognitionTask = recognizer?.recognitionTask(with: recognitionRequest, resultHandler: { (result, error) in
-                    var isFinal = true
+                recognitionTask = recognizer?.recognitionTask(with: recognitionRequest!, resultHandler: { (result, error) in
+                    var isFinal = false
                     
-                    if result != nil {
-                        self.textView.text = result?.bestTranscription.formattedString
+                    if result != nil && !self.saved {
+                        self.textView.text = self.savedText + (result?.bestTranscription.formattedString)!
+                        self.currentRecording = (result?.bestTranscription.formattedString)!
                         isFinal = (result?.isFinal)!
                     }
                     
                     if error != nil || isFinal {
-                        audioEngine.stop()
+                        self.audioEngine.stop()
                         inputNode.removeTap(onBus: 0)
-                        recognitionTask = nil
+                        
+                        self.recognitionRequest = nil
+                        self.recognitionTask = nil
                     }
                 })
                 
                 let recordingFormat = inputNode.outputFormat(forBus: 0)
                 inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat, block: { (buffer, when) in
-                    recognitionRequest.append(buffer)
+                    self.recognitionRequest?.append(buffer)
                 })
                 
                 audioEngine.prepare()
@@ -380,10 +445,12 @@ SFSpeechRecognizerDelegate {
                     print("audio engine failed")
                 }
                 
-                textView.text = "Say Something, I'm Listening"
+                //textView.text = "Say Something, I'm Listening"
             }
+            
         } else {
-            // Fallback on earlier versions
+            let alert = UIAlertController(title: "Sorry!", message: "You need iOS 10 to use the record feature", preferredStyle: .alert)
+            present(alert, animated: true, completion: nil)
         }
     }
 
@@ -482,19 +549,37 @@ SFSpeechRecognizerDelegate {
             textView.al_top == textViewSeparatorView.al_bottom + 15,
             textViewBottomConstraint!,
             textView.al_left == view.al_left + 21,
-            textView.al_right == view.al_right - 21,
-            
+            textView.al_right == view.al_right - 21
+        ])
+        
+        view.addConstraints([
             dreamTitleLabel.al_top == dateLabel.al_bottom + 27,
             dreamTitleLabel.al_left == view.al_left + 24,
-            dreamTitleLabel.al_right == view.al_right - 24,
-            
+            dreamTitleLabel.al_right == view.al_right - 24
+        ])
+        
+        view.addConstraints([
             dateLabel.al_centerX == view.al_centerX,
-            dateLabel.al_top == view.al_top + 24,
-            
+            dateLabel.al_top == view.al_top + 24
+        ])
+        
+        view.addConstraints([
             textViewSeparatorView.al_height == 2.0,
             textViewSeparatorView.al_left == view.al_left + 24,
             textViewSeparatorView.al_right == view.al_right - 24,
-            textViewSeparatorView.al_top == dreamTitleLabel.al_bottom + 24
+            textViewSeparatorView.al_top == dreamTitleLabel.al_bottom + 24,
+        ])
+        
+        view.addConstraints([
+            recordingLabel.al_centerX == view.al_centerX - 5.0,
+            recordingLabel.al_bottom == view.al_bottom - 45.0
+        ])
+        
+        view.addConstraints([
+            redDot.al_centerY == recordingLabel.al_centerY,
+            redDot.al_left == recordingLabel.al_right + 5.0,
+            redDot.al_height == 18.0,
+            redDot.al_width == 18.0
         ])
     }
 }

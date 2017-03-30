@@ -34,10 +34,10 @@ class CircleView: UIView {
         
         let circleRect = CGRect(x: (frame.size.width-rectSide)/2, y: (frame.size.height-rectSide)/2, width: rectSide, height: rectSide)
         circle = UIView(frame: circleRect)
-        circle.backgroundColor = UIColor.yellow
+        circle.backgroundColor = UIColor(fromHexString: "#191A1A").withAlphaComponent(0.85)
         circle.layer.cornerRadius = rectSide/2
         circle.layer.borderWidth = 2.0
-        circle.layer.borderColor = UIColor.red.cgColor
+        circle.layer.borderColor = UIColor(fromHexString: "#222326").withAlphaComponent(0.85).cgColor
     }
     
     func resizeCircle (summand: CGFloat) {

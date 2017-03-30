@@ -191,8 +191,12 @@ MFMailComposeViewControllerDelegate {
         let hasAgreedToRules = UserDefaults.standard.bool(forKey: "agreed")
         
         if hasAgreedToRules {
-            let addDreamViewController = NewDreamViewController()
-            present(addDreamViewController, animated: true, completion: nil)
+            if #available(iOS 10.0, *) {
+                let addDreamViewController = NewDreamViewController()
+                present(addDreamViewController, animated: true, completion: nil)
+            } else {
+                // Fallback on earlier versions
+            }
         } else {
             let agreeViewController = AgreeRulesViewController()
             present(agreeViewController, animated: true, completion: nil)

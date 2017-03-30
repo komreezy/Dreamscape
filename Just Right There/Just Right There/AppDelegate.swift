@@ -25,14 +25,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
         window = UIWindow(frame: frame)
         
         if let window = self.window {
-            mainController = TabBarController()
-            mainController.delegate = self
-            
-            UIApplication.shared.setStatusBarHidden(true, with: UIStatusBarAnimation.fade)
-            
-            window.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
-            window.rootViewController = mainController
-            window.makeKeyAndVisible()
+            if #available(iOS 10.0, *) {
+                mainController = TabBarController()
+                mainController.delegate = self
+                
+                UIApplication.shared.setStatusBarHidden(true, with: UIStatusBarAnimation.fade)
+                
+                window.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
+                window.rootViewController = mainController
+                window.makeKeyAndVisible()
+            } else {
+                // Fallback on earlier versions
+            }
         }
         
         if #available(iOS 10.0, *) {
@@ -76,11 +80,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
 
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if viewController == tabBarController.viewControllers?[1] {
-            let composeNavigationController = ContainerNavigationController(rootViewController: NewDreamViewController())
-            composeNavigationController.navigationBar.barTintColor = UIColor(red: 25.0/255.0, green: 26.0/255.0, blue: 26.0/255.0, alpha: 1.0)
-            composeNavigationController.navigationBar.isTranslucent = false
-
-            tabBarController.present(composeNavigationController, animated: true, completion: nil)
+            if #available(iOS 10.0, *) {
+                let composeNavigationController = ContainerNavigationController(rootViewController: NewDreamViewController())
+                composeNavigationController.navigationBar.barTintColor = UIColor(red: 25.0/255.0, green: 26.0/255.0, blue: 26.0/255.0, alpha: 1.0)
+                composeNavigationController.navigationBar.isTranslucent = false
+                tabBarController.present(composeNavigationController, animated: true, completion: nil)
+            } else {
+                // Fallback on earlier versions
+            }
 
             return false
         }

@@ -321,7 +321,7 @@ class UserProfileCollectionViewController: UICollectionViewController,
         UIApplication.shared.scheduleLocalNotification(notification)
         
         UIView.animate(withDuration: 0.3, animations: {
-            self.setView.isHidden = true
+            self.setView.alpha = 0
         })
     }
     
