@@ -180,6 +180,8 @@ class AddCommentViewController: UIViewController,
             
             FIRDatabase.database().reference().child("/feed/\(dream.id)/comments").childByAutoId().setValue(commentDictionary)
         }
+        
+        navigationController?.popViewController(animated: true)
     }
     
     func doneButtonTapped() {
