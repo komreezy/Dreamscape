@@ -82,6 +82,8 @@ class DreamReaderViewController: UIViewController, UIScrollViewDelegate, MFMailC
         view.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
         headerView.upvoteButton.addTarget(self, action: #selector(DreamReaderViewController.upvoteTapped), for: .touchUpInside)
         headerView.downvoteButton.addTarget(self, action: #selector(DreamReaderViewController.downvoteTapped), for: .touchUpInside)
+        headerView.profileView.commentButton.addTarget(self, action: #selector(DreamReaderViewController.openComments), for: .touchUpInside)
+        headerView.profileView.commentLabel.text = "\(dream.comments.count)"
         
         scrollView.addSubview(headerView)
         scrollView.addSubview(textView)
@@ -266,6 +268,12 @@ class DreamReaderViewController: UIViewController, UIScrollViewDelegate, MFMailC
             alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
+    }
+    
+    func openComments() {
+        let viewModel = CommentViewModel(dream: dream)
+        let vc = CommentCollectionViewController(viewModel: viewModel)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     // MARK: MFMailComposeViewControllerDelegate - (Does not work in Simulator)

@@ -67,6 +67,12 @@ MFMailComposeViewControllerDelegate {
             collectionView.register(HomeFeedImageCollectionViewCell.self, forCellWithReuseIdentifier: "imageCell")
         }
         
+        let sortButton = UIBarButtonItem(image: #imageLiteral(resourceName: "filter"),
+                                         style: .plain,
+                                         target: self,
+                                         action: #selector(HomeFeedCollectionViewController.sortTapped))
+        sortButton.imageInsets = UIEdgeInsets(top: 5.0, left: 5.0, bottom: 5.0, right: 5.0)
+        
         let logoImageView = UILabel()
         logoImageView.text = "dreamscape".uppercased()
         logoImageView.frame = CGRect(x: 0, y: 0, width: 100, height: 30)
@@ -75,8 +81,9 @@ MFMailComposeViewControllerDelegate {
         logoImageView.textAlignment = .center
         
         navigationItem.titleView = logoImageView
+        navigationItem.leftBarButtonItem = sortButton
         
-        let loadingTimer = Timer.scheduledTimer(timeInterval: 4.0,
+        let _ = Timer.scheduledTimer(timeInterval: 4.0,
                                                 target: self,
                                                 selector: #selector(HomeFeedCollectionViewController.loadingTimeout),
                                                 userInfo: nil,
@@ -269,6 +276,15 @@ MFMailComposeViewControllerDelegate {
             break
         }
         controller.dismiss(animated: true, completion: nil)
+    }
+    
+    func sortTapped() {
+        let actionSheet = UIActionSheet(title: "Sort",
+                                        delegate: self,
+                                        cancelButtonTitle: "cancel",
+                                        destructiveButtonTitle: nil,
+                                        otherButtonTitles: "New", "Top All Time", "Top 24 Hours", "Top This Week")
+        actionSheet.show(in: view)
     }
     
     // MARK: UIActionSheetDelegate

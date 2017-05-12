@@ -17,6 +17,9 @@
 		6912564D1C7F77230089C30B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6912564C1C7F77230089C30B /* SettingsViewController.swift */; };
 		6912564F1C7F77520089C30B /* UserProfileSettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6912564E1C7F77520089C30B /* UserProfileSettingsTableViewCell.swift */; };
 		691256521C7F79F50089C30B /* SettingsWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691256511C7F79F50089C30B /* SettingsWebViewController.swift */; };
+		691CF91D1EC4E452002BD6CE /* AddCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691CF91C1EC4E452002BD6CE /* AddCommentViewController.swift */; };
+		691CF9291EC4ED20002BD6CE /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691CF9281EC4ED20002BD6CE /* Comment.swift */; };
+		691CF92B1EC55F7F002BD6CE /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691CF92A1EC55F7F002BD6CE /* CommentViewModel.swift */; };
 		69310BBD1C26278B0010EFA3 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69310BAF1C2627850010EFA3 /* OpenSans-Semibold.ttf */; };
 		6949BEEA1C0F839000A89137 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6949BEDC1C0F835F00A89137 /* OpenSans-Regular.ttf */; };
 		6949BEEC1C0F843100A89137 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6949BEEB1C0F843100A89137 /* Montserrat-Regular.ttf */; };
@@ -61,10 +64,14 @@
 		69A8CECA1C10B57A00AC4EC4 /* coolvetica rg.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69A8CEC91C10B57A00AC4EC4 /* coolvetica rg.ttf */; };
 		69A97D5B1E648EAD00365403 /* AlarmSetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A97D5A1E648EAD00365403 /* AlarmSetView.swift */; };
 		69A97D5F1E64A74600365403 /* AlarmSetContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A97D5E1E64A74600365403 /* AlarmSetContainerView.swift */; };
+		69AA1C0D1EC03F3100066F2C /* CommentCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AA1C0C1EC03F3100066F2C /* CommentCollectionViewController.swift */; };
 		69B33F061B8D5BE000DEF7FB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B33F051B8D5BE000DEF7FB /* AppDelegate.swift */; };
 		69B33F0D1B8D5BE000DEF7FB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 69B33F0C1B8D5BE000DEF7FB /* Images.xcassets */; };
 		69B33F101B8D5BE000DEF7FB /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69B33F0E1B8D5BE000DEF7FB /* LaunchScreen.xib */; };
 		69B33F1C1B8D5BE000DEF7FB /* Just_Right_ThereTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B33F1B1B8D5BE000DEF7FB /* Just_Right_ThereTests.swift */; };
+		69CA8DBA1EC25479006D4E3D /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CA8DB81EC25479006D4E3D /* CommentCell.swift */; };
+		69CA8DBB1EC25479006D4E3D /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69CA8DB91EC25479006D4E3D /* CommentCell.xib */; };
+		69CA8DCA1EC2C3A4006D4E3D /* CommentAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CA8DC91EC2C3A4006D4E3D /* CommentAccessoryView.swift */; };
 		69CF5E781C34C24D007DB822 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CF5E771C34C24D007DB822 /* Constants.swift */; };
 		69D031761BDB0AE800B31CF5 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D031751BDB0AE800B31CF5 /* TabBarController.swift */; };
 		69D031781BDB0B9500B31CF5 /* UserProfileCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D031771BDB0B9500B31CF5 /* UserProfileCollectionViewController.swift */; };
@@ -180,6 +187,9 @@
 		6912564C1C7F77230089C30B /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		6912564E1C7F77520089C30B /* UserProfileSettingsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileSettingsTableViewCell.swift; sourceTree = "<group>"; };
 		691256511C7F79F50089C30B /* SettingsWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsWebViewController.swift; sourceTree = "<group>"; };
+		691CF91C1EC4E452002BD6CE /* AddCommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCommentViewController.swift; sourceTree = "<group>"; };
+		691CF9281EC4ED20002BD6CE /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		691CF92A1EC55F7F002BD6CE /* CommentViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
 		691F86FB1BDCAF4A00CD1B3B /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		691F86FC1BDCAF4A00CD1B3B /* arrow_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_down.png; sourceTree = "<group>"; };
 		691F86FD1BDCAF4A00CD1B3B /* arrow_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_up.png; sourceTree = "<group>"; };
@@ -457,6 +467,7 @@
 		69A8CEC91C10B57A00AC4EC4 /* coolvetica rg.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "coolvetica rg.ttf"; sourceTree = "<group>"; };
 		69A97D5A1E648EAD00365403 /* AlarmSetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmSetView.swift; sourceTree = "<group>"; };
 		69A97D5E1E64A74600365403 /* AlarmSetContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmSetContainerView.swift; sourceTree = "<group>"; };
+		69AA1C0C1EC03F3100066F2C /* CommentCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentCollectionViewController.swift; sourceTree = "<group>"; };
 		69B33F001B8D5BE000DEF7FB /* Dreamscape.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dreamscape.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69B33F041B8D5BE000DEF7FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		69B33F051B8D5BE000DEF7FB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -465,6 +476,9 @@
 		69B33F151B8D5BE000DEF7FB /* Dreamscape.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Dreamscape.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		69B33F1A1B8D5BE000DEF7FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		69B33F1B1B8D5BE000DEF7FB /* Just_Right_ThereTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Just_Right_ThereTests.swift; sourceTree = "<group>"; };
+		69CA8DB81EC25479006D4E3D /* CommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
+		69CA8DB91EC25479006D4E3D /* CommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
+		69CA8DC91EC2C3A4006D4E3D /* CommentAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentAccessoryView.swift; sourceTree = "<group>"; };
 		69CF5E771C34C24D007DB822 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		69D031751BDB0AE800B31CF5 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		69D031771BDB0B9500B31CF5 /* UserProfileCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileCollectionViewController.swift; sourceTree = "<group>"; };
@@ -507,6 +521,72 @@
 				2DADD98DBB3A8EEA2CB9D4FE /* libPods-Dreamscape.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		691CF9211EC4E457002BD6CE /* Comment */ = {
+			isa = PBXGroup;
+			children = (
+				69AA1C0C1EC03F3100066F2C /* CommentCollectionViewController.swift */,
+				691CF91C1EC4E452002BD6CE /* AddCommentViewController.swift */,
+			);
+			name = Comment;
+			sourceTree = "<group>";
+		};
+		691CF9221EC4E45F002BD6CE /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				696DC5BA1DA2BA8F003CE026 /* AuthenticationViewController.swift */,
+				698BB2D91C90C71B00819FDF /* AgreeRulesViewController.swift */,
+				6957C9CD1C03E7CB00434F79 /* SignupViewController.swift */,
+				6976E0481DA20DA1003CB935 /* LandingPageViewController.swift */,
+			);
+			name = Onboarding;
+			sourceTree = "<group>";
+		};
+		691CF9231EC4E46A002BD6CE /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				691256511C7F79F50089C30B /* SettingsWebViewController.swift */,
+				6912564C1C7F77230089C30B /* SettingsViewController.swift */,
+				69EC98751D9EBF0E00AE0C6C /* UserSettingViewController.swift */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		691CF9241EC4E472002BD6CE /* Reader */ = {
+			isa = PBXGroup;
+			children = (
+				69711D9C1BDB24D0009F70DB /* DreamViewController.swift */,
+				69E1F48A1DD3B59E000D8A61 /* DreamReaderViewController.swift */,
+			);
+			name = Reader;
+			sourceTree = "<group>";
+		};
+		691CF9251EC4E48C002BD6CE /* Compose */ = {
+			isa = PBXGroup;
+			children = (
+				695132091BDBEB7B00852941 /* NewDreamViewController.swift */,
+				6968C6BD1E8CCB0200B6A7C0 /* NewDreamVersionViewController.swift */,
+				69DC4FAB1E6E5FDC0021C188 /* SpeechTranscriptionViewController.swift */,
+			);
+			name = Compose;
+			sourceTree = "<group>";
+		};
+		691CF9261EC4E4A3002BD6CE /* Home Feed */ = {
+			isa = PBXGroup;
+			children = (
+				69711D8C1BDB1326009F70DB /* HomeFeedCollectionViewController.swift */,
+			);
+			name = "Home Feed";
+			sourceTree = "<group>";
+		};
+		691CF9271EC4E4B1002BD6CE /* User */ = {
+			isa = PBXGroup;
+			children = (
+				69D031771BDB0B9500B31CF5 /* UserProfileCollectionViewController.swift */,
+				694D6F7E1D938587006EC600 /* UserDreamViewController.swift */,
+			);
+			name = User;
 			sourceTree = "<group>";
 		};
 		691F86F81BDCAF4A00CD1B3B /* ATTPlatformSDKiOS */ = {
@@ -920,23 +1000,13 @@
 		69271CDE1BA148320074CBF6 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				69D031771BDB0B9500B31CF5 /* UserProfileCollectionViewController.swift */,
-				694D6F7E1D938587006EC600 /* UserDreamViewController.swift */,
-				69866DA61D5AEA2000FF5983 /* ContainerNavigationController.swift */,
-				69711D8C1BDB1326009F70DB /* HomeFeedCollectionViewController.swift */,
-				696DC5BA1DA2BA8F003CE026 /* AuthenticationViewController.swift */,
-				698BB2D91C90C71B00819FDF /* AgreeRulesViewController.swift */,
-				695132091BDBEB7B00852941 /* NewDreamViewController.swift */,
-				6968C6BD1E8CCB0200B6A7C0 /* NewDreamVersionViewController.swift */,
-				69DC4FAB1E6E5FDC0021C188 /* SpeechTranscriptionViewController.swift */,
-				6957C9CD1C03E7CB00434F79 /* SignupViewController.swift */,
-				691256511C7F79F50089C30B /* SettingsWebViewController.swift */,
-				69711D9C1BDB24D0009F70DB /* DreamViewController.swift */,
-				69E1F48A1DD3B59E000D8A61 /* DreamReaderViewController.swift */,
-				6912564C1C7F77230089C30B /* SettingsViewController.swift */,
-				69EC98751D9EBF0E00AE0C6C /* UserSettingViewController.swift */,
-				69D031751BDB0AE800B31CF5 /* TabBarController.swift */,
-				6976E0481DA20DA1003CB935 /* LandingPageViewController.swift */,
+				691CF9271EC4E4B1002BD6CE /* User */,
+				691CF9261EC4E4A3002BD6CE /* Home Feed */,
+				691CF9251EC4E48C002BD6CE /* Compose */,
+				691CF9241EC4E472002BD6CE /* Reader */,
+				691CF9231EC4E46A002BD6CE /* Settings */,
+				691CF9221EC4E45F002BD6CE /* Onboarding */,
+				691CF9211EC4E457002BD6CE /* Comment */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -957,28 +1027,14 @@
 		69271CE31BA148690074CBF6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				695132001BDBD35D00852941 /* DreamReaderView.swift */,
-				69DC4FB01E6E61DE0021C188 /* CircleView.swift */,
-				6951320B1BDC0C1D00852941 /* HomeFeedImageCollectionViewCell.swift */,
-				690159101DA41E15005AD3CD /* UserProfileKarmaCollectionViewCell.swift */,
-				696DC5B81DA2B7A4003CE026 /* AuthenticationView.swift */,
-				69A779501D9EC270003B2B69 /* UserSettingButton.swift */,
-				699948D11D9EBF5600A84B9A /* UserSettingView.swift */,
-				690DA7061D9DAF4B0092CC6B /* DreamInputAccessoryView.swift */,
-				69711D951BDB1C58009F70DB /* UserProfileHeaderView.swift */,
-				690CB8451BDCD4E600857130 /* FavoriteAlertView.swift */,
-				691256391C7F766F0089C30B /* AppSettingsView.swift */,
-				691256481C7F76B20089C30B /* UserProfileSettingsSectionHeaderView.swift */,
-				6912564A1C7F76E10089C30B /* SettingsCloseView.swift */,
-				6912564E1C7F77520089C30B /* UserProfileSettingsTableViewCell.swift */,
-				69711D911BDB190C009F70DB /* UserProfileCollectionViewCell.swift */,
-				69838CE81C57FD1B00EE0E8F /* ErrorDropView.swift */,
-				69F0281A1C7E3DE500970439 /* ProfileIconPickerView.swift */,
-				69F0282A1C7E44B100970439 /* ProfileIconView.swift */,
-				69D4F5741DA4AA2900A68341 /* DreamReaderHeaderView.swift */,
-				69D4F5761DA4ADC900A68341 /* DreamReaderUserHeaderView.swift */,
-				69A97D5A1E648EAD00365403 /* AlarmSetView.swift */,
-				69A97D5E1E64A74600365403 /* AlarmSetContainerView.swift */,
+				69CA8DD01EC2C3D3006D4E3D /* Dream Reader */,
+				69CA8DD11EC2C3EA006D4E3D /* New Dream */,
+				69CA8DD21EC2C3F8006D4E3D /* Home Feed */,
+				69CA8DD31EC2C40B006D4E3D /* User Profile */,
+				69CA8DD51EC2C435006D4E3D /* Other */,
+				69CA8DD41EC2C42C006D4E3D /* Settings */,
+				69CA8DCF1EC2C3C1006D4E3D /* Alarm */,
+				69CA8DCE1EC2C3B3006D4E3D /* Comment */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -988,6 +1044,7 @@
 			children = (
 				695131F01BDBA8DD00852941 /* UserProfileViewModel.swift */,
 				695131F21BDBA91700852941 /* HomeFeedViewModel.swift */,
+				691CF92A1EC55F7F002BD6CE /* CommentViewModel.swift */,
 			);
 			name = "View Models";
 			sourceTree = "<group>";
@@ -1065,8 +1122,11 @@
 				695131EC1BDBA8BA00852941 /* View Models */,
 				69271CE31BA148690074CBF6 /* Views */,
 				69271CDE1BA148320074CBF6 /* View Controllers */,
+				69866DA61D5AEA2000FF5983 /* ContainerNavigationController.swift */,
+				69D031751BDB0AE800B31CF5 /* TabBarController.swift */,
 				69B33F0C1B8D5BE000DEF7FB /* Images.xcassets */,
 				69B33F0E1B8D5BE000DEF7FB /* LaunchScreen.xib */,
+				69CA8DB91EC25479006D4E3D /* CommentCell.xib */,
 				69B33F031B8D5BE000DEF7FB /* Supporting Files */,
 				69A1DA821B9827F2001B68FF /* Just Right There-Bridging-Header.h */,
 			);
@@ -1111,10 +1171,91 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		69CA8DCE1EC2C3B3006D4E3D /* Comment */ = {
+			isa = PBXGroup;
+			children = (
+				69CA8DB81EC25479006D4E3D /* CommentCell.swift */,
+				69CA8DC91EC2C3A4006D4E3D /* CommentAccessoryView.swift */,
+			);
+			name = Comment;
+			sourceTree = "<group>";
+		};
+		69CA8DCF1EC2C3C1006D4E3D /* Alarm */ = {
+			isa = PBXGroup;
+			children = (
+				69A97D5A1E648EAD00365403 /* AlarmSetView.swift */,
+				69A97D5E1E64A74600365403 /* AlarmSetContainerView.swift */,
+			);
+			name = Alarm;
+			sourceTree = "<group>";
+		};
+		69CA8DD01EC2C3D3006D4E3D /* Dream Reader */ = {
+			isa = PBXGroup;
+			children = (
+				695132001BDBD35D00852941 /* DreamReaderView.swift */,
+				69D4F5741DA4AA2900A68341 /* DreamReaderHeaderView.swift */,
+				69D4F5761DA4ADC900A68341 /* DreamReaderUserHeaderView.swift */,
+			);
+			name = "Dream Reader";
+			sourceTree = "<group>";
+		};
+		69CA8DD11EC2C3EA006D4E3D /* New Dream */ = {
+			isa = PBXGroup;
+			children = (
+				69DC4FB01E6E61DE0021C188 /* CircleView.swift */,
+				690DA7061D9DAF4B0092CC6B /* DreamInputAccessoryView.swift */,
+			);
+			name = "New Dream";
+			sourceTree = "<group>";
+		};
+		69CA8DD21EC2C3F8006D4E3D /* Home Feed */ = {
+			isa = PBXGroup;
+			children = (
+				6951320B1BDC0C1D00852941 /* HomeFeedImageCollectionViewCell.swift */,
+			);
+			name = "Home Feed";
+			sourceTree = "<group>";
+		};
+		69CA8DD31EC2C40B006D4E3D /* User Profile */ = {
+			isa = PBXGroup;
+			children = (
+				69A779501D9EC270003B2B69 /* UserSettingButton.swift */,
+				690159101DA41E15005AD3CD /* UserProfileKarmaCollectionViewCell.swift */,
+				699948D11D9EBF5600A84B9A /* UserSettingView.swift */,
+				69711D951BDB1C58009F70DB /* UserProfileHeaderView.swift */,
+				691256481C7F76B20089C30B /* UserProfileSettingsSectionHeaderView.swift */,
+				6912564E1C7F77520089C30B /* UserProfileSettingsTableViewCell.swift */,
+				69711D911BDB190C009F70DB /* UserProfileCollectionViewCell.swift */,
+				69F0281A1C7E3DE500970439 /* ProfileIconPickerView.swift */,
+				69F0282A1C7E44B100970439 /* ProfileIconView.swift */,
+			);
+			name = "User Profile";
+			sourceTree = "<group>";
+		};
+		69CA8DD41EC2C42C006D4E3D /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				691256391C7F766F0089C30B /* AppSettingsView.swift */,
+				6912564A1C7F76E10089C30B /* SettingsCloseView.swift */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		69CA8DD51EC2C435006D4E3D /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				696DC5B81DA2B7A4003CE026 /* AuthenticationView.swift */,
+				690CB8451BDCD4E600857130 /* FavoriteAlertView.swift */,
+				69838CE81C57FD1B00EE0E8F /* ErrorDropView.swift */,
+			);
+			name = Other;
+			sourceTree = "<group>";
+		};
 		69D824ED1E15BEE2001A4354 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				695131F41BDBACA600852941 /* Dream.swift */,
+				691CF9281EC4ED20002BD6CE /* Comment.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1330,6 +1471,7 @@
 				697D6ACB1B98C2FF00056780 /* LICENSE in Resources */,
 				6949BEF61C0FD07F00A89137 /* Roboto-Black.ttf in Resources */,
 				6949BEF81C0FD0C700A89137 /* Roboto-Medium.ttf in Resources */,
+				69CA8DBB1EC25479006D4E3D /* CommentCell.xib in Resources */,
 				69A8CEBA1C10B49B00AC4EC4 /* Morningtype Light.ttf in Resources */,
 				697D6ACD1B98C2FF00056780 /* Info.plist in Resources */,
 				69B33F0D1B8D5BE000DEF7FB /* Images.xcassets in Resources */,
@@ -1374,7 +1516,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		8E04EBA68C5A726783634D8C /* [CP] Embed Pods Frameworks */ = {
@@ -1401,8 +1543,10 @@
 			files = (
 				697D6ACE1B98C2FF00056780 /* SwiftAutoLayout.swift in Sources */,
 				697D6ACC1B98C2FF00056780 /* README.md in Sources */,
+				69CA8DBA1EC25479006D4E3D /* CommentCell.swift in Sources */,
 				6957C9CE1C03E7CB00434F79 /* SignupViewController.swift in Sources */,
 				69F0282B1C7E44B100970439 /* ProfileIconView.swift in Sources */,
+				69AA1C0D1EC03F3100066F2C /* CommentCollectionViewController.swift in Sources */,
 				69838CE91C57FD1B00EE0E8F /* ErrorDropView.swift in Sources */,
 				69EC98761D9EBF0E00AE0C6C /* UserSettingViewController.swift in Sources */,
 				69A779511D9EC270003B2B69 /* UserSettingButton.swift in Sources */,
@@ -1412,10 +1556,12 @@
 				690159111DA41E15005AD3CD /* UserProfileKarmaCollectionViewCell.swift in Sources */,
 				696DC5B91DA2B7A4003CE026 /* AuthenticationView.swift in Sources */,
 				698BB2DA1C90C71B00819FDF /* AgreeRulesViewController.swift in Sources */,
+				69CA8DCA1EC2C3A4006D4E3D /* CommentAccessoryView.swift in Sources */,
 				690DA70C1D9DB8CF0092CC6B /* UILabel+AttributedText.swift in Sources */,
 				6912564B1C7F76E10089C30B /* SettingsCloseView.swift in Sources */,
 				6981165B1DA3683A007D94B8 /* delay.swift in Sources */,
 				690CB8461BDCD4E600857130 /* FavoriteAlertView.swift in Sources */,
+				691CF9291EC4ED20002BD6CE /* Comment.swift in Sources */,
 				69A97D5B1E648EAD00365403 /* AlarmSetView.swift in Sources */,
 				69711D9D1BDB24D0009F70DB /* DreamViewController.swift in Sources */,
 				69D031761BDB0AE800B31CF5 /* TabBarController.swift in Sources */,
@@ -1429,11 +1575,13 @@
 				695131F51BDBACA600852941 /* Dream.swift in Sources */,
 				6912563A1C7F766F0089C30B /* AppSettingsView.swift in Sources */,
 				69CF5E781C34C24D007DB822 /* Constants.swift in Sources */,
+				691CF91D1EC4E452002BD6CE /* AddCommentViewController.swift in Sources */,
 				6951320A1BDBEB7B00852941 /* NewDreamViewController.swift in Sources */,
 				69D4F5731DA4770D00A68341 /* DeviceList.swift in Sources */,
 				69711D8D1BDB1326009F70DB /* HomeFeedCollectionViewController.swift in Sources */,
 				691256521C7F79F50089C30B /* SettingsWebViewController.swift in Sources */,
 				694D6F7F1D938587006EC600 /* UserDreamViewController.swift in Sources */,
+				691CF92B1EC55F7F002BD6CE /* CommentViewModel.swift in Sources */,
 				69711D961BDB1C58009F70DB /* UserProfileHeaderView.swift in Sources */,
 				69D4F5751DA4AA2900A68341 /* DreamReaderHeaderView.swift in Sources */,
 				691256491C7F76B20089C30B /* UserProfileSettingsSectionHeaderView.swift in Sources */,

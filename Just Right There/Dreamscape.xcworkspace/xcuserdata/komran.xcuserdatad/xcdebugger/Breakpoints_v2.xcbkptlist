@@ -9,29 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Just Right There/SignupViewController.swift"
-            timestampString = "511228364.775516"
+            filePath = "Just Right There/CommentViewModel.swift"
+            timestampString = "516264345.992142"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "339"
-            endingLineNumber = "339"
-            landmarkName = "enterButtonTapped()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Just Right There/DreamReaderViewController.swift"
-            timestampString = "511236633.959116"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "159"
-            endingLineNumber = "159"
-            landmarkName = "upvoteTapped()"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
+            landmarkName = "requestComments()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

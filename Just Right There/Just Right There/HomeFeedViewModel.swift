@@ -43,13 +43,56 @@ class HomeFeedViewModel: NSObject {
                         if let upvotes = data["upvotes"] as? Int {
                             if let downvotes = data["downvotes"] as? Int {
                                 let dream = Dream(title: title, author: author, text: text, date: date, id: id, upvotes: upvotes, downvotes: downvotes)
+                                
+                                var comments: [Comment] = []
+                                if let commentData = data["comments"] as? [String:[String:AnyObject]] {
+                                    for (id, commentData) in commentData {
+                                        if let author = commentData["author"] as? String , author != "by Test test ",
+                                            let text = commentData["text"] as? String,
+                                            let date = commentData["date"] as? String{
+                                            
+                                            let comment = Comment(author: author, text: text, date: date, id: id)
+                                            comments.append(comment)
+                                        }
+                                    }
+                                    
+                                    dream.comments = comments
+                                }
                                 self.dreamDictionary.append(dream)
                             }
                         } else if let stars = data["stars"] as? Int {
                             let dream = Dream(title: title, author: author, text: text, date: date, id: id, upvotes: stars, downvotes: 0)
+                            var comments: [Comment] = []
+                            if let commentData = data["comments"] as? [String:[String:AnyObject]] {
+                                for (id, commentData) in commentData {
+                                    if let author = commentData["author"] as? String , author != "by Test test ",
+                                        let text = commentData["text"] as? String,
+                                        let date = commentData["date"] as? String{
+                                        
+                                        let comment = Comment(author: author, text: text, date: date, id: id)
+                                        comments.append(comment)
+                                    }
+                                }
+                                
+                                dream.comments = comments
+                            }
                             self.dreamDictionary.append(dream)
                         } else {
                             let dream = Dream(title: title, author: author, text: text, date: date, id: id, upvotes: 0, downvotes: 0)
+                            var comments: [Comment] = []
+                            if let commentData = data["comments"] as? [String:[String:AnyObject]] {
+                                for (id, commentData) in commentData {
+                                    if let author = commentData["author"] as? String , author != "by Test test ",
+                                        let text = commentData["text"] as? String,
+                                        let date = commentData["date"] as? String{
+                                        
+                                        let comment = Comment(author: author, text: text, date: date, id: id)
+                                        comments.append(comment)
+                                    }
+                                }
+                                
+                                dream.comments = comments
+                            }
                             self.dreamDictionary.append(dream)
                         }
                     }

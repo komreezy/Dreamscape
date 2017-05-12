@@ -16,6 +16,7 @@ class Dream: NSObject {
     var date: String
     var upvotes: Int
     var downvotes: Int
+    var comments: [Comment] = []
     
     init(title: String, author: String, text: String, date: String, id: String, upvotes: Int, downvotes: Int) {
         self.title = title

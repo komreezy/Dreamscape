@@ -292,7 +292,7 @@ class NewDreamVersionViewController: UIViewController,
         if dreamTitleLabel.text?.isEmpty == false && textView.text != "What did you dream about?..." && textView.text != "z" {
             if state == .keep {
                 if let username = UserDefaults.standard.string(forKey: "username"), let now = nowString {
-                    let text = String(textView.text.characters.dropFirst())
+                    let text = String(textView.text)
                     let dreamDictionary = [
                         "title":dreamTitleLabel.text!,
                         "author":"\(username)",

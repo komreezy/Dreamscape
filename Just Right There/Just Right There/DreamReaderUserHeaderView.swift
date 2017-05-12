@@ -14,6 +14,8 @@ class DreamReaderUserHeaderView: UIView {
     var bottomDividerView: UIView
     var dateLabel: UILabel
     var profileImageView: UIButton
+    var commentButton: UIButton
+    var commentLabel: UILabel
     
     override init(frame: CGRect) {
         topDividerView = UIView()
@@ -41,6 +43,18 @@ class DreamReaderUserHeaderView: UIView {
         profileImageView.isUserInteractionEnabled = false
         profileImageView.backgroundColor = UIColor.primaryPurple()
         
+        commentButton = UIButton()
+        commentButton.translatesAutoresizingMaskIntoConstraints = false
+        commentButton.imageEdgeInsets = UIEdgeInsets(top: 2.0, left: 2.0, bottom: 2.0, right: 2.0)
+        commentButton.setImage(#imageLiteral(resourceName: "chat"), for: .normal)
+        
+        commentLabel = UILabel()
+        commentLabel.translatesAutoresizingMaskIntoConstraints = false
+        commentLabel.textColor = .white
+        commentLabel.text = "17"
+        commentLabel.textAlignment = .center
+        commentLabel.font = UIFont(name: "Montserrat", size: 17.0)
+        
         super.init(frame: frame)
         
         addSubview(authorLabel)
@@ -48,6 +62,8 @@ class DreamReaderUserHeaderView: UIView {
         addSubview(dateLabel)
         addSubview(topDividerView)
         addSubview(bottomDividerView)
+        addSubview(commentButton)
+        addSubview(commentLabel)
         
         setupLayout()
     }
@@ -86,6 +102,18 @@ class DreamReaderUserHeaderView: UIView {
         addConstraints([
             dateLabel.al_top == profileImageView.al_centerY + 1,
             dateLabel.al_left == authorLabel.al_left
+        ])
+        
+        addConstraints([
+            commentButton.al_right == al_right - 24,
+            commentButton.al_centerY == authorLabel.al_bottom,
+            commentButton.al_width == 24,
+            commentButton.al_height == 24
+        ])
+        
+        addConstraints([
+            commentLabel.al_right == commentButton.al_left - 8,
+            commentLabel.al_centerY == commentButton.al_centerY
         ])
     }
 }

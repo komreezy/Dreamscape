@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:CommentsCollectionViewController.swift">
+   </FileRef>
+   <FileRef
       location = "group:Dreamscape.xcodeproj">
    </FileRef>
    <FileRef
