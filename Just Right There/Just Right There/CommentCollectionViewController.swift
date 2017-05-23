@@ -8,12 +8,13 @@
 
 import UIKit
 
-class CommentCollectionViewController: UITableViewController, UITextFieldDelegate {
+class CommentCollectionViewController: UITableViewController, UITextFieldDelegate, CommentViewModelDelegate {
     var viewModel: CommentViewModel
     
     init(viewModel: CommentViewModel) {
         self.viewModel = viewModel
         super.init(style: .plain)
+        viewModel.delegate = self
         view.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
     }
     
@@ -47,10 +48,12 @@ class CommentCollectionViewController: UITableViewController, UITextFieldDelegat
         
         navigationItem.rightBarButtonItem = rightButton
         navigationItem.titleView = logoImageView
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        viewModel.requestComments()
     }
     
     override func didReceiveMemoryWarning() {
@@ -109,5 +112,9 @@ class CommentCollectionViewController: UITableViewController, UITextFieldDelegat
     func composeComment() {
         let vc = AddCommentViewController(dream: viewModel.dream)
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func commentsDidLoad() {
+        tableView.reloadData()
     }
 }

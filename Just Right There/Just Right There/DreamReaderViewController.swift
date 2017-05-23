@@ -26,6 +26,11 @@ class DreamReaderViewController: UIViewController, UIScrollViewDelegate, MFMailC
     var currentState: DreamState
     var karma: Int = 0
     
+    var dateFormatter: DateFormatter
+    var dateString: String?
+    var sendFormatter: DateFormatter
+    var sendString: String?
+    
     enum DreamState {
         case delete
         case save
@@ -73,6 +78,21 @@ class DreamReaderViewController: UIViewController, UIScrollViewDelegate, MFMailC
         textView.isScrollEnabled = false
         textView.contentInset = UIEdgeInsetsMake(12.0, 12.0, 0.0, 12.0)
         textView.isUserInteractionEnabled = true
+        
+        dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = .full
+        dateFormatter.dateFormat = "MMMM d, yyyy"
+        
+        sendFormatter = DateFormatter()
+        sendFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        sendFormatter.timeZone = TimeZone(abbreviation: "UTC")
+    
+        if let sendDate = sendFormatter.date(from: dream.date) {
+            sendString = dateFormatter.string(from: sendDate)
+            if (sendString?.characters.count)! > 0 {
+                headerView.profileView.dateLabel.text = sendString
+            }
+        }
         
         currentState = .delete
         karma = dream.upvotes - dream.downvotes

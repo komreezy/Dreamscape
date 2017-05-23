@@ -67,11 +67,16 @@ MFMailComposeViewControllerDelegate {
             collectionView.register(HomeFeedImageCollectionViewCell.self, forCellWithReuseIdentifier: "imageCell")
         }
         
-        let sortButton = UIBarButtonItem(image: #imageLiteral(resourceName: "filter"),
-                                         style: .plain,
-                                         target: self,
-                                         action: #selector(HomeFeedCollectionViewController.sortTapped))
-        sortButton.imageInsets = UIEdgeInsets(top: 5.0, left: 5.0, bottom: 5.0, right: 5.0)
+        let filterLabel = UIButton()
+        filterLabel.setTitle("filter", for: .normal)
+        filterLabel.setTitleColor(.white, for: .normal)
+        filterLabel.frame = CGRect(x: 0, y: 0, width: 40, height: 30)
+        filterLabel.titleLabel?.font = UIFont(name: "Open Sans", size: 13.5)
+        filterLabel.addTarget(self,
+                              action: #selector(HomeFeedCollectionViewController.sortTapped),
+                              for: .touchUpInside)
+        
+        let sortButton = UIBarButtonItem(customView: filterLabel)
         
         let logoImageView = UILabel()
         logoImageView.text = "dreamscape".uppercased()
@@ -240,6 +245,7 @@ MFMailComposeViewControllerDelegate {
         viewModel.shareText = text
         viewModel.shareId = id
         viewModel.shareDate = date
+        viewModel.fromOptions = true
         
         let actionSheet = UIActionSheet(title: "Options", delegate: self, cancelButtonTitle: "cancel", destructiveButtonTitle: nil, otherButtonTitles: "Share to Twitter", "Share to Facebook", "Report")
         actionSheet.show(in: view)
@@ -283,7 +289,7 @@ MFMailComposeViewControllerDelegate {
                                         delegate: self,
                                         cancelButtonTitle: "cancel",
                                         destructiveButtonTitle: nil,
-                                        otherButtonTitles: "New", "Top All Time", "Top 24 Hours", "Top This Week")
+                                        otherButtonTitles: "New", "Best")
         actionSheet.show(in: view)
     }
     
@@ -293,33 +299,45 @@ MFMailComposeViewControllerDelegate {
         case 0:
             print(")")
         case 1:
-            if SLComposeViewController.isAvailable(forServiceType: SLServiceTypeTwitter){
-                let twitterSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
-                twitterSheet.setInitialText("\(viewModel.shareTitle) by \(viewModel.shareAuthor)\n\n\(viewModel.shareText)")
-                self.present(twitterSheet, animated: true, completion: nil)
+            if viewModel.fromOptions {
+                if SLComposeViewController.isAvailable(forServiceType: SLServiceTypeTwitter){
+                    let twitterSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+                    twitterSheet.setInitialText("\(viewModel.shareTitle) by \(viewModel.shareAuthor)\n\n\(viewModel.shareText)")
+                    self.present(twitterSheet, animated: true, completion: nil)
+                } else {
+                    let alert = UIAlertController(title: "Accounts",
+                                                  message: "Please login to a Twitter account to share.",
+                                                  preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "OK",
+                                                  style: UIAlertActionStyle.default,
+                                                  handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                }
             } else {
-                let alert = UIAlertController(title: "Accounts",
-                                              message: "Please login to a Twitter account to share.",
-                                              preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "OK",
-                                              style: UIAlertActionStyle.default,
-                                              handler: nil))
-                self.present(alert, animated: true, completion: nil)
+                viewModel.sortByDate()
             }
+            
+            viewModel.fromOptions = false
         case 2:
-            if SLComposeViewController.isAvailable(forServiceType: SLServiceTypeFacebook){
-                let twitterSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
-                twitterSheet.setInitialText("\(viewModel.shareTitle) by \(viewModel.shareAuthor)\n\n\(viewModel.shareText)")
-                self.present(twitterSheet, animated: true, completion: nil)
+            if viewModel.fromOptions {
+                if SLComposeViewController.isAvailable(forServiceType: SLServiceTypeFacebook){
+                    let twitterSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
+                    twitterSheet.setInitialText("\(viewModel.shareTitle) by \(viewModel.shareAuthor)\n\n\(viewModel.shareText)")
+                    self.present(twitterSheet, animated: true, completion: nil)
+                } else {
+                    let alert = UIAlertController(title: "Accounts",
+                                                  message: "Please login to a Facebook account to share.",
+                                                  preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "OK",
+                                                  style: UIAlertActionStyle.default,
+                                                  handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                }
             } else {
-                let alert = UIAlertController(title: "Accounts",
-                                              message: "Please login to a Facebook account to share.",
-                                              preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "OK",
-                                              style: UIAlertActionStyle.default,
-                                              handler: nil))
-                self.present(alert, animated: true, completion: nil)
+                viewModel.sortDreams()
             }
+            
+            viewModel.fromOptions = false
         case 3:
             if MFMailComposeViewController.canSendMail() {
                 launchEmail(self)

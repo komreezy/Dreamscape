@@ -24,8 +24,10 @@ class AddCommentViewController: UIViewController,
     var textViewBottomConstraint: NSLayoutConstraint?
     
     var dateFormatter: DateFormatter
+    var sendFormatter: DateFormatter
     var now: Date?
     var nowString: String?
+    var sendString: String?
     var keyboardHeight: CGFloat?
     weak var delegate: NewDreamViewControllerAnimatable?
     weak var inputDelegate: DoneButtonAdjustable?
@@ -60,8 +62,10 @@ class AddCommentViewController: UIViewController,
         dateFormatter = DateFormatter()
         dateFormatter.timeStyle = .full
         dateFormatter.dateFormat = "MMMM d, yyyy"
-        //dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-        //dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        
+        sendFormatter = DateFormatter()
+        sendFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        sendFormatter.timeZone = TimeZone(abbreviation: "UTC")
         
         super.init(nibName: nil, bundle: nil)
         
@@ -92,6 +96,7 @@ class AddCommentViewController: UIViewController,
         
         now = Date()
         nowString = dateFormatter.string(from: now!)
+        sendString = sendFormatter.string(from: now!)
         dateLabel.text = nowString
         
         let logoImageView = UILabel()
@@ -170,7 +175,7 @@ class AddCommentViewController: UIViewController,
     }
     
     func sendTapped() {
-        if let now = nowString,
+        if let now = sendString,
             let username = UserDefaults.standard.string(forKey: "username") {
             let commentDictionary = [
                 "author":"\(username)",

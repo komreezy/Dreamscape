@@ -12,6 +12,7 @@ import FirebaseDatabase
 class HomeFeedViewModel: NSObject {
     var username: String?
     var id: String?
+    var fromOptions: Bool = false
     var dreamDictionary: [Dream] = []
     var starred: [Dream] = []
     var downvotes: [Dream] = []
@@ -139,6 +140,7 @@ class HomeFeedViewModel: NSObject {
                         self.starred = starredTemp
                     }
                 }
+                
                 // check for duplicates
                 for i in 0 ..< starredTemp.count {
                     for j in 0 ..< starredTemp.count {
@@ -202,6 +204,11 @@ class HomeFeedViewModel: NSObject {
         delegate?.dataDidLoad()
     }
     
+    func sortByDate() {
+        dreamDictionary = datesort(dreamDictionary)
+        delegate?.dataDidLoad()
+    }
+    
     func quicksort(_ array: [Dream]) -> [Dream] {
         guard array.count > 1 else { return array }
         
@@ -212,8 +219,18 @@ class HomeFeedViewModel: NSObject {
         
         return quicksort(more) + equal + quicksort(less)
     }
+    
+    func datesort(_ array: [Dream]) -> [Dream] {
+        return array.sorted(by: { $0.formatDate.compare($1.formatDate) == .orderedDescending })
+    }
 }
 
 protocol HomeFeedViewModelDelegate: class {
     func dataDidLoad()
+}
+
+enum NSComparisonResult : Int {
+    case orderedAscending
+    case orderedSame
+    case orderedDescending
 }

@@ -14,6 +14,7 @@ class Dream: NSObject {
     var text: String
     var id: String
     var date: String
+    var formatDate: Date
     var upvotes: Int
     var downvotes: Int
     var comments: [Comment] = []
@@ -26,6 +27,22 @@ class Dream: NSObject {
         self.id = id
         self.upvotes = upvotes
         self.downvotes = downvotes
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = .full
+        dateFormatter.dateFormat = "MMMM d, yyyy"
+        
+        let sendFormatter = DateFormatter()
+        sendFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        sendFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        
+        if let sendDate = sendFormatter.date(from: date) {
+            formatDate = sendDate
+        } else if let sendDate = dateFormatter.date(from: date) {
+            formatDate = sendDate
+        } else {
+            formatDate = Date.distantPast
+        }
         
         super.init()
     }

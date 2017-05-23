@@ -10,30 +10,6 @@ import UIKit
 import FirebaseDatabase
 
 class HomeFeedImageCollectionViewCell: UICollectionViewCell {
-    var dream: Dream? {
-        didSet {
-            if let dream = self.dream {
-                titleText = dream.title
-                authorLabel.text = "by \(dream.author)"
-                dateLabel.text = dream.date
-                id = dream.id
-                starLabel.text = "\(dream.upvotes - dream.downvotes)"
-                
-                let paragraphStyle = NSMutableParagraphStyle()
-                paragraphStyle.lineBreakMode = .byTruncatingTail
-                paragraphStyle.lineHeightMultiple = 20.0
-                paragraphStyle.maximumLineHeight = 20.0
-                paragraphStyle.minimumLineHeight = 20.0
-                
-                let attributes = [
-                    NSFontAttributeName: UIFont(name: "Courier", size: 17.0)!,
-                    NSParagraphStyleAttributeName: paragraphStyle
-                ]
-                
-                previewLabel.attributedText = NSAttributedString(string: dream.text, attributes: attributes)
-            }
-        }
-    }
     var dreamTitleLabel: UILabel
     var authorLabel: UILabel
     var dateLabel: UILabel
@@ -62,6 +38,11 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
     var downvoteButton: UIButton
     var optionsButton: UIButton
     var starLabel: UILabel
+    var dateFormatter: DateFormatter
+    var sendFormatter: DateFormatter
+    var now: Date?
+    var nowString: String?
+    var sendString: String?
     var titleText: String {
         set(value) {
             self.dreamTitleLabel.text = value
@@ -76,6 +57,39 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
             return self.titleText
         }
     }
+    
+    var dream: Dream? {
+        didSet {
+            if let dream = self.dream {
+                titleText = dream.title
+                authorLabel.text = "by \(dream.author)"
+                id = dream.id
+                starLabel.text = "\(dream.upvotes - dream.downvotes)"
+                
+                let paragraphStyle = NSMutableParagraphStyle()
+                paragraphStyle.lineBreakMode = .byTruncatingTail
+                paragraphStyle.lineHeightMultiple = 20.0
+                paragraphStyle.maximumLineHeight = 20.0
+                paragraphStyle.minimumLineHeight = 20.0
+                
+                let attributes = [
+                    NSFontAttributeName: UIFont(name: "Courier", size: 17.0)!,
+                    NSParagraphStyleAttributeName: paragraphStyle
+                ]
+                
+                previewLabel.attributedText = NSAttributedString(string: dream.text, attributes: attributes)
+                dateLabel.text = dream.date
+                
+                if let sendDate = sendFormatter.date(from: dream.date) {
+                    sendString = dateFormatter.string(from: sendDate)
+                    if (sendString?.characters.count)! > 0 {
+                        dateLabel.text = sendString
+                    }
+                }
+            }
+        }
+    }
+    
     weak var delegate: HomeFeedCellDelegate?
     
     override init(frame: CGRect) {
@@ -140,6 +154,14 @@ class HomeFeedImageCollectionViewCell: UICollectionViewCell {
         starLabel.translatesAutoresizingMaskIntoConstraints = false
         starLabel.textColor = UIColor.white
         starLabel.textAlignment = .center
+        
+        dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = .full
+        dateFormatter.dateFormat = "MMMM d, yyyy"
+        
+        sendFormatter = DateFormatter()
+        sendFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        sendFormatter.timeZone = TimeZone(abbreviation: "UTC")
         
         if let upvotes = dream?.upvotes, let downvotes = dream?.downvotes {
             karma = upvotes - downvotes

@@ -11,6 +11,7 @@ import UIKit
 class CommentViewModel: NSObject {
     var dream: Dream
     var comments: [Comment] = []
+    var delegate: CommentViewModelDelegate?
     
     init(dream: Dream) {
         self.dream = dream
@@ -32,6 +33,11 @@ class CommentViewModel: NSObject {
                     }
                 }
             }
+            self.delegate?.commentsDidLoad()
         })
     }
+}
+
+protocol CommentViewModelDelegate {
+    func commentsDidLoad()
 }

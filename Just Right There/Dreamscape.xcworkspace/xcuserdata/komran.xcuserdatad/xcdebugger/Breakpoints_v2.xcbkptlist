@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Just Right There/CommentViewModel.swift"
-            timestampString = "516264345.992142"
+            filePath = "Just Right There/DreamReaderViewController.swift"
+            timestampString = "517177798.581214"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
-            landmarkName = "requestComments()"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
+            landmarkName = "init(dream:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

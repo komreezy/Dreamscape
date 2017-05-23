@@ -39,8 +39,10 @@ class NewDreamVersionViewController: UIViewController,
     var textViewBottomConstraint: NSLayoutConstraint?
     
     var dateFormatter: DateFormatter
+    var sendFormatter: DateFormatter
     var now: Date?
     var nowString: String?
+    var sendString: String?
     var keyboardHeight: CGFloat?
     weak var delegate: NewDreamViewControllerAnimatable?
     weak var inputDelegate: DoneButtonAdjustable?
@@ -107,6 +109,10 @@ class NewDreamVersionViewController: UIViewController,
         dateFormatter.timeStyle = .full
         dateFormatter.dateFormat = "MMMM d, yyyy"
         
+        sendFormatter = DateFormatter()
+        sendFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        sendFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        
         super.init(nibName: nil, bundle: nil)
         
         view.backgroundColor = UIColor(red: 18.0/255.0, green: 19.0/255.0, blue: 20.0/255.0, alpha: 1.0)
@@ -144,6 +150,7 @@ class NewDreamVersionViewController: UIViewController,
         
         now = Date()
         nowString = dateFormatter.string(from: now!)
+        sendString = sendFormatter.string(from: now!)
         dateLabel.text = nowString
         
         let logoImageView = UILabel()
@@ -291,7 +298,7 @@ class NewDreamVersionViewController: UIViewController,
     func sendTapped() {
         if dreamTitleLabel.text?.isEmpty == false && textView.text != "What did you dream about?..." && textView.text != "z" {
             if state == .keep {
-                if let username = UserDefaults.standard.string(forKey: "username"), let now = nowString {
+                if let username = UserDefaults.standard.string(forKey: "username"), let now = sendString {
                     let text = String(textView.text)
                     let dreamDictionary = [
                         "title":dreamTitleLabel.text!,
@@ -319,7 +326,7 @@ class NewDreamVersionViewController: UIViewController,
                         "title":text,
                         "author":"\(username)",
                         "text":textView.text,
-                        "date":"\(nowString!)",
+                        "date":"\(sendString!)",
                         "upvotes":0,
                         "downvotes":0
                         ] as [String : Any]
